@@ -1,0 +1,380 @@
+/**
+ * ESP32-Arduino-Framework
+ * Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架。
+ * 
+ * Author: Billy Zhang（billy_zh@126.com）
+ */
+#include "application.h"
+#include <stdexcept>
+
+#include <esp_err.h>
+#include <nvs.h>
+#include <nvs_flash.h>
+#include <esp_event.h>
+#include <esp_log.h>
+
+#include "config.h"
+#include "src/display/display.h"
+#include "src/boards/board.h"
+#include "src/boards/wifi_board.h"
+#include "src/sys/system_info.h"
+#include "src/wifi/wifi_station.h"
+#include "src/fonts/font_awesome_symbols.h"
+#include "src/lang/lang_zh_cn.h"
+#include "src/app/types.h"
+
+#define TAG "Application"
+
+Application::Application() {
+    
+    // Initialize the default event loop
+    ESP_ERROR_CHECK(esp_event_loop_create_default());
+
+    // Initialize NVS flash for WiFi configuration
+    esp_err_t ret = nvs_flash_init();
+    if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
+        ESP_LOGI(TAG, "rasing NVS flash to fix corruption");
+        ESP_ERROR_CHECK(nvs_flash_erase());
+        ret = nvs_flash_init();
+    }
+    ESP_ERROR_CHECK(ret);
+
+    event_group_ = xEventGroupCreate();
+}
+
+Application::~Application() {
+
+#if CONFIG_CLOCK_ENABLE==1
+    if (clock_ticker_!=nullptr) {
+        clock_ticker_->detach();
+        clock_ticker_ = nullptr;
+    }
+#endif
+
+    vEventGroupDelete(event_group_);
+    
+}
+
+void Application::Init() {
+    ESP_LOGI(TAG, "Initialize ......");
+    
+#if CONFIG_CLOCK_ENABLE==1
+    clock_ticker_ = new Ticker();
+#endif
+}
+
+#if CONFIG_CLOCK_ENABLE==1
+void TickerCallback(Application *arg) {
+    arg->OnClockTimer();
+}
+#endif
+
+void Application::Start() {
+    ESP_LOGI(TAG, "Starting ......");
+
+#if CONFIG_CLOCK_ENABLE==1
+    clock_ticker_->attach(1, TickerCallback, this);
+    ESP_LOGI(TAG, "clock timer started.");
+#endif
+
+    auto& board = Board::GetInstance();
+    SetDeviceState(kDeviceStateStarting);
+    
+    Display* display = board.GetDisplay();
+    display->UpdateStatusBar(true);
+
+#if CONFIG_WIFI_CONFIGURE_ENABLE==1    
+    /* Wait for the network to be ready */
+    WifiBoard* wifi_board = dynamic_cast<WifiBoard *>(&board);
+    wifi_board.StartNetwork();
+#endif
+
+#if CONFIG_OTA_ENABLE==1
+    // Check for new firmware version or get the MQTT broker address
+    Ota ota;
+    CheckNewVersion(ota);
+#endif
+
+    SetDeviceState(kDeviceStateIdle);
+
+    // Print heap stats
+    SystemInfo::PrintHeapStats();
+    
+    ESP_LOGI(TAG, "Started.");
+
+    // Raise the priority of the main event loop to avoid being interrupted by background tasks (which has priority 2)
+    //vTaskPrioritySet(NULL, 3);
+
+}
+
+void Application::Alert(const char* status, const char* message, const char* emotion) {
+    ESP_LOGI(TAG, "Alert %s: %s [%s]", status, message, emotion);
+    auto display = Board::GetInstance().GetDisplay();
+    display->SetStatus(status);
+    display->SetText(message);
+}
+
+void Application::DismissAlert() {
+    if (device_state_->state() == kDeviceStateIdle->state()) {
+        auto display = Board::GetInstance().GetDisplay();
+        display->SetStatus(Lang::Strings::STANDBY);
+        display->SetText("");
+    }
+}
+
+void Application::ToggleWorkState() {
+    if (device_state_->state() == kDeviceStateWorking->state()) {
+        SetDeviceState(kDeviceStateIdle);
+        return;
+    } else if (device_state_->state() == kDeviceStateIdle->state()) {
+
+        Board& board = Board::GetInstance();
+        board.GetBacklight()->RestoreBrightness();
+
+        SetDeviceState(kDeviceStateWorking);
+        return;
+    }
+   
+}
+
+// Add a async task to MainLoop
+void Application::Schedule(callback_function_t callback) {
+    std::unique_lock<std::mutex> lock(mutex_);
+    app_tasks_.push_back(std::move(callback));
+    lock.unlock();
+
+    xEventGroupSetBits(event_group_, EventHandler::kEventScheduleTask);
+}
+
+bool Application::OnPhysicalButtonEvent(const std::string& button_name, const std::string& event_type) {
+
+    if (strcmp(button_name.c_str(), "boot")==0) {
+
+        if (strcmp(event_type.c_str(), "click") == 0) {
+            ToggleWorkState();
+            return true;
+        }
+    }
+
+    return false; // 未处理
+}
+
+bool Application::OnDisplayTouchEvent(const TouchPoint_t& point) {
+    ToggleWorkState();
+    return true;
+}
+
+#if CONFIG_CLOCK_ENABLE==1
+void Application::OnClockTimer() {
+    clock_ticks_++;
+
+    Display* display = Board::GetInstance().GetDisplay();
+    display->UpdateStatusBar();
+
+    // Print the debug info every 60 seconds
+    if (clock_ticks_ % 60 == 0) {
+        ESP_LOGI(TAG, "clock ticks: %d", clock_ticks_);
+        // SystemInfo::PrintTaskCpuUsage(pdMS_TO_TICKS(1000));
+        // SystemInfo::PrintTaskList();
+        SystemInfo::PrintHeapStats();
+    }
+}
+#endif
+
+bool Application::CanEnterSleepMode() {
+    if (device_state_->state() != kDeviceStateIdle->state()) {
+        return false;
+    }
+
+    return true;
+}
+
+void Application::ShowWifiConfigHit(std::string ssid, std::string config_url, std::string mac_address) {
+#if CONFIG_WIFI_CONFIGURE_ENABLE==1
+    // 显示 WiFi 配置 AP 的 SSID 和 Web 服务器 URL
+    std::string hint = Lang::Strings::CONNECT_TO_HOTSPOT;
+    hint += ssid;
+    hint += Lang::Strings::ACCESS_VIA_BROWSER;
+    hint += config_url;
+    hint += "\n\n";
+    hint += "Mac地址：";
+    hint += mac_address;
+    hint += "\n";
+    
+    // 播报配置 WiFi 的提示
+    Alert(Lang::Strings::WIFI_CONFIG_MODE, hint.c_str(), "");
+#endif
+}
+
+void Application::SetDeviceState(const DeviceState* state) {
+    if (device_state_->state() == state->state()) {
+        return;
+    }
+    ESP_LOGI(TAG, "STATE: %s", state->text().c_str());
+    
+    clock_ticks_ = 0;
+    DeviceState* previous_state = device_state_;
+    device_state_ = const_cast<DeviceState*>(state);
+
+    auto& board = Board::GetInstance();
+    auto display = board.GetDisplay();
+
+    if (state->state() == kDeviceStateUnknown->state() ||
+            state->state() == kDeviceStateIdle->state()) {
+        display->SetStatus(Lang::Strings::STANDBY);
+    } else if (state->state() == kDeviceStateConnecting->state()) {
+        display->SetStatus(Lang::Strings::CONNECTING);
+    } else if (state->state() == kDeviceStateWorking->state()) {
+        display->SetStatus(Lang::Strings::WORKING);
+    }
+
+    OnStateChanged();
+}
+
+
+void Application::OnStateChanged() {
+    Led* led = Board::GetInstance().GetLed();
+    ESP_LOGI(TAG, "Led Type: %s", typeid(*led).name());
+
+    if (device_state_->state() == kDeviceStateStarting->state()) {
+        led->SetColor(0, 0, DEFAULT_BRIGHTNESS);
+        led->Blink(BLINK_INFINITE, 100);
+    } else if (device_state_->state() == kDeviceStateWifiConfiguring->state()) {
+        led->SetColor(0, 0, DEFAULT_BRIGHTNESS);
+        led->Blink(BLINK_INFINITE, 500);
+    } else if (device_state_->state() ==  kDeviceStateIdle->state()) {
+        led->TurnOff();
+    } else if (device_state_->state() == kDeviceStateConnecting->state()) {
+        led->SetColor(0, 0, DEFAULT_BRIGHTNESS);
+        led->TurnOn();
+    } else if (device_state_->state() == kDeviceStateUpgrading->state()) {
+        led->SetColor(0, DEFAULT_BRIGHTNESS, 0);
+        led->Blink(BLINK_INFINITE, 100);
+    } else if (device_state_->state() == kDeviceStateWorking->state()) {
+        led->SetColor(0, DEFAULT_BRIGHTNESS, 0);
+        led->Blink(BLINK_INFINITE, 500);
+    }
+}
+
+void Application::Reboot() {
+    ESP_LOGI(TAG, "Rebooting..." );
+    esp_restart();
+}
+
+#if CONFIG_OTA_ENABLE==1
+void Application::CheckNewVersion(Ota& ota) {
+    const int MAX_RETRY = 10;
+    int retry_count = 0;
+    int retry_delay = 10; // 初始重试延迟为10秒
+
+    auto& board = Board::GetInstance();
+    while (true) {
+        //SetDeviceState(kDeviceStateActivating);
+        auto display = board.GetDisplay();
+        display->SetStatus(Lang::Strings::CHECKING_NEW_VERSION);
+
+        if (!ota.CheckVersion()) {
+            retry_count++;
+            if (retry_count >= MAX_RETRY) {
+                ESP_LOGE(TAG, "Too many retries, exit version check");
+                return;
+            }
+
+            char buffer[128];
+            snprintf(buffer, sizeof(buffer), Lang::Strings::CHECK_NEW_VERSION_FAILED, retry_delay, ota.GetCheckVersionUrl().c_str());
+            Alert(Lang::Strings::ERROR, buffer, "sad");
+
+            ESP_LOGW(TAG, "Check new version failed, retry in %d seconds (%d/%d)", retry_delay, retry_count, MAX_RETRY);
+            for (int i = 0; i < retry_delay; i++) {
+                vTaskDelay(pdMS_TO_TICKS(1000));
+                if (device_state_->state() == kDeviceStateIdle->state()) {
+                    break;
+                }
+            }
+            retry_delay *= 2; // 每次重试后延迟时间翻倍
+            continue;
+        }
+        retry_count = 0;
+        retry_delay = 10; // 重置重试延迟时间
+
+        if (ota.HasNewVersion()) {
+            Alert(Lang::Strings::OTA_UPGRADE, Lang::Strings::UPGRADING, "happy");
+
+            vTaskDelay(pdMS_TO_TICKS(3000));
+
+            SetDeviceState(kDeviceStateUpgrading);
+            
+            //display->SetIcon(FONT_AWESOME_DOWNLOAD);
+            std::string message = std::string(Lang::Strings::NEW_VERSION) + ota.GetFirmwareVersion();
+            display->SetText(message.c_str());
+
+            board.SetPowerSaveMode(false);
+            //audio_service_.Stop();
+            vTaskDelay(pdMS_TO_TICKS(1000));
+
+            bool upgrade_success = ota.StartUpgrade([display](int progress, size_t speed) {
+                char buffer[64];
+                snprintf(buffer, sizeof(buffer), "%d%% %uKB/s", progress, speed / 1024);
+                display->SetText(buffer);
+            });
+
+            if (!upgrade_success) {
+                // Upgrade failed, restart audio service and continue running
+                ESP_LOGE(TAG, "Firmware upgrade failed, restarting audio service and continuing operation...");
+                //audio_service_.Start(); // Restart audio service
+                board.SetPowerSaveMode(true); // Restore power save mode
+                Alert(Lang::Strings::ERROR, Lang::Strings::UPGRADE_FAILED, "sad");
+                vTaskDelay(pdMS_TO_TICKS(3000));
+                // Continue to normal operation (don't break, just fall through)
+            } else {
+                // Upgrade success, reboot immediately
+                ESP_LOGI(TAG, "Firmware upgrade successful, rebooting...");
+                display->SetText("Upgrade successful, rebooting...");
+                vTaskDelay(pdMS_TO_TICKS(1000)); // Brief pause to show message
+                Reboot();
+                return; // This line will never be reached after reboot
+            }
+        }
+
+        // No new version, mark the current version as valid
+        ota.MarkCurrentVersionValid();
+        if (!ota.HasActivationCode() && !ota.HasActivationChallenge()) {
+            xEventGroupSetBits(event_group_, EventHandler::kEventNewVersion);
+            // Exit the loop if done checking new version
+            break;
+        }
+    }
+}
+#endif
+
+void Application::EventLoop() {
+
+    if (event_handler_ == nullptr) {
+        event_handler_ = new EventHandler();
+    }
+
+    // 等待事件位被设置
+    auto bits = xEventGroupWaitBits(event_group_, 
+        event_handler_->GetEventBits(),
+        pdTRUE, /* 自动清除，避免重复响应 */
+        pdFALSE, /* 任一事件位被设置就返回 */
+        portMAX_DELAY /* 无限期等待（即阻塞），也可以指定时长 */
+    );
+
+    try {
+        if (bits & EventHandler::kEventScheduleTask) {
+            std::unique_lock<std::mutex> lock(mutex_);
+            auto tasks = std::move(app_tasks_);
+            lock.unlock();
+
+            event_handler_->ScheduleTask(tasks);
+        } else {
+            event_handler_->HandleEvent(bits);
+        }
+    } catch (const std::exception& e) {
+        // ESP_LOGE( TAG, "Caught exception: " );
+        // ESP_LOGE( TAG, e.what() );
+    }
+
+    vTaskDelay(pdMS_TO_TICKS(1)); //1ms
+}
