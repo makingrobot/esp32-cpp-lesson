@@ -38,8 +38,8 @@ void TftApplication::Start() {
 
     Board& board = Board::GetInstance();
     board.GetLed()->Blink(-1, 1000);
-    //board.GetDisplay()->SetStatus("工作中");
-    //board.GetDisplay()->SetText("你好,世界!");
+    board.GetDisplay()->SetStatus("工作中");
+    board.GetDisplay()->SetText("Hello World!");
 }
 
 #endif //APP_DEMO_LCD

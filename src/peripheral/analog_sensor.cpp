@@ -1,4 +1,9 @@
-
+/**
+ * ESP32-Arduino-Framework
+ * Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架。
+ * 
+ * Author: Billy Zhang（billy_zh@126.com）
+ */
 #include "analog_sensor.h"
 #include <Arduino.h>
 #include <esp_log.h>
@@ -41,7 +46,7 @@ void AnalogSensor::ReadData() {
     int total_val = 0;
     for (int i=0; i<count; i++) {
         total_val += analogRead(sensor_pin_);
-        vTaskDelay(pdMS_TO_TICKS(10)); // 10ms
+        vTaskDelay(pdMS_TO_TICKS(1)); // 10ms
     }
 
     // 取均值

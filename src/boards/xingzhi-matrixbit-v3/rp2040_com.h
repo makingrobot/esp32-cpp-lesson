@@ -1,3 +1,9 @@
+#include "config.h"
+#if BOARD_XINGZHI_MATRIXBIT_V3 == 1
+
+#ifndef _RP2040_COM_H
+#define _RP2040_COM_H
+
 #include <Wire.h>
 
 #include <functional>
@@ -23,7 +29,7 @@ public:
         send_queue_.push(std::string(data));
     }
 
-    void OnNewData(std::function<std::string)> on_newdata_handler) {
+    void OnNewData(std::function<std::string&)> on_newdata_handler) {
         on_newdata_handler_ = on_newdata_handler;
     }
 
@@ -33,7 +39,7 @@ private:
     uint8_t address_;
     bool waiting_for_data_ = false;
     uint8_t data_length_ = 0;
-    std::function<void(std::string)> on_newdata_handler_;
+    std::function<void(std::string&)> on_newdata_handler_;
     std::queue<std::string> send_queue_;
 
     // 发送数据
@@ -82,3 +88,6 @@ private:
     }
 
 }
+#endif //_RP2040_COM_H
+
+#endif //BOARD_XINGZHI_MATRIXBIT_V3

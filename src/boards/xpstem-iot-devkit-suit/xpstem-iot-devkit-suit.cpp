@@ -7,19 +7,25 @@
 #include <Arduino.h>
 #include <U8g2lib.h>
 #include <Wire.h>
+#include "src/display/u8g2_display.h"
+#endif
+#if CONFIG_USE_TFT==1
+#include <Arduino.h>
+#include <TFT_eSPI.h>
+#include <SPI.h>
+#include "src/display/tft_display.h"
 #endif
 
 #include "src/sys/system_reset.h"
 #include "src/boards/board.h"
 #include "src/boards/i2c_device.h"
 #include "src/led/gpio_led.h"
-#if CONFIG_USE_U8G2==1
-#include "src/display/u8g2_display.h"
-#endif
+
 #if CONFIG_USE_LVGL==1
 #include "src/display/lcd_driver.h"
 #include "src/display/drivers/ili9341/ili9341_driver.h"
 #endif
+
 #define TAG "BOARD_IOT_DEVKIT_SUIT"
 
 void* create_board() { 
@@ -72,8 +78,26 @@ void XPSTEM_IOT_DEVKIT_SUIT::InitializeDisplay() {
     display_ = disp;
 #endif
 
+#if CONFIG_USE_TFT==1
+    ESP_LOGI( TAG, "Init ssd1306 display ......" );
+    /**
+     * 注意！！！
+     * 请在TFT_eSPI库包内的User_Setup.h中配置引脚
+     */
+    TFT_eSPI *tft = new TFT_eSPI(DISPLAY_WIDTH, DISPLAY_HEIGHT);
+    tft->init();
+    tft->setRotation(3);
+    tft->fillScreen(TFT_DARKGREY);
+    //tft->invertDisplay(DISPLAY_INVERT_COLOR);
+    
+    //u8g2_font_unifont_t_chinese2
+    TftDisplay* disp = new TftDisplay(tft, DISPLAY_WIDTH, DISPLAY_HEIGHT);
+    disp->Setup();
+    display_ = disp;
+#endif
+
 #if CONFIG_USE_LVGL==1
-    ESP_LOGI( TAG, "Create st7789 driver." );
+    ESP_LOGI( TAG, "Create ili9341 driver." );
     driver_ = new ILI9341Driver(DISPLAY_WIDTH, DISPLAY_HEIGHT,
                                     DISPLAY_MIRROR_X, DISPLAY_MIRROR_Y, DISPLAY_SWAP_XY);
                                     

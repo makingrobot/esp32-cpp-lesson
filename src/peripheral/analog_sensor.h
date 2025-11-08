@@ -1,3 +1,11 @@
+/**
+ * ESP32-Arduino-Framework
+ * Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架。
+ * 
+ * Author: Billy Zhang（billy_zh@126.com）
+ */
+#ifndef _ANALOG_SENSOR_H
+#define _ANALOG_SENSOR_H
 
 #include <driver/gpio.h>
 #include <functional>
@@ -12,7 +20,9 @@ public:
     AnalogSensor(gpio_num_t pin);
     virtual ~AnalogSensor();
 
-    void OnNewData(std::function<void(int)> callback) { on_newdata_callback_ = callback; }
+    void OnNewData(std::function<void(int)> callback) { 
+        on_newdata_callback_ = callback; 
+    }
     void Start(uint32_t interval);
     void Stop();
 
@@ -24,5 +34,6 @@ private:
     Ticker* sensor_ticker_;
     std::function<void(int)> on_newdata_callback_;
 
-
 };
+
+#endif //_ANALOG_SENSOR_H

@@ -46,7 +46,7 @@ void XPSTEM_S3_LCD_2_80::InitializeSPI() {
     buscfg.quadwp_io_num = GPIO_NUM_NC;
     buscfg.quadhd_io_num = GPIO_NUM_NC;
     buscfg.max_transfer_sz = DISPLAY_WIDTH * DISPLAY_HEIGHT * sizeof(uint16_t); // for lcd.
-    ESP_ERROR_CHECK(spi_bus_initialize(spi_host, &buscfg, SPI_DMA_CH_AUTO));
+    ESP_ERROR_CHECK(spi_bus_initialize(SPI3_HOST, &buscfg, SPI_DMA_CH_AUTO));
 
 }
 

@@ -35,17 +35,18 @@ void TftDisplay::Unlock() {
 
 void TftDisplay::Setup() {
 
-    driver_->setTextColor(TFT_WHITE, TFT_BLACK);
    
 }
     
 void TftDisplay::SetStatus(const char* status) {
-    driver_->setCursor(4, 20, 2);
-    driver_->println(status);
+    // driver_->setCursor(4, 20, 2);
+    // driver_->println(status);
 }
 
 void TftDisplay::SetText(const char* text) {
-    driver_->setCursor(4, 40, 4);
+    driver_->setTextColor(TFT_YELLOW);
+
+    driver_->setCursor(4, 60, 4);
     driver_->println(text);
 }
 
