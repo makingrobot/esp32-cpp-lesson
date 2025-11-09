@@ -15,7 +15,7 @@
 #include "src/boards/wifi_board.h"
 #include "src/display/display.h"
 #include "src/display/lvgl_display.h"
-#include "src/display/lcd_driver.h"
+#include "src/display/disp_driver.h"
 #include "src/display/backlight.h"
 #include "src/led/led.h"
 #include "src/power/adc_battery_monitor.h"
@@ -30,7 +30,7 @@ private:
     i2c_master_bus_handle_t i2c_bus_;
     Button* boot_button_ = nullptr;
     PowerSaveTimer* power_save_timer_ = nullptr;
-    LcdDriver* lcd_driver_ = nullptr;
+    DispDriver* disp_driver_ = nullptr;
     LvglDisplay* display_ = nullptr;
     Ft6336* ft6336_ = nullptr;
     Backlight* backlight_ = nullptr;
@@ -40,7 +40,6 @@ private:
 
     void InitializeI2c();
     void I2cDetect();
-    void InitializeSPI();
     void InitializePowerSaveTimer();
     void InitializeDisplay();
     void InitializeButtons();
@@ -56,7 +55,7 @@ public:
     void SetDisplay(Display* display) override;
     
     Display* GetDisplay() override { return display_; }
-    DispDriver* GetDispDriver() override { return lcd_driver_; }
+    DispDriver* GetDispDriver() override { return disp_driver_; }
     Backlight* GetBacklight() override { return backlight_; }
     AudioCodec* GetAudioCodec() override { return audio_codec_; }
     FileSystem* GetFileSystem() override { return file_system_; }

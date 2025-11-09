@@ -11,7 +11,7 @@
 #define LVGL_DISPLAY_H
 
 #include "display.h"
-#include "lcd_driver.h"
+#include "disp_driver.h"
 #include <lvgl.h>
 #include <esp_log.h>
 #include <Ticker.h>
@@ -93,7 +93,7 @@ LV_FONT_DECLARE(font_awesome_30_4);
 
 class LvglDisplay : public Display {
 protected:
-    LcdDriver* driver_ = nullptr;
+    DispDriver* driver_ = nullptr;
 
     DisplayFonts fonts_;
 
@@ -136,7 +136,7 @@ protected:
     Ticker* notification_ticker_ = nullptr;
     
 public:
-    LvglDisplay(LcdDriver* driver, DisplayFonts fonts);
+    LvglDisplay(DispDriver* driver, DisplayFonts fonts);
     virtual ~LvglDisplay();
 
     virtual void SetupUI();

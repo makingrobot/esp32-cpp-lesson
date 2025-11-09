@@ -26,6 +26,7 @@ public:
     inline int height() const { return height_; }
 
     DriveMode GetMode() const { return drive_mode_; }
+    virtual void Init() = 0;
 
 protected:
 

@@ -24,8 +24,7 @@ LcdApplication::LcdApplication() : Application() {
     Board& board = Board::GetInstance();
 
     ESP_LOGI( TAG, "Create display." );
-    LcdDriver* driver = dynamic_cast<LcdDriver*>(board.GetDispDriver());
-    LvglDisplay *my_disp = new LvglDisplay(driver, 
+    LvglDisplay *my_disp = new LvglDisplay(board.GetDispDriver(), 
                                 {
                                     .text_font = &font_puhui_20_4,
                                     .icon_font = &font_awesome_16_4,

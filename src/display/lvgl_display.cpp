@@ -27,7 +27,7 @@
 
 #define TAG "LvglDisplay"
 
-LvglDisplay::LvglDisplay(LcdDriver* driver, DisplayFonts fonts)
+LvglDisplay::LvglDisplay(DispDriver* driver, DisplayFonts fonts)
         : driver_(driver), fonts_(fonts) {
             
     ESP_LOGD(TAG, "LvglDisplay constructor.");
@@ -48,7 +48,7 @@ LvglDisplay::LvglDisplay(LcdDriver* driver, DisplayFonts fonts)
 
     notification_ticker_ = new Ticker();
 
-    driver_->InitLvgl();
+    driver_->Init();
 }
 
 LvglDisplay::~LvglDisplay() {

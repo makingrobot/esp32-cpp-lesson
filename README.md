@@ -11,7 +11,7 @@ Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架�
 * 提供统一的抽象化接口来操作UI、音频编解码等
 * 提供WiFi信息配置界面
 * 提供OTA在线升级
-* 内置支持LVGL、TFT_eSPI、U8G2图形化开发库
+* 内置支持LVGL、TFT_eSPI、U8G2、GFX_Library图形化开发库
 
 ## Demo
 
@@ -31,6 +31,7 @@ Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架�
 * ILI9341、ST7796、ST7789、SSD1306
 #### U8G2库支持的芯片
 #### TFT_eSPI库支持的芯片
+#### GFX_Library库支持的芯片
 
 ### 触摸芯片
 * FT6336
@@ -61,9 +62,10 @@ Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架�
 * Ticker - 定时器库
 
 ### 第三方库引用
-* LVGL - 图形化显示开发库 [链接](https://lvgl.io)
+* LVGL - 图形化开发库 [链接](https://lvgl.io)
 * U8g2 - OLED屏显示开发库
-* TFT_eSPI - TFT屏显示开发库
+* TFT_eSPI - TFT-LCD屏显示开发库
+* GFX_Library - TFT-LCD屏显示开发库
 * ESP32-audioI2S - I2S音频库 （DEMO_MP3使用）
 
 ## 架构预览
@@ -88,7 +90,7 @@ Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架�
 6) 低功耗处理
 
 ### 2.实现显示类
-若使用LCD屏
+若使用TFT-LCD屏
 
 * 图形化交互开发建议使用LvglDisplay类 或 继承LvglDisplay类
 * 自由绘制开发建议使用TtfDisplay类 或 继承TftDisplay类

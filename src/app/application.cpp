@@ -85,8 +85,8 @@ void Application::Start() {
 
 #if CONFIG_WIFI_CONFIGURE_ENABLE==1    
     /* Wait for the network to be ready */
-    WifiBoard* wifi_board = dynamic_cast<WifiBoard *>(&board);
-    wifi_board.StartNetwork();
+    WifiBoard* wifi_board = static_cast<WifiBoard *>(&board);
+    wifi_board->StartNetwork();
 #endif
 
 #if CONFIG_OTA_ENABLE==1

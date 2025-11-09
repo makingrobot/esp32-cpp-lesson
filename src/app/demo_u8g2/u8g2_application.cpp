@@ -42,4 +42,4 @@ void U8g2Application::Start() {
     board.GetDisplay()->SetText("你好,世界!");
 }
 
-#endif //APP_DEMO_LCD
+#endif //APP_DEMO_U8G2

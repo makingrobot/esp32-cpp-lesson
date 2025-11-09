@@ -14,7 +14,7 @@
 #include "src/boards/wifi_board.h"
 #include "src/display/display.h"
 #include "src/display/lvgl_display.h"
-#include "src/display/lcd_driver.h"
+#include "src/display/disp_driver.h"
 #include "src/display/backlight.h"
 #include "src/display/drivers/ft6336/ft6336.h"
 #include "src/led/ws2812_led.h"
@@ -33,7 +33,7 @@ private:
     Button* boot_button_ = nullptr;
     PowerSaveTimer* power_save_timer_ = nullptr;
     AdcBatteryMonitor* battery_monitor_ = nullptr;
-    LcdDriver* lcd_driver_ = nullptr;
+    DispDriver* disp_driver_ = nullptr;
     LvglDisplay* display_ = nullptr;
     Ft6336* ft6336_ = nullptr;
     Backlight* backlight_ = nullptr;
@@ -43,7 +43,6 @@ private:
 
     void InitializeI2c();
     void I2cDetect();
-    void InitializeSPI();
     void InitializePowerSaveTimer();
     void InitializeDisplay();
     void InitializeButtons();
@@ -59,7 +58,7 @@ public:
     void SetDisplay(Display* display) override;
 
     Led* GetLed() override { return led_; }
-    DispDriver* GetDispDriver() override { return lcd_driver_; }
+    DispDriver* GetDispDriver() override { return disp_driver_; }
     Display* GetDisplay() override { return display_; }
     Backlight* GetBacklight() override { return backlight_; }
     AudioCodec* GetAudioCodec() override { return audio_codec_; }

@@ -19,10 +19,10 @@
 #include <sstream>
 #include <algorithm>
 
+#include "board_def.h"
 #include "src/sys/system_info.h"
 #include "src/sys/settings.h"
 #include "src/lang/lang_zh_cn.h"
-#include "config.h"
 
 #define TAG "Ota"
 

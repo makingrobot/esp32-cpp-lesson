@@ -36,20 +36,6 @@ void XPSTEM_S3_LCD_2_80::InitializeI2c() {
     ESP_ERROR_CHECK(i2c_new_master_bus(&i2c_bus_cfg, &i2c_bus_));
 }
 
-void XPSTEM_S3_LCD_2_80::InitializeSPI() {
-    
-    ESP_LOGI( TAG, "Init SPI for lcd driver ......" );
-    spi_bus_config_t buscfg = {};
-    buscfg.mosi_io_num = DISPLAY_MOSI_PIN;
-    buscfg.miso_io_num = DISPLAY_MISO_PIN;
-    buscfg.sclk_io_num = DISPLAY_SCK_PIN;
-    buscfg.quadwp_io_num = GPIO_NUM_NC;
-    buscfg.quadhd_io_num = GPIO_NUM_NC;
-    buscfg.max_transfer_sz = DISPLAY_WIDTH * DISPLAY_HEIGHT * sizeof(uint16_t); // for lcd.
-    ESP_ERROR_CHECK(spi_bus_initialize(SPI3_HOST, &buscfg, SPI_DMA_CH_AUTO));
-
-}
-
 void XPSTEM_S3_LCD_2_80::InitializePowerSaveTimer() {
     ESP_LOGI( TAG, "Init power save timer ......" );
     power_save_timer_ = new PowerSaveTimer(-1, 180, 900);
@@ -69,15 +55,19 @@ void XPSTEM_S3_LCD_2_80::InitializePowerSaveTimer() {
 void XPSTEM_S3_LCD_2_80::InitializeDisplay() {
     ESP_LOGI( TAG, "Init lcd display ......" );
 
+#if CONFIG_USE_LCD_PANEL==1
     ESP_LOGI( TAG, "Create ili9341 driver." );
-    lcd_driver_ = new ILI9341Driver(DISPLAY_WIDTH, DISPLAY_HEIGHT,
+    LcdDriver* driver = new ILI9341Driver(DISPLAY_WIDTH, DISPLAY_HEIGHT,
                                     DISPLAY_MIRROR_X, DISPLAY_MIRROR_Y, DISPLAY_SWAP_XY, 
                                     DISPLAY_OFFSET_X, DISPLAY_OFFSET_Y);
 
                                     
     ESP_LOGI( TAG, "Init ili9341 on spi mode." );
-    lcd_driver_->InitSpi(SPI3_HOST, DISPLAY_SPI_MODE, DISPLAY_CS_PIN, DISPLAY_DC_PIN, DISPLAY_RST_PIN, 
+    driver->InitSpi(SPI3_HOST, DISPLAY_SPI_MODE, DISPLAY_CS_PIN, DISPLAY_DC_PIN, DISPLAY_RST_PIN, 
         DISPLAY_MOSI_PIN, GPIO_NUM_NC, DISPLAY_CLK_PIN, DISPLAY_RGB_ORDER, DISPLAY_INVERT_COLOR);
+
+    disp_driver_ = driver;
+#endif
 
 }
 
@@ -166,8 +156,6 @@ XPSTEM_S3_LCD_2_80::XPSTEM_S3_LCD_2_80() : WifiBoard() {
 
     InitializeI2c();
     //I2cDetect();
-
-    InitializeSPI();
 
     InitializeButtons();
 

@@ -1,0 +1,33 @@
+/**
+ * ESP32-Arduino-Framework
+ * Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架。
+ * 
+ * Author: Billy Zhang（billy_zh@126.com）
+ */
+#define LOG_LOCAL_LEVEL ESP_LOG_DEBUG
+
+#include <Arduino.h>
+#include <esp_log.h>
+#include "src/app/application.h"
+#include "board_def.h"
+
+#define TAG "Main"
+
+Application *app = nullptr;
+
+void setup() {
+    Serial.begin(115200);
+
+    Serial.println("application starting.");
+    ESP_LOGI(TAG, "application starting.");
+
+    // 创建应用实例
+    app = &Application::GetInstance();
+
+    app->Init();
+    app->Start();
+}
+
+void loop() {
+    app->EventLoop();
+}

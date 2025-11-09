@@ -16,7 +16,6 @@
 #include <cstring>
 
 #include "esp_log.h"
-#include "src/libs/esp_lvgl_port/esp_lvgl_port.h"
 
 #include "src/sys/settings.h"
 #include "src/boards/board.h"

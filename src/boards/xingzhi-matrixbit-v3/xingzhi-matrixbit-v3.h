@@ -18,9 +18,9 @@
 #include "src/power/power_save_timer.h"
 #include "src/sys/time.h"
 
-#if CONFIG_USE_LVGL==1
+#if CONFIG_USE_LCD_PANEL==1
 #include "src/display/backlight.h"
-#include "src/display/lcd_driver.h"
+#include "src/display/disp_driver.h"
 #include "src/display/lvgl_display.h"
 #include "src/audio/audio_codec.h"
 #endif
@@ -34,13 +34,12 @@ private:
     PowerSaveTimer* power_save_timer_ = nullptr;
     Display* display_ = nullptr;
     AudioCodec* audio_codec_ = nullptr;
-#if CONFIG_USE_LVGL==1
-    LcdDriver* driver_ = nullptr;
+#if CONFIG_USE_LCD_PANEL==1
+    DispDriver* disp_driver_ = nullptr;
     Backlight* backlight_ = nullptr;
 #endif
 
     void InitializeI2c();
-    void InitializeSPI();
     void InitializePowerSaveTimer();
     void InitializeDisplay();
     void InitializeButtons();
@@ -55,14 +54,14 @@ public:
     Display* GetDisplay() override { return display_; }
     AudioCodec* GetAudioCodec() { return audio_codec_; };
 
-#if CONFIG_USE_LVGL==1
-    DispDriver* GetDispDriver() override { return driver_; }
+#if CONFIG_USE_LCD_PANEL==1
+    DispDriver* GetDispDriver() override { return disp_driver_; }
 
     Backlight* GetBacklight() override { return backlight_; }
     
     void SetDisplay(Display* display) {
         display_ = display;
-        LvglDisplay *disp = dynamic_cast<LvglDisplay*>(display);
+        LvglDisplay *disp = static_cast<LvglDisplay*>(display);
         disp->SetupUI();
     }
 #endif

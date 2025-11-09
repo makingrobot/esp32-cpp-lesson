@@ -7,7 +7,16 @@
 #include "src/boards/board.h"
 #include "src/boards/i2c_device.h"
 
+#if CONFIG_USE_LCD_PANEL==1
 #include "src/display/drivers/st7796/st7796_driver.h"
+#include "src/display/lcd_driver.h"
+#endif
+#if CONFIG_USE_GFX_LIBRARY==1
+#include <Arduino.h>
+#include <Arduino_GFX_Library.h>
+#include "src/display/gfx_driver.h"
+#endif
+
 #include "src/audio/codecs/no_audio_codec.h"
 
 #include "src/sys/time/ntp_time.h"
@@ -40,20 +49,6 @@ void XPSTEM_S3_ELECTRONIC_SUIT::InitializeI2c() {
     ESP_ERROR_CHECK(i2c_new_master_bus(&i2c_bus_cfg, &i2c_bus_));
 }
 
-void XPSTEM_S3_ELECTRONIC_SUIT::InitializeSPI() {
-    
-    ESP_LOGI( TAG, "Init SPI for lcd driver ......" );
-    spi_bus_config_t buscfg = {};
-    buscfg.mosi_io_num = DISPLAY_MOSI_PIN;
-    buscfg.miso_io_num = DISPLAY_MISO_PIN;
-    buscfg.sclk_io_num = DISPLAY_SCK_PIN;
-    buscfg.quadwp_io_num = GPIO_NUM_NC;
-    buscfg.quadhd_io_num = GPIO_NUM_NC;
-    buscfg.max_transfer_sz = DISPLAY_WIDTH * DISPLAY_HEIGHT * sizeof(uint16_t); // for lcd.
-    ESP_ERROR_CHECK(spi_bus_initialize(SPI3_HOST, &buscfg, SPI_DMA_CH_AUTO));
-
-}
-
 void XPSTEM_S3_ELECTRONIC_SUIT::InitializePowerSaveTimer() {
     ESP_LOGI( TAG, "Init power save timer ......" );
     power_save_timer_ = new PowerSaveTimer(-1, 180, 900);
@@ -73,14 +68,28 @@ void XPSTEM_S3_ELECTRONIC_SUIT::InitializePowerSaveTimer() {
 void XPSTEM_S3_ELECTRONIC_SUIT::InitializeDisplay() {
     ESP_LOGI( TAG, "Init lcd display ......" );
 
+#if CONFIG_USE_LCD_PANEL==1
     ESP_LOGI( TAG, "Create st7796 driver." );
-    lcd_driver_ = new ST7796Driver(DISPLAY_WIDTH, DISPLAY_HEIGHT,
+    LcdDriver* driver = new ST7796Driver(DISPLAY_WIDTH, DISPLAY_HEIGHT,
                                     DISPLAY_MIRROR_X, DISPLAY_MIRROR_Y, DISPLAY_SWAP_XY, 
                                     DISPLAY_OFFSET_X, DISPLAY_OFFSET_Y);
                                     
     ESP_LOGI( TAG, "Init st7796 on spi mode." );
-    lcd_driver_->InitSpi(SPI3_HOST, DISPLAY_SPI_MODE, DISPLAY_CS_PIN, DISPLAY_DC_PIN, DISPLAY_RST_PIN, 
+    driver->InitSpi(SPI3_HOST, DISPLAY_SPI_MODE, DISPLAY_CS_PIN, DISPLAY_DC_PIN, DISPLAY_RST_PIN, 
         DISPLAY_MOSI_PIN, DISPLAY_MISO_PIN, DISPLAY_SCK_PIN, DISPLAY_RGB_ORDER, DISPLAY_INVERT_COLOR);
+
+    disp_driver_ = driver;
+#endif
+
+#if CONFIG_USE_GFX_LIBRARY==1
+    Arduino_DataBus *bus = new Arduino_ESP32SPI(DISPLAY_DC_PIN, DISPLAY_CS_PIN, DISPLAY_SCK_PIN,  
+        DISPLAY_MOSI_PIN, DISPLAY_MISO_PIN, SPI3_HOST);
+
+    Arduino_GFX *gfx = new Arduino_ST7796(bus, DISPLAY_RST_PIN, 0 /* rotation */, false /* IPS */);
+
+    GfxDriver *driver = new GfxDriver(gfx, DISPLAY_WIDTH, DISPLAY_HEIGHT);
+    disp_driver_ = driver;
+#endif
 
 }
 
@@ -171,8 +180,6 @@ XPSTEM_S3_ELECTRONIC_SUIT::XPSTEM_S3_ELECTRONIC_SUIT() : WifiBoard() {
 
     InitializeI2c();
     //I2cDetect();
-
-    InitializeSPI();
 
     InitializePowerSaveTimer();
 

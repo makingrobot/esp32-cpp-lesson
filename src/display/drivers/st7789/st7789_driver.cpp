@@ -26,6 +26,16 @@ void ST7789Driver::InitSpi(spi_host_device_t spi_host, int spi_mode,
 
     drive_mode_ = kDriveModeSpi;
     
+    ESP_LOGI( TAG, "Init SPI for lcd driver ......" );
+    spi_bus_config_t buscfg = {};
+    buscfg.mosi_io_num = mosi_num;
+    buscfg.miso_io_num = miso_num;
+    buscfg.sclk_io_num = clk_num;
+    buscfg.quadwp_io_num = GPIO_NUM_NC;
+    buscfg.quadhd_io_num = GPIO_NUM_NC;
+    buscfg.max_transfer_sz = width_ * height_ * sizeof(uint16_t); // for lcd.
+    ESP_ERROR_CHECK(spi_bus_initialize(spi_host, &buscfg, SPI_DMA_CH_AUTO));
+
     ESP_LOGD(TAG, "Install panel IO");
     esp_lcd_panel_io_spi_config_t io_config = {};
     io_config.cs_gpio_num = cs_num;

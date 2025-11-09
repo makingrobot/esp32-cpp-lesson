@@ -52,7 +52,7 @@ Mp3Application::Mp3Application() : Application() {
     Board& board = Board::GetInstance();
 
     ESP_LOGI( TAG, "Create my display." );
-    LcdDriver* driver = dynamic_cast<LcdDriver*>(board.GetDispDriver());
+    LcdDriver* driver = static_cast<LcdDriver*>(board.GetDispDriver());
     Mp3Display *my_disp = new Mp3Display(driver, 
                                 {
                                     .text_font = &font_puhui_20_4,
@@ -109,7 +109,7 @@ void Mp3Application::Start() {
     // ESP_LOGI(TAG, "play %s", info.url);
     // audio_->connecttohost(info.url);
 
-    // Mp3Display* disp = dynamic_cast<Mp3Display*>(board.GetDisplay());
+    // Mp3Display* disp = static_cast<Mp3Display*>(board.GetDisplay());
     // disp->SetText(info.name);
 
     // std::string str = std::to_string(mp3_index_+1);
@@ -141,7 +141,7 @@ void Mp3Application::AudioPlayEnd() {
     audio_->connecttohost(info.url);
 
     Board& board = Board::GetInstance();
-    Mp3Display* disp = dynamic_cast<Mp3Display*>(board.GetDisplay());
+    Mp3Display* disp = static_cast<Mp3Display*>(board.GetDisplay());
     disp->SetText(info.name);
     
     std::string str = std::to_string(mp3_index_+1);

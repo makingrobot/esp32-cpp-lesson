@@ -5,7 +5,7 @@
  * Author: Billy Zhang（billy_zh@126.com）
  */
 #include "config.h"
-#if CONFIG_USE_TFT == 1
+#if CONFIG_USE_TFT_ESPI == 1
 
 #include "tft_display.h"
 #include <esp_log.h>
@@ -50,4 +50,4 @@ void TftDisplay::SetText(const char* text) {
     driver_->println(text);
 }
 
-#endif //CONFIG_USE_TFT
+#endif //CONFIG_USE_TFT_ESPI

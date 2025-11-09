@@ -11,7 +11,6 @@
 #define MP3_DISPLAY_H
 
 #include <lvgl.h>
-#include "src/display/lcd_driver.h"
 #include "src/display/lvgl_display.h"
 
 class Mp3Display : public LvglDisplay {

@@ -5,7 +5,7 @@
  * Author: Billy Zhang（billy_zh@126.com）
  */
 #include "config.h"
-#if CONFIG_USE_TFT == 1
+#if CONFIG_USE_TFT_ESPI == 1
 
 #ifndef _TFT_DISPLAY_H
 #define _TFT_DISPLAY_H
@@ -35,4 +35,4 @@ private:
 
 #endif //_TFT_DISPLAY_H
 
-#endif //CONFIG_USE_TFT
+#endif //CONFIG_USE_TFT_ESPI

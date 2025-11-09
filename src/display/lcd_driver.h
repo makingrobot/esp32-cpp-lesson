@@ -5,7 +5,7 @@
  * Author: Billy Zhang（billy_zh@126.com）
  */
 #include "config.h"
-#if CONFIG_USE_LVGL == 1
+#if CONFIG_USE_LCD_PANEL == 1
 
 #ifndef _LCD_DRIVER_H
 #define _LCD_DRIVER_H
@@ -22,6 +22,7 @@ public:
             bool mirror_x, bool mirror_y, bool swap_xy, int offset_x = 0, int offset_y = 0) 
         : DispDriver(width, height), 
             mirror_x_(mirror_x), mirror_y_(mirror_y), swap_xy_(swap_xy), offset_x_(offset_x), offset_y_(offset_y) { }
+    
     virtual ~LcdDriver() { 
         if (panel_ != nullptr) {
             esp_lcd_panel_del(panel_);
@@ -48,7 +49,7 @@ public:
     virtual void InitSpi(spi_host_device_t spi_host, int spi_mode, gpio_num_t cs_num, gpio_num_t dc_num, gpio_num_t rst_num, 
         gpio_num_t mosi_num, gpio_num_t miso_num, gpio_num_t clk_num, lcd_rgb_element_order_t rgb_color_order, bool invert_color) { }
 
-    virtual void InitLvgl();
+    void Init() override;
 
 protected:
 
@@ -68,4 +69,4 @@ private:
 
 #endif //_LCD_DRIVER_H
 
-#endif //CONFIG_USE_LVGL
+#endif //CONFIG_USE_LCD_PANEL

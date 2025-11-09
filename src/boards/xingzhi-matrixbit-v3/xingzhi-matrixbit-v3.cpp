@@ -44,20 +44,6 @@ void XINGZHI_MATRIXBIT_V3::InitializeI2c() {
     ESP_ERROR_CHECK(i2c_new_master_bus(&i2c_bus_cfg, &i2c_bus_));
 }
 
-void XINGZHI_MATRIXBIT_V3::InitializeSPI() {
-    
-    ESP_LOGI( TAG, "Init SPI for lcd driver ......" );
-    spi_bus_config_t buscfg = {};
-    buscfg.mosi_io_num = DISPLAY_MOSI_PIN;
-    buscfg.miso_io_num = GPIO_NUM_NC;
-    buscfg.sclk_io_num = DISPLAY_SCK_PIN;
-    buscfg.quadwp_io_num = GPIO_NUM_NC;
-    buscfg.quadhd_io_num = GPIO_NUM_NC;
-    buscfg.max_transfer_sz = DISPLAY_WIDTH * DISPLAY_HEIGHT * sizeof(uint16_t); // for lcd.
-    ESP_ERROR_CHECK(spi_bus_initialize(SPI3_HOST, &buscfg, SPI_DMA_CH_AUTO));
-
-}
-
 void XINGZHI_MATRIXBIT_V3::InitializePowerSaveTimer() {
     ESP_LOGI( TAG, "Init power save timer ......" );
     power_save_timer_ = new PowerSaveTimer(-1, 180, 900);
@@ -89,14 +75,16 @@ void XINGZHI_MATRIXBIT_V3::InitializeDisplay() {
     display_ = disp;
 #endif
 
-#if CONFIG_USE_LVGL==1
+#if CONFIG_USE_LCD_PANEL==1
     ESP_LOGI( TAG, "Create st7789 driver." );
-    driver_ = new ST7789Driver(DISPLAY_WIDTH, DISPLAY_HEIGHT,
+    driver = new ST7789Driver(DISPLAY_WIDTH, DISPLAY_HEIGHT,
                                     DISPLAY_MIRROR_X, DISPLAY_MIRROR_Y, DISPLAY_SWAP_XY);
                                     
     ESP_LOGI( TAG, "Init st7796 on spi mode." );
-    driver_->InitSpi(SPI3_HOST, 0, DISPLAY_CS_PIN, DISPLAY_DC_PIN, DISPLAY_RST_PIN, 
+    driver->InitSpi(SPI3_HOST, 0, DISPLAY_CS_PIN, DISPLAY_DC_PIN, DISPLAY_RST_PIN, 
         DISPLAY_MOSI_PIN, GPIO_NUM_NC, DISPLAY_SCK_PIN, DISPLAY_RGB_ORDER, DISPLAY_INVERT_COLOR);
+
+    disp_driver_ = driver;
 #endif
 
 }
@@ -118,17 +106,13 @@ XINGZHI_MATRIXBIT_V3::XINGZHI_MATRIXBIT_V3() : WifiBoard() {
 
     InitializeI2c();
 
-#if CONFIG_USE_LVGL==1
-    InitializeSPI();
-#endif
-
     // InitializePowerSaveTimer();
 
     // InitializeButtons();
 
     InitializeDisplay();
 
-#if CONFIG_USE_LVGL==1
+#if CONFIG_USE_LCD_PANEL==1
     ESP_LOGI( TAG, "Init backlight ......" );
     backlight_ = new PwmBacklight(DISPLAY_BACKLIGHT_PIN, DISPLAY_BACKLIGHT_OUTPUT_INVERT);
     backlight_->RestoreBrightness();

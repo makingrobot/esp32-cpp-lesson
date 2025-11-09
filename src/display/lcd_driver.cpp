@@ -1,5 +1,5 @@
 #include "config.h"
-#if CONFIG_USE_LVGL == 1
+#if CONFIG_USE_LCD_PANEL == 1
 
 #include <vector>
 #include <esp_err.h>
@@ -10,7 +10,7 @@
 
 #define TAG "LcdDriver"
 
-void LcdDriver::InitLvgl() {
+void LcdDriver::Init() {
     ESP_LOGI(TAG, "drive mode: %d", drive_mode_);
     
     // draw white
@@ -153,4 +153,4 @@ void LcdDriver::InitLvgl() {
     }
 }
 
-#endif //CONFIG_USE_LVGL
+#endif //CONFIG_USE_LCD_PANEL
