@@ -39,7 +39,7 @@ void TftApplication::Start() {
     Board& board = Board::GetInstance();
     board.GetLed()->Blink(-1, 1000);
     board.GetDisplay()->SetStatus("工作中");
-    board.GetDisplay()->SetText("Hello World!");
+    //board.GetDisplay()->SetText("Hello World!");
 }
 
 #endif //APP_DEMO_TFT_ESPI

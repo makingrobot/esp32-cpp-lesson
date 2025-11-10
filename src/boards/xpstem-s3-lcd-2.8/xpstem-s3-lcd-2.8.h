@@ -13,7 +13,6 @@
 #include "src/boards/button.h"
 #include "src/boards/wifi_board.h"
 #include "src/display/display.h"
-#include "src/display/lvgl_display.h"
 #include "src/display/disp_driver.h"
 #include "src/display/backlight.h"
 #include "src/display/drivers/ft6336/ft6336.h"
@@ -34,7 +33,7 @@ private:
     PowerSaveTimer* power_save_timer_ = nullptr;
     AdcBatteryMonitor* battery_monitor_ = nullptr;
     DispDriver* disp_driver_ = nullptr;
-    LvglDisplay* display_ = nullptr;
+    Display* display_ = nullptr;
     Ft6336* ft6336_ = nullptr;
     Backlight* backlight_ = nullptr;
     Time* time_ = nullptr;
@@ -55,11 +54,12 @@ public:
 
     bool GetBatteryLevel(int &level, bool &charging, bool &discharging) override;
     void SetPowerSaveMode(bool enabled) override;
-    void SetDisplay(Display* display) override;
+
+    void SetDisplay(Display* display) override { display_ = display; }
+    Display* GetDisplay() override { return display_; }
 
     Led* GetLed() override { return led_; }
     DispDriver* GetDispDriver() override { return disp_driver_; }
-    Display* GetDisplay() override { return display_; }
     Backlight* GetBacklight() override { return backlight_; }
     AudioCodec* GetAudioCodec() override { return audio_codec_; }
     FileSystem* GetFileSystem() override { return file_system_; }

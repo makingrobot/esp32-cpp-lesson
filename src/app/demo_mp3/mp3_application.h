@@ -10,11 +10,13 @@
 #ifndef _MY_APPLICATION_H
 #define _MY_APPLICATION_H
 
-#include "../application.h"
-#include "../device_state.h"
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 #include <Audio.h>
+
+#include "../application.h"
+#include "../device_state.h"
+#include "mp3_window.h"
 
 class Mp3Application : public Application {
 public:
@@ -34,6 +36,8 @@ private:
 
     void AudioInfo(Audio::msg_t m);
     void AudioPlayEnd();
+
+    Mp3Window* window_ = nullptr;
 
 };
 

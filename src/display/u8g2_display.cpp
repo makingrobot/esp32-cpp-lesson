@@ -32,7 +32,7 @@ void U8g2Display::Unlock() {
     
 }
 
-void U8g2Display::Setup() {
+void U8g2Display::Init() {
 
     driver_->begin();
     driver_->enableUTF8Print();		

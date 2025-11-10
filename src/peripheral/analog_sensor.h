@@ -12,7 +12,7 @@
 #include <Ticker.h>
 
 /**
- * 模拟传感器类
+ * 模拟量传感器类
  * 使用 Arduino-ESP32 的 AnalogRead 函数取值。
  */
 class AnalogSensor {

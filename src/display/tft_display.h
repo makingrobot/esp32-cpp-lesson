@@ -18,7 +18,7 @@ public:
     TftDisplay(TFT_eSPI *driver_, int width, int height);
     virtual ~TftDisplay();
 
-    virtual void Setup();
+    void Init() override;
     
     void SetStatus(const char* status) override;
     void SetText(const char* text) override;

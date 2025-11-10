@@ -18,7 +18,7 @@ public:
     U8g2Display(U8G2* u8g2, int width, int height, const uint8_t* fonts);
     virtual ~U8g2Display();
 
-    virtual void Setup();
+    void Init() override;
     
     void SetStatus(const char* status) override;
     void SetText(const char* text) override;

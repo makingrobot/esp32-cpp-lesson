@@ -11,6 +11,7 @@
 #define _LCD_APPLICATION_H
 
 #include "../application.h"
+#include "src/display/lvgl_text_window.h";
 
 class LcdApplication : public Application {
 public:
@@ -21,6 +22,7 @@ public:
     void Start() override;
 
 private:
+    LvglTextWindow *window_ = nullptr;
 
 };
 

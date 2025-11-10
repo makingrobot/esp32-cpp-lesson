@@ -12,6 +12,7 @@
 #include "src/boards/board.h"
 #include "src/lang/lang_zh_cn.h"
 #include "src/display/lvgl_display.h"
+#include "src/display/lvgl_text_window.h"
 
 #define TAG "LcdApplication"
 
@@ -21,16 +22,9 @@ void* create_application() {
 
 LcdApplication::LcdApplication() : Application() { 
 
-    Board& board = Board::GetInstance();
-
-    ESP_LOGI( TAG, "Create display." );
-    LvglDisplay *my_disp = new LvglDisplay(board.GetDispDriver(), 
-                                {
-                                    .text_font = &font_puhui_20_4,
-                                    .icon_font = &font_awesome_16_4,
-                                    .emoji_font = font_emoji_32_init(),
-                                });
-    board.SetDisplay(my_disp);
+    window_ = new LvglTextWindow();
+    LvglDisplay* disp = static_cast<LvglDisplay*>(Board::GetInstance().GetDisplay());
+    disp->SetWindow(window_);
 }
 
 LcdApplication::~LcdApplication() {
@@ -39,15 +33,13 @@ LcdApplication::~LcdApplication() {
 
 void LcdApplication::Init() {
     Application::Init();
-    
-    // do your init.
+
 }
 
 void LcdApplication::Start() {
     Application::Start();
 
-    Board& board = Board::GetInstance();
-    board.GetDisplay()->SetText("Hello world!");
+    window_->SetText("Hello world!");
 }
 
 #endif //APP_DEMO_LCD

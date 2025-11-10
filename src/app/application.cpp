@@ -72,15 +72,18 @@ void TickerCallback(Application *arg) {
 void Application::Start() {
     ESP_LOGI(TAG, "Starting ......");
 
+    auto& board = Board::GetInstance();
+    Display* display = board.GetDisplay();
+
+    display->Init();
+
 #if CONFIG_CLOCK_ENABLE==1
     clock_ticker_->attach(1, TickerCallback, this);
     ESP_LOGI(TAG, "clock timer started.");
 #endif
 
-    auto& board = Board::GetInstance();
     SetDeviceState(kDeviceStateStarting);
     
-    Display* display = board.GetDisplay();
     display->UpdateStatusBar(true);
 
 #if CONFIG_WIFI_CONFIGURE_ENABLE==1    
@@ -111,14 +114,14 @@ void Application::Alert(const char* status, const char* message, const char* emo
     ESP_LOGI(TAG, "Alert %s: %s [%s]", status, message, emotion);
     auto display = Board::GetInstance().GetDisplay();
     display->SetStatus(status);
-    display->SetText(message);
+    //display->SetText(message);
 }
 
 void Application::DismissAlert() {
     if (device_state_->state() == kDeviceStateIdle->state()) {
         auto display = Board::GetInstance().GetDisplay();
         display->SetStatus(Lang::Strings::STANDBY);
-        display->SetText("");
+        //display->SetText("");
     }
 }
 

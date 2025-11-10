@@ -11,8 +11,8 @@
 #include <string>
 #include "mp3_application.h"
 #include "mp3_state.h"
-#include "mp3_display.h"
 #include "src/boards/board.h"
+#include "src/display/lvgl_display.h"
 #include "src/audio/audio_codec.h"
 #include "src/lang/lang_zh_cn.h"
 #include "board_def.h"
@@ -49,17 +49,10 @@ void* create_application() {
 
 Mp3Application::Mp3Application() : Application() { 
 
-    Board& board = Board::GetInstance();
+    window_ = new Mp3Window();
+    LvglDisplay* disp = static_cast<LvglDisplay*>(Board::GetInstance().GetDisplay());
+    disp->SetWindow(window_);
 
-    ESP_LOGI( TAG, "Create my display." );
-    LcdDriver* driver = static_cast<LcdDriver*>(board.GetDispDriver());
-    Mp3Display *my_disp = new Mp3Display(driver, 
-                                {
-                                    .text_font = &font_puhui_20_4,
-                                    .icon_font = &font_awesome_16_4,
-                                    .emoji_font = font_emoji_32_init(),
-                                });
-    board.SetDisplay(my_disp);
 }
 
 Mp3Application::~Mp3Application() {
@@ -95,27 +88,26 @@ void Mp3Application::Start() {
     codec->Start();
     codec->SetOutputVolume(50);
 
-    // audio_ = new Audio(I2C_NUM_1);
+    audio_ = new Audio(I2C_NUM_1);
 
-    // audio_->setPinout(I2S_BCLK, I2S_LRC, I2S_DOUT);
-    // audio_->setVolume(8);  //0-21
+    audio_->setPinout(I2S_BCLK, I2S_LRC, I2S_DOUT);
+    audio_->setVolume(8);  //0-21
 
-    // mp3_total_ = sizeof(mp3_list) / sizeof(mp3_info_t);
+    mp3_total_ = sizeof(mp3_list) / sizeof(mp3_info_t);
 
-    // // 创建音频后台任务
-    // xTaskCreate(AudioTask, "AUDIO_TASK", 8192, audio_, 1, &audio_task_handle_);
+    // 创建音频后台任务
+    xTaskCreate(AudioTask, "AUDIO_TASK", 8192, audio_, 1, &audio_task_handle_);
 
-    // mp3_info_t info = mp3_list[mp3_index_];
-    // ESP_LOGI(TAG, "play %s", info.url);
-    // audio_->connecttohost(info.url);
+    mp3_info_t info = mp3_list[mp3_index_];
+    ESP_LOGI(TAG, "play %s", info.url);
+    audio_->connecttohost(info.url);
 
-    // Mp3Display* disp = static_cast<Mp3Display*>(board.GetDisplay());
-    // disp->SetText(info.name);
+    window_->SetTitle(info.name);
 
-    // std::string str = std::to_string(mp3_index_+1);
-    // str +=  " / ";
-    // str += std::to_string(mp3_total_);
-    // disp->SetContent(str.c_str());
+    std::string str = std::to_string(mp3_index_+1);
+    str +=  " / ";
+    str += std::to_string(mp3_total_);
+    window_->SetContent(str.c_str());
 
     SetDeviceState(kDeviceStatePlaying);
 }
@@ -140,14 +132,12 @@ void Mp3Application::AudioPlayEnd() {
     ESP_LOGI(TAG, "play %s", info.url);
     audio_->connecttohost(info.url);
 
-    Board& board = Board::GetInstance();
-    Mp3Display* disp = static_cast<Mp3Display*>(board.GetDisplay());
-    disp->SetText(info.name);
+    window_->SetTitle(info.name);
     
     std::string str = std::to_string(mp3_index_+1);
     str +=  " / ";
     str += std::to_string(mp3_total_);
-    disp->SetContent(str.c_str());
+    window_->SetContent(str.c_str());
 }
 
 void Mp3Application::SetDeviceState(const DeviceState* state) {

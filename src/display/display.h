@@ -18,12 +18,13 @@ public:
     Display() { };
     virtual ~Display() { };
 
+    virtual void Init() = 0;
+
     virtual void ShowNotification(const char* notification, int duration_ms = 3000) { };
     virtual void ShowNotification(const std::string &notification, int duration_ms = 3000) { };
-
-    virtual void SetText(const char* text) { };
     virtual void SetStatus(const char* status) { };
     virtual void UpdateStatusBar(bool update_all = false) { };
+    virtual void SetText(const char* text) { };
 
     inline int width() const { return width_; }
     inline int height() const { return height_; }
@@ -61,6 +62,7 @@ private:
         return true;
     }
     virtual void Unlock() override {}
+    virtual void Init() override {}
 };
 
 #endif

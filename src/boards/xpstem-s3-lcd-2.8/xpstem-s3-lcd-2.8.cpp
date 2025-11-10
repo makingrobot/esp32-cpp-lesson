@@ -7,6 +7,7 @@
 #include "src/boards/board.h"
 #include "src/boards/i2c_device.h"
 #include "src/led/ws2812_led.h"
+#include "src/display/lvgl_display.h"
 #include "src/display/drivers/ili9341/ili9341_driver.h"
 #include "src/audio/codecs/es8311/es8311_audio_codec.h"
 #include "src/sys/time/ntp_time.h"
@@ -69,6 +70,11 @@ void XPSTEM_S3_LCD_2_80::InitializeDisplay() {
     disp_driver_ = driver;
 #endif
 
+    display_ = new LvglDisplay(disp_driver_,  {
+                                    .text_font = &font_puhui_20_4,
+                                    .icon_font = &font_awesome_16_4,
+                                    .emoji_font = font_emoji_32_init(),
+                                });
 }
 
 void XPSTEM_S3_LCD_2_80::I2cDetect() {
@@ -211,11 +217,6 @@ void XPSTEM_S3_LCD_2_80::SetPowerSaveMode(bool enabled) {
     if (!enabled) {
         power_save_timer_->WakeUp();
     }
-}
-
-void XPSTEM_S3_LCD_2_80::SetDisplay(Display* display) {
-    display_ = reinterpret_cast<LvglDisplay*>(display);
-    display_->SetupUI();
 }
 
 #endif //BOARD_XPSTEM_S3_LCD_2_80

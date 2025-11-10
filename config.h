@@ -10,7 +10,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 // 应用（至多设置一个为1，其余必须为0）
 
-#define APP_DEMO_LCD                        1   // LCD + LVGL显示DEMO
+#define APP_DEMO_LCD                        0   // LCD + LVGL显示DEMO
 #define APP_DEMO_TFT                        0   // TFT_eSPI显示DEMO
 #define APP_DEMO_U8G2                       0   // SSD1306 + U8G2 显示DEMO
 #define APP_DEMO_MP3                        0   // MP3播放，需要音频外设
@@ -34,16 +34,6 @@
 #elif BOARD_XINGZHI_MATRIXBIT_V3 == 1
 #include "src/boards/xingzhi-matrixbit-v3/board_config.h"
 #endif
-
-
-//////////////////////////////////////////////////////////////////////////////////
-// 特性
-
-#define CONFIG_WIFI_CONFIGURE_ENABLE        0  // WIFI配置
-#define CONFIG_CLOCK_ENABLE                 0  // 时钟（刷新界面）
-#define CONFIG_OTA_ENABLE                   0  // OTA
-
-#define CONFIG_OTA_URL                      "http://xiaozhi.xpstem.com/xiaozhi/ota/"
 
 
 #endif //_CONFIG_H

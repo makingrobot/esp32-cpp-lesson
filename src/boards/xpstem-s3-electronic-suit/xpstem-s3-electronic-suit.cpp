@@ -6,6 +6,7 @@
 #include "src/sys/system_reset.h"
 #include "src/boards/board.h"
 #include "src/boards/i2c_device.h"
+#include "src/display/lvgl_display.h"
 
 #if CONFIG_USE_LCD_PANEL==1
 #include "src/display/drivers/st7796/st7796_driver.h"
@@ -91,6 +92,11 @@ void XPSTEM_S3_ELECTRONIC_SUIT::InitializeDisplay() {
     disp_driver_ = driver;
 #endif
 
+    display_ = new LvglDisplay(disp_driver_,  {
+                                    .text_font = &font_puhui_20_4,
+                                    .icon_font = &font_awesome_16_4,
+                                    .emoji_font = font_emoji_32_init(),
+                                });
 }
 
 void XPSTEM_S3_ELECTRONIC_SUIT::I2cDetect() {
@@ -227,11 +233,6 @@ void XPSTEM_S3_ELECTRONIC_SUIT::SetPowerSaveMode(bool enabled) {
     if (!enabled) {
         power_save_timer_->WakeUp();
     }
-}
-
-void XPSTEM_S3_ELECTRONIC_SUIT::SetDisplay(Display* display) {
-    display_ = reinterpret_cast<LvglDisplay*>(display);
-    display_->SetupUI();
 }
 
 #endif //BOARD_XPSTEM_S3_ELECTRONIC_SUIT

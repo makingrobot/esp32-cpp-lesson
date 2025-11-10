@@ -33,7 +33,7 @@ bool TftDisplay::Lock(int timeout_ms) {
 void TftDisplay::Unlock() {
 }
 
-void TftDisplay::Setup() {
+void TftDisplay::Init() {
 
    
 }
