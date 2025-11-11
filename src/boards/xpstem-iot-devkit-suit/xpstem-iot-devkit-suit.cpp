@@ -9,7 +9,7 @@
 #include <Wire.h>
 #include "src/display/u8g2_display.h"
 #endif
-#if CONFIG_USE_TFT==1
+#if CONFIG_USE_TFT_ESPI==1
 #include <Arduino.h>
 #include <TFT_eSPI.h>
 #include <SPI.h>
@@ -59,12 +59,10 @@ void XPSTEM_IOT_DEVKIT_SUIT::InitializeDisplay() {
     );
 
     //u8g2_font_unifont_t_chinese2
-    U8g2Display* disp = new U8g2Display(u8g2, 128, 64, u8g2_font_wqy14_t_gb2312);
-    disp->Setup();
-    display_ = disp;
+    display_ = new U8g2Display(u8g2, 128, 64, u8g2_font_wqy14_t_gb2312);
 #endif
 
-#if CONFIG_USE_TFT==1
+#if CONFIG_USE_TFT_ESPI==1
     ESP_LOGI( TAG, "Init ssd1306 display ......" );
     /**
      * 注意！！！
@@ -77,9 +75,7 @@ void XPSTEM_IOT_DEVKIT_SUIT::InitializeDisplay() {
     //tft->invertDisplay(DISPLAY_INVERT_COLOR);
     
     //u8g2_font_unifont_t_chinese2
-    TftDisplay* disp = new TftDisplay(tft, DISPLAY_WIDTH, DISPLAY_HEIGHT);
-    disp->Setup();
-    display_ = disp;
+    display_ = new TftDisplay(tft, DISPLAY_WIDTH, DISPLAY_HEIGHT);
 #endif
 
 #if CONFIG_USE_LVGL==1
@@ -92,6 +88,11 @@ void XPSTEM_IOT_DEVKIT_SUIT::InitializeDisplay() {
         DISPLAY_MOSI_PIN, DISPLAY_MISO_PIN, DISPLAY_SCK_PIN, DISPLAY_RGB_ORDER, DISPLAY_INVERT_COLOR);
 
     disp_driver_ = driver;
+    display_ = new LvglDisplay(disp_driver_,  {
+                                    .text_font = &font_puhui_20_4,
+                                    .icon_font = &font_awesome_16_4,
+                                    .emoji_font = font_emoji_32_init(),
+                                });
 #endif
 
 }

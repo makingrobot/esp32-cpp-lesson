@@ -118,7 +118,7 @@ void Application::Alert(const char* status, const char* message, const char* emo
 }
 
 void Application::DismissAlert() {
-    if (device_state_->state() == kDeviceStateIdle->state()) {
+    if (device_state_ == kDeviceStateIdle) {
         auto display = Board::GetInstance().GetDisplay();
         display->SetStatus(Lang::Strings::STANDBY);
         //display->SetText("");
@@ -126,10 +126,10 @@ void Application::DismissAlert() {
 }
 
 void Application::ToggleWorkState() {
-    if (device_state_->state() == kDeviceStateWorking->state()) {
+    if (device_state_ == kDeviceStateWorking) {
         SetDeviceState(kDeviceStateIdle);
         return;
-    } else if (device_state_->state() == kDeviceStateIdle->state()) {
+    } else if (device_state_ == kDeviceStateIdle) {
 
         Board& board = Board::GetInstance();
         board.GetBacklight()->RestoreBrightness();
@@ -185,7 +185,7 @@ void Application::OnClockTimer() {
 #endif
 
 bool Application::CanEnterSleepMode() {
-    if (device_state_->state() != kDeviceStateIdle->state()) {
+    if (device_state_ != kDeviceStateIdle) {
         return false;
     }
 
@@ -210,7 +210,7 @@ void Application::ShowWifiConfigHit(std::string ssid, std::string config_url, st
 }
 
 void Application::SetDeviceState(const DeviceState* state) {
-    if (device_state_->state() == state->state()) {
+    if (device_state_ == state) {
         return;
     }
     ESP_LOGI(TAG, "STATE: %s", state->text().c_str());
@@ -222,12 +222,12 @@ void Application::SetDeviceState(const DeviceState* state) {
     auto& board = Board::GetInstance();
     auto display = board.GetDisplay();
 
-    if (state->state() == kDeviceStateUnknown->state() ||
-            state->state() == kDeviceStateIdle->state()) {
+    if (state == kDeviceStateUnknown ||
+            state == kDeviceStateIdle) {
         display->SetStatus(Lang::Strings::STANDBY);
-    } else if (state->state() == kDeviceStateConnecting->state()) {
+    } else if (state == kDeviceStateConnecting) {
         display->SetStatus(Lang::Strings::CONNECTING);
-    } else if (state->state() == kDeviceStateWorking->state()) {
+    } else if (state == kDeviceStateWorking) {
         display->SetStatus(Lang::Strings::WORKING);
     }
 
@@ -239,21 +239,21 @@ void Application::OnStateChanged() {
     Led* led = Board::GetInstance().GetLed();
     ESP_LOGI(TAG, "Led Type: %s", typeid(*led).name());
 
-    if (device_state_->state() == kDeviceStateStarting->state()) {
+    if (device_state_ == kDeviceStateStarting) {
         led->SetColor(0, 0, DEFAULT_BRIGHTNESS);
         led->Blink(BLINK_INFINITE, 100);
-    } else if (device_state_->state() == kDeviceStateWifiConfiguring->state()) {
+    } else if (device_state_ == kDeviceStateWifiConfiguring) {
         led->SetColor(0, 0, DEFAULT_BRIGHTNESS);
         led->Blink(BLINK_INFINITE, 500);
-    } else if (device_state_->state() ==  kDeviceStateIdle->state()) {
+    } else if (device_state_ ==  kDeviceStateIdle) {
         led->TurnOff();
-    } else if (device_state_->state() == kDeviceStateConnecting->state()) {
+    } else if (device_state_ == kDeviceStateConnecting) {
         led->SetColor(0, 0, DEFAULT_BRIGHTNESS);
         led->TurnOn();
-    } else if (device_state_->state() == kDeviceStateUpgrading->state()) {
+    } else if (device_state_ == kDeviceStateUpgrading) {
         led->SetColor(0, DEFAULT_BRIGHTNESS, 0);
         led->Blink(BLINK_INFINITE, 100);
-    } else if (device_state_->state() == kDeviceStateWorking->state()) {
+    } else if (device_state_ == kDeviceStateWorking) {
         led->SetColor(0, DEFAULT_BRIGHTNESS, 0);
         led->Blink(BLINK_INFINITE, 500);
     }
@@ -290,7 +290,7 @@ void Application::CheckNewVersion(Ota& ota) {
             ESP_LOGW(TAG, "Check new version failed, retry in %d seconds (%d/%d)", retry_delay, retry_count, MAX_RETRY);
             for (int i = 0; i < retry_delay; i++) {
                 vTaskDelay(pdMS_TO_TICKS(1000));
-                if (device_state_->state() == kDeviceStateIdle->state()) {
+                if (device_state_ == kDeviceStateIdle) {
                     break;
                 }
             }

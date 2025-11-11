@@ -5,7 +5,7 @@
  * Author: Billy Zhang（billy_zh@126.com）
  */
 #include "config.h"
-#if APP_DEMO_TFT_ESPI==1
+#if APP_DEMO_TFT==1
 
 #ifndef _TFT_APPLICATION_H
 #define _TFT_APPLICATION_H
@@ -26,4 +26,4 @@ private:
 
 #endif //_U8G2_APPLICATION_H
 
-#endif //APP_DEMO_TFT_ESPI
+#endif //APP_DEMO_TFT

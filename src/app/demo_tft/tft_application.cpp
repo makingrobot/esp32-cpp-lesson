@@ -5,7 +5,7 @@
  * Author: Billy Zhang（billy_zh@126.com）
  */
 #include "config.h"
-#if APP_DEMO_TFT_ESPI==1
+#if APP_DEMO_TFT==1
 
 #include "tft_application.h"
 #include "esp_log.h"
@@ -42,4 +42,4 @@ void TftApplication::Start() {
     //board.GetDisplay()->SetText("Hello World!");
 }
 
-#endif //APP_DEMO_TFT_ESPI
+#endif //APP_DEMO_TFT

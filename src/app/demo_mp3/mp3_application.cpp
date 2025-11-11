@@ -147,7 +147,7 @@ void Mp3Application::SetDeviceState(const DeviceState* state) {
     auto& board = Board::GetInstance();
     auto display = board.GetDisplay();
 
-    if (state->state() == kDeviceStatePlaying->state()) {
+    if (state == kDeviceStatePlaying) {
         display->SetStatus(Lang::Strings::PLAYING);
     }
 

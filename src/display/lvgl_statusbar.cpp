@@ -246,10 +246,10 @@ void LvglStatusBar::Update(bool update_all) {
     if (update_all || seconds_counter++ % 10 == 0) {
         // 升级固件时，不读取 4G 网络状态，避免占用 UART 资源
         DeviceState* device_state = Application::GetInstance().GetDeviceState();
-        if (device_state->state() == kDeviceStateIdle->state() ||
-                device_state->state() == kDeviceStateStarting->state() ||
-                device_state->state() == kDeviceStateWifiConfiguring->state() || 
-                device_state->state() == kDeviceStateWorking->state()) {
+        if (device_state == kDeviceStateIdle ||
+                device_state == kDeviceStateStarting ||
+                device_state == kDeviceStateWifiConfiguring || 
+                device_state == kDeviceStateWorking) {
             const char* icon = GetWifiIcon();
             if (network_label_ != nullptr && icon != nullptr && network_icon_ != icon) {
                 network_icon_ = icon;

@@ -73,7 +73,7 @@
 #define CONFIG_USE_AUDIO_ES8388             0
 
 // LED驱动
-#define CONFIG_USE_LED_GPIO                 0
+#define CONFIG_USE_LED_GPIO                 1
 #define CONFIG_USE_LED_WS2812               0
 
 

@@ -30,8 +30,15 @@ public:
         return *this;
     }
 
-    int state() const { return state_; }
-    std::string text() const { return text_; }
+    const bool operator==(const DeviceState& other) const {
+        return this->state_ == other.state_;
+    }
+    const bool operator!=(const DeviceState& other) const {
+        return this->state_ != other.state_;
+    }
+
+    const int state() const { return state_; }
+    const std::string text() const { return text_; }
 
     static DeviceState* Create(int state, const std::string& text) {
         return new DeviceState(state, text);
