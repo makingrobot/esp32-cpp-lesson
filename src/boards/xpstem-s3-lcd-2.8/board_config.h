@@ -4,10 +4,6 @@
 #ifndef _BOARD_CONFIG_H
 #define _BOARD_CONFIG_H
 
-#ifndef ESP32S3
-#error "This board only for ESP32S3 module."
-#endif
-
 #include <driver/gpio.h>
 
 //*******************************************************************

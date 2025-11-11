@@ -66,13 +66,13 @@ protected:
     EventGroupHandle_t event_group_;
     EventHandler* event_handler_ = nullptr;
     std::mutex mutex_;
+    int clock_ticks_ = 0;
 
 private:
     Application(const Application&) = delete; // 禁用拷贝构造函数
     Application& operator=(const Application&) = delete; // 禁用赋值操作
 
     std::deque<callback_function_t> app_tasks_;
-    int clock_ticks_ = 0;
     bool has_server_time_ = false;
 
 #if CONFIG_CLOCK_ENABLE==1
