@@ -8,8 +8,9 @@
 
 #include <Arduino.h>
 #include <esp_log.h>
-#include "src/app/application.h"
+#include "config.h"
 #include "board_def.h"
+#include "src/app/application.h"
 
 #define TAG "Main"
 

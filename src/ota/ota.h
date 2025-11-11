@@ -9,7 +9,6 @@
 
 #include <esp_err.h>
 #include <HTTPClient.h>
-#include "src/boards/board.h"
 
 class Ota {
 public:

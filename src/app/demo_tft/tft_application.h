@@ -20,6 +20,9 @@ public:
     void Init() override;
     void Start() override;
 
+    const std::string& GetAppName() const override { return "DEMO_TFT"; }
+    const std::string& GetAppVersion() const override { return "1.0.0"; }
+
 private:
 
 };

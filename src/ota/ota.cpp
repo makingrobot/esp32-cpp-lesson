@@ -7,7 +7,6 @@
 #include <esp_log.h>
 #include <esp_partition.h>
 #include <esp_ota_ops.h>
-#include <esp_app_format.h>
 #include <esp_efuse.h>
 #include <esp_efuse_table.h>
 #ifdef SOC_HMAC_SUPPORTED
@@ -23,6 +22,8 @@
 #include "src/sys/system_info.h"
 #include "src/sys/settings.h"
 #include "src/lang/lang_zh_cn.h"
+#include "src/app/application.h"
+#include "src/boards/board.h"
 
 #define TAG "Ota"
 
@@ -54,8 +55,8 @@ std::string Ota::GetCheckVersionUrl() {
 }
 
 HTTPClient* Ota::SetupHttp() {
-    auto& board = Board::GetInstance();
-    auto app_desc = esp_app_get_description();
+    Application& app = Application::GetInstance();
+    Board& board = Board::GetInstance();
 
     HTTPClient* http = new HTTPClient();
 
@@ -65,7 +66,7 @@ HTTPClient* Ota::SetupHttp() {
     if (has_serial_number_) {
         http->addHeader("Serial-Number", serial_number_.c_str());
     }
-    http->addHeader("User-Agent", String(BOARD_NAME) + "/" + String(app_desc->version));
+    http->addHeader("User-Agent", String(BOARD_NAME) + "/" + app.GetAppVersion().c_str());
     http->addHeader("Accept-Language", Lang::CODE);
     http->addHeader("Content-Type", "application/json");
 
@@ -76,11 +77,11 @@ HTTPClient* Ota::SetupHttp() {
  * Specification: https://ccnphfhqs21z.feishu.cn/wiki/FjW6wZmisimNBBkov6OcmfvknVd
  */
 bool Ota::CheckVersion() {
-    auto& board = Board::GetInstance();
-    auto app_desc = esp_app_get_description();
-
+    Application& app = Application::GetInstance();
+    Board& board = Board::GetInstance();
+    
     // Check if there is a new firmware version available
-    current_version_ = app_desc->version;
+    current_version_ = app.GetAppVersion();
     ESP_LOGI(TAG, "Current version: %s", current_version_.c_str());
 
     std::string url = GetCheckVersionUrl();
@@ -323,29 +324,29 @@ bool Ota::Upgrade(const std::string& firmware_url) {
             break;
         }
 
-        if (!image_header_checked) {
-            image_header.append(buffer, ret);
-            if (image_header.size() >= sizeof(esp_image_header_t) + sizeof(esp_image_segment_header_t) + sizeof(esp_app_desc_t)) {
-                esp_app_desc_t new_app_info;
-                memcpy(&new_app_info, image_header.data() + sizeof(esp_image_header_t) + sizeof(esp_image_segment_header_t), sizeof(esp_app_desc_t));
-                ESP_LOGI(TAG, "New firmware version: %s", new_app_info.version);
+        // if (!image_header_checked) {
+        //     image_header.append(buffer, ret);
+        //     if (image_header.size() >= sizeof(esp_image_header_t) + sizeof(esp_image_segment_header_t) + sizeof(esp_app_desc_t)) {
+        //         esp_app_desc_t new_app_info;
+        //         memcpy(&new_app_info, image_header.data() + sizeof(esp_image_header_t) + sizeof(esp_image_segment_header_t), sizeof(esp_app_desc_t));
+        //         ESP_LOGI(TAG, "New firmware version: %s", new_app_info.version);
 
-                auto current_version = esp_app_get_description()->version;
-                if (memcmp(new_app_info.version, current_version, sizeof(new_app_info.version)) == 0) {
-                    ESP_LOGE(TAG, "Firmware version is the same, skipping upgrade");
-                    return false;
-                }
+        //         auto current_version = esp_app_get_description()->version;
+        //         if (memcmp(new_app_info.version, current_version, sizeof(new_app_info.version)) == 0) {
+        //             ESP_LOGE(TAG, "Firmware version is the same, skipping upgrade");
+        //             return false;
+        //         }
 
-                if (esp_ota_begin(update_partition, OTA_WITH_SEQUENTIAL_WRITES, &update_handle)) {
-                    esp_ota_abort(update_handle);
-                    ESP_LOGE(TAG, "Failed to begin OTA");
-                    return false;
-                }
+        //         if (esp_ota_begin(update_partition, OTA_WITH_SEQUENTIAL_WRITES, &update_handle)) {
+        //             esp_ota_abort(update_handle);
+        //             ESP_LOGE(TAG, "Failed to begin OTA");
+        //             return false;
+        //         }
 
-                image_header_checked = true;
-                std::string().swap(image_header);
-            }
-        }
+        //         image_header_checked = true;
+        //         std::string().swap(image_header);
+        //     }
+        // }
         auto err = esp_ota_write(update_handle, buffer, ret);
         if (err != ESP_OK) {
             ESP_LOGE(TAG, "Failed to write OTA data: %s", esp_err_to_name(err));

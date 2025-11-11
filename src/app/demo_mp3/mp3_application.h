@@ -28,6 +28,9 @@ public:
 
     void SetDeviceState(const DeviceState* state) override;
 
+    const std::string& GetAppName() const override { return "DEMO_MP3"; }
+    const std::string& GetAppVersion() const override { return "1.0.0"; }
+
 private:
     Audio* audio_ = nullptr;
     uint8_t mp3_index_ = 0;

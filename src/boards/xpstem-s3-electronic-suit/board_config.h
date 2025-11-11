@@ -4,7 +4,7 @@
 #ifndef _BOARD_CONFIG_H
 #define _BOARD_CONFIG_H
 
-#ifndef ESP32 && CONFIG_IDF_TARGET_ESP32S3
+#ifndef ESP32S3
 #error "This board only for ESP32S3 module."
 #endif
 

@@ -4,7 +4,7 @@
 #ifndef _BOARD_CONFIG_H
 #define _BOARD_CONFIG_H
 
-#ifndef ESP32 && CONFIG_IDF_TARGET_ESP32
+#ifndef ESP32
 #error "This board only for ESP32 module."
 #endif
 
@@ -82,7 +82,7 @@
 
 #define CONFIG_WIFI_CONFIGURE_ENABLE        0  // WIFI配置
 #define CONFIG_CLOCK_ENABLE                 0  // 时钟（刷新界面）
-#define CONFIG_OTA_ENABLE                   0  // OTA
+#define CONFIG_OTA_ENABLE                   1  // OTA
 
 #define CONFIG_OTA_URL                      ""
 
