@@ -39,16 +39,17 @@ void TftDisplay::Init() {
    
 }
     
-void TftDisplay::SetStatus(const char* status) {
+void TftDisplay::SetStatus(const std::string& status) {
 
+    status_ = status;
     driver_->setCursor(4, 20, 2);
-    driver_->println(status);
+    driver_->println(status_.c_str());
 }
 
-void TftDisplay::SetText(const char* text) {
-
+void TftDisplay::SetText(const std::string& text) {
+    text_ = text;
     driver_->setCursor(4, 60, 4);
-    driver_->println(text);
+    driver_->println(text_.c_str());
 }
 
 #endif //CONFIG_USE_TFT_ESPI

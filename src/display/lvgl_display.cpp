@@ -169,7 +169,7 @@ void LvglDisplay::SetTheme(const std::string& theme_name) {
     }
 }
 
-void LvglDisplay::SetStatus(const char* status) {
+void LvglDisplay::SetStatus(const std::string& status) {
     if (statusbar_!=nullptr) {
         DisplayLockGuard lock(this);
         statusbar_->SetStatus(status);

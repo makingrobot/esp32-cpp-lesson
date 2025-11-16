@@ -20,8 +20,8 @@ public:
 
     void Init() override;
     
-    void SetStatus(const char* status) override;
-    void SetText(const char* text) override;
+    void SetStatus(const std::string& status) override;
+    void SetText(const std::string& text) override;
    
     const TFT_eSPI* tft() const { return driver_; }
 
@@ -31,6 +31,10 @@ protected:
 
 private:
     TFT_eSPI *driver_ = nullptr;
+
+    std::string text_;
+    std::string status_;
+    
 };
 
 #endif //_TFT_DISPLAY_H
