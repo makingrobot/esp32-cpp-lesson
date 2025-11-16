@@ -12,12 +12,14 @@
 
 #include "display.h"
 #include <TFT_eSPI.h>
+#include "tft_window.h"
 
 class TftDisplay : public Display {
 public:
     TftDisplay(TFT_eSPI *driver_, int width, int height);
     virtual ~TftDisplay();
 
+    void SetWindow(TftWindow* window);
     void Init() override;
     
     void SetStatus(const std::string& status) override;
@@ -31,10 +33,8 @@ protected:
 
 private:
     TFT_eSPI *driver_ = nullptr;
+    TftWindow* window_ = nullptr;
 
-    std::string text_;
-    std::string status_;
-    
 };
 
 #endif //_TFT_DISPLAY_H

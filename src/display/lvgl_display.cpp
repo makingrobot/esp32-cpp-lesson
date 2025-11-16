@@ -69,6 +69,7 @@ LvglDisplay::~LvglDisplay() {
 }
 
 void LvglDisplay::Init() {
+    Log::Info(TAG, "Init ......");
     SetupUI();
 }
 

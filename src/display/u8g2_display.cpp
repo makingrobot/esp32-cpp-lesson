@@ -37,6 +37,8 @@ void U8g2Display::SetWindow(U8g2Window* window) {
 }
 
 void U8g2Display::Init() {
+    Log::Info(TAG, "Init ......");
+    
     driver_->begin();
     if (window_==nullptr) {
         window_ = new U8g2Window();
