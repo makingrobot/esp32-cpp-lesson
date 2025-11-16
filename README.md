@@ -17,7 +17,6 @@ Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架�
 
 |                           | DEMO_LCD | DEMO_TFT | DEMO_U8G2 | DEMO_MP3 | DEMO_IOT |
 |:--------------------------|:-------:|:--------:|:--------:|:---------:|:----------:
-| 小鹏AI语音机器人 [链接](https://www.xpstem.com/product/xp-aichat-bot-2.8/)          | OK &#x2705;  |        |        | OK &#x2705;  |    |
 | 小鹏ESP32-S3 2.8寸开发板 [链接](https://www.xpstem.com/product/board-esp32s3-tft280)  | OK &#x2705;  |        |        | OK &#x2705;  |      |
 | 小鹏ESP32-S3 创意电子套件 [链接](https://www.xpstem.com/product/xp-esp32s3-electronic-suit)  | OK  &#x2705;  |        |        | OK  &#x2705;  |        |
 | 小鹏ESP32 物联网开发套件 [链接](https://www.xpstem.com/product/iot-devkit-suit)  | OK  &#x2705;  | OK  &#x2705;  | OK  &#x2705;   |         | TODO      |
@@ -101,3 +100,12 @@ Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架�
 
 ### 3.实现业务类
 继承Application类
+
+## 基于本框架的应用
+### 小鹏AI语音机器人 
+[产品链接](https://www.xpstem.com/product/xp-aichat-bot-2.8/) 
+[源码链接](https://gitee.com/billyzh/XiaoZhi-Arduino)
+
+### 小鹏IoT自动浇花套件 
+[产品链接](https://www.xpstem.com/product/auto-watering/)
+[源码链接](https://gitee.com/billyzh/auto-watering)
