@@ -12,14 +12,14 @@
 
 #include "led.h"
 #include <driver/gpio.h>
-#include <Ticker.h>
 #include <atomic>
 #include <mutex>
 #include <cstdint>
+#include "src/sys/timer.h"
+#include "src/sys/sw_timer.h"
 
 /**
  * 单色LED
- * 使用 Arduino-ESP32 的 ledc 封装函敏驱动
  */
 class GpioLed : public Led {
  public:
@@ -43,12 +43,10 @@ class GpioLed : public Led {
     uint8_t brightness_ = 255;
     int blink_counter_ = 0;
     int blink_interval_ms_ = 0;
-    Ticker* blink_ticker_ = nullptr;
+    Timer* timer_ = nullptr;
 
     void StartBlinkTask(int times, int interval_ms);
-
     void StartContinuousBlink(int interval_ms);
-    void StartFadeTask();
 
 };
 

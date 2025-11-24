@@ -9,10 +9,9 @@
 
 #include <driver/gpio.h>
 #include <functional>
-#include <freertos/FreeRTOS.h>
-#include <freertos/timers.h>
 
 #include "sensor.h"
+#include "src/sys/timer.h"
 
 /**
  * 模拟量传感器
@@ -34,7 +33,7 @@ public:
 private:
     gpio_num_t sensor_pin_;
     int sensor_val_;
-    TimerHandle_t timer_handle_ = nullptr;
+    Timer* timer_ = nullptr;
     std::function<void(int)> on_newdata_callback_;
 
 };

@@ -16,6 +16,8 @@
 #define I2C_SCL_PIN                         GPIO_NUM_22  //  
 #define I2C_SDA_PIN                         GPIO_NUM_21  //  
 
+#define SSD1306_I2C_ADDR                    0x3D
+
 // LCD模块 ST7796
 #define DISPLAY_LED_PIN                     GPIO_NUM_12
 #define DISPLAY_SCK_PIN                     GPIO_NUM_13

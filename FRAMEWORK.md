@@ -56,14 +56,13 @@ Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架�
 * SD_MMC - SD卡操作库（四线方式）
 * FS - 文件系统库
 * HTTPClient - HTTP客户端库
-* Ticker - 定时器库
 
 ### 第三方库引用
 * LVGL - 图形化开发库 [链接](https://lvgl.io)
 * U8g2 - OLED屏显示开发库
 * TFT_eSPI - TFT-LCD屏显示开发库
 * GFX_Library - TFT-LCD屏显示开发库
-* OneButton - 按键库 
+* OneButton - 按键库
 * ESP32-audioI2S - I2S音频库 （DEMO_MP3使用）
 
 ## 架构预览

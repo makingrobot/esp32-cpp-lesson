@@ -9,6 +9,7 @@
 
 #include "ws2812_led.h"
 #include "src/sys/log.h"
+#include "src/sys/sw_timer.h"
 
 #define TAG "Ws2812Led"
 
@@ -28,7 +29,7 @@ Ws2812Led::Ws2812Led(gpio_num_t gpio) {
     ESP_ERROR_CHECK(led_strip_new_rmt_device(&strip_config, &rmt_config, &led_strip_));
     led_strip_clear(led_strip_);
 
-    blink_ticker_ = new Ticker();
+    timer_ = new SwTimer("Ws2812_Led");
 }
 
 Ws2812Led::~Ws2812Led() {
@@ -40,8 +41,8 @@ Ws2812Led::~Ws2812Led() {
 }
 
 void Ws2812Led::Stop() {
-    if( blink_ticker_!=nullptr ) {
-        blink_ticker_->detach();
+    if (timer_ != nullptr) {
+        timer_->Stop();
     }
 }
 
@@ -57,7 +58,7 @@ void Ws2812Led::TurnOn() {
     if (led_strip_ == nullptr) {
         return;
     }
-    
+
     std::lock_guard<std::mutex> lock(mutex_);
     Stop();
 
@@ -91,10 +92,6 @@ void Ws2812Led::StartContinuousBlink(int interval_ms) {
     StartBlinkTask(BLINK_INFINITE, interval_ms);
 }
 
-void TickerCallback(Ws2812Led *arg) {
-    arg->OnBlinkTimer();
-}
-
 void Ws2812Led::StartBlinkTask(int times, int interval_ms) {
     if (led_strip_ == nullptr) {
         return;
@@ -106,8 +103,7 @@ void Ws2812Led::StartBlinkTask(int times, int interval_ms) {
     blink_counter_ = times * 2;
     blink_interval_ms_ = interval_ms;
     
-    blink_ticker_->attach_ms(interval_ms, TickerCallback, this);
-    Log::Info( TAG, "blink timer started" );
+    timer_->Start(interval_ms, [this](){ OnBlinkTimer(); });
 }
 
 void Ws2812Led::OnBlinkTimer() {

@@ -12,10 +12,10 @@
 #include <string>
 #include <deque>
 #include <mutex>
-#include <Ticker.h>
 
 #include "config.h"
 #include "src/ota/ota.h"
+#include "src/sys/timer.h"
 #include "device_state.h"
 #include "event_handler.h"
 #include "types.h"
@@ -83,7 +83,7 @@ private:
     bool has_server_time_ = false;
 
 #if CONFIG_CLOCK_ENABLE==1
-    Ticker* clock_ticker_;
+    Timer* clock_timer_;
 #endif
 
 };

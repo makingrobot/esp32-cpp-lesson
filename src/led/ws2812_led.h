@@ -13,10 +13,10 @@
 #include <driver/gpio.h>
 #include <atomic>
 #include <mutex>
-#include <Ticker.h>
 
 #include "led.h"
 #include "src/libs/led_strip/led_strip.h"
+#include "src/sys/timer.h"
 
 /**
  * Ws2812灯珠类
@@ -43,7 +43,7 @@ private:
     uint8_t r_ = 0, g_ = 0, b_ = 0;
     int blink_counter_ = 0;
     int blink_interval_ms_ = 0;
-    Ticker* blink_ticker_ = nullptr;
+    Timer* timer_ = nullptr;
 
     void StartContinuousBlink(int interval_ms);
     void StartBlinkTask(int times, int interval_ms);

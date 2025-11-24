@@ -22,6 +22,7 @@
 #include "src/lang/lang_zh_cn.h"
 #include "src/app/types.h"
 #include "src/sys/log.h"
+#include "src/sys/sw_timer.h"
 
 #define TAG "Application"
 
@@ -45,9 +46,8 @@ Application::Application() {
 Application::~Application() {
 
 #if CONFIG_CLOCK_ENABLE==1
-    if (clock_ticker_!=nullptr) {
-        clock_ticker_->detach();
-        clock_ticker_ = nullptr;
+    if (clock_timer_!=nullptr) {
+        clock_timer_->Stop();
     }
 #endif
 
@@ -62,15 +62,9 @@ void Application::Init() {
     board.GetDisplay()->Init();
 
 #if CONFIG_CLOCK_ENABLE==1
-    clock_ticker_ = new Ticker();
+    clock_timer_ = new SwTimer("Clock");
 #endif
 }
-
-#if CONFIG_CLOCK_ENABLE==1
-void TickerCallback(Application *arg) {
-    arg->OnClockTimer();
-}
-#endif
 
 void Application::Start() {
     Log::Info(TAG, "Starting ......");
@@ -79,7 +73,7 @@ void Application::Start() {
     Display* display = board.GetDisplay();
 
 #if CONFIG_CLOCK_ENABLE==1
-    clock_ticker_->attach(1, TickerCallback, this);
+    clock_timer_->Start(1000, [this](){ OnClockTimer(); });
     Log::Info(TAG, "clock timer started.");
 #endif
 
