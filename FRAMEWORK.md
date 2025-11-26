@@ -17,11 +17,11 @@ Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架�
 
 |                           | DEMO_LCD | DEMO_TFT | DEMO_U8G2 | DEMO_MP3 | DEMO_IOT |
 |:--------------------------|:-------:|:--------:|:--------:|:---------:|:----------:
-| 小鹏ESP32-S3 2.8寸开发板 [链接](https://www.xpstem.com/product/board-esp32s3-tft280)  | OK &#x2705;  |        |        | OK &#x2705;  |      |
-| 小鹏ESP32-S3 创意电子套件 [链接](https://www.xpstem.com/product/xp-esp32s3-electronic-suit)  | OK  &#x2705;  |        |        | OK  &#x2705;  |        |
-| 小鹏ESP32 物联网开发套件 [链接](https://www.xpstem.com/product/iot-devkit-suit)  | OK  &#x2705;  | OK  &#x2705;  | OK  &#x2705;   |         | TODO      |
-| MatrixBit3 [链接](https://www.xpstem.com/product/matrixbit-v3)  | TODO     | TODO   |         | TODO     |  TODO    |
-| AI-VOX3                   | TODO     |         |         | TODO     |          |
+| 小鹏ESP32-S3 2.8寸开发板 [链接](https://www.xpstem.com/product/board-esp32s3-tft280)  | OK &#x2705;  |       |   n/a   | OK &#x2705;  |      |
+| 小鹏ESP32-S3 创意电子套件 [链接](https://www.xpstem.com/product/xp-esp32s3-electronic-suit)  | OK  &#x2705;  |     |   n/a  | OK  &#x2705;  |        |
+| 小鹏ESP32 物联网开发套件 [链接](https://www.xpstem.com/product/iot-devkit-suit)  | OK  &#x2705;  | OK  &#x2705;  | OK  &#x2705;   |   n/a    |       |
+| MatrixBit3 [链接](https://www.xpstem.com/product/matrixbit-v3)  |       | OK  &#x2705;   |   n/a   |      |      |
+| AI-VOX3                   |      |         |     n/a    |      |          |
 
 
 ## 硬件支持
@@ -47,7 +47,6 @@ Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架�
 * esp_lcd_ili9341 - ILI9341驱动库 [链接](https://components.espressif.com/components/espressif/esp_lcd_ili9341)
 * esp_lcd_st7796 - ST7796 LCD驱动库 [链接](https://components.espressif.com/components/espressif/esp_lcd_st7796)
 * esp_lvgl_port - ESP32 LVGL库 [链接](https://components.espressif.com/components/espressif/esp_lvgl_port)
-* led_strip - LED灯珠库 [链接](https://components.espressif.com/components/espressif/led_strip)
 
 ### ESP32库引用
 * WebServer - 网站服务库
@@ -63,6 +62,7 @@ Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架�
 * TFT_eSPI - TFT-LCD屏显示开发库
 * GFX_Library - TFT-LCD屏显示开发库
 * OneButton - 按键库
+* Adafruit_NeoPixel - WS2812驱动库
 * ESP32-audioI2S - I2S音频库 （DEMO_MP3使用）
 
 ## 架构预览

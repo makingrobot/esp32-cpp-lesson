@@ -16,6 +16,7 @@
 #include "config.h"
 #include "src/ota/ota.h"
 #include "src/sys/timer.h"
+#include "src/peripheral/sensor_value.h"
 #include "device_state.h"
 #include "event_handler.h"
 #include "types.h"
@@ -49,8 +50,7 @@ public:
     // event.
     virtual bool OnPhysicalButtonEvent(const std::string& button_name, const ButtonAction action);
     virtual bool OnDisplayTouchEvent(const TouchPoint_t& point);
-    virtual bool OnSensorDataEvent(const std::string& sensor_name, int value) { }
-    virtual bool OnSensorDataEvent(const std::string& sensor_name, const std::string& sensor_value) { }
+    virtual bool OnSensorDataEvent(const std::string& sensor_name, const SensorValue& value) { }
 
     const std::string& GetLastErrorMessage() const { return last_error_message_; }
 

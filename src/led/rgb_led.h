@@ -5,56 +5,54 @@
  * Author: Billy Zhang（billy_zh@126.com）
  */
 #include "config.h"
-#if CONFIG_USE_LED_WS2812==1
+#if CONFIG_USE_LED_RGB==1
 
-#ifndef _WS2812_LED_H_
-#define _WS2812_LED_H_
+#ifndef _RGB_LED_H_
+#define _RGB_LED_H_
 
+#include "led.h"
 #include <driver/gpio.h>
 #include <atomic>
 #include <mutex>
-
-#include <Arduino.h>
-#include <Adafruit_NeoPixel.h>
-
-#include "led.h"
+#include <cstdint>
 #include "src/sys/timer.h"
+#include "src/sys/sw_timer.h"
 
 /**
- * Ws2812灯珠类
- * 使用idf组件 led-strip 驱动
+ * 三色LED
  */
-class Ws2812Led : public Led {
-public:
-    Ws2812Led(gpio_num_t gpio);
-    virtual ~Ws2812Led();
+class RgbLed : public Led {
+ public:
+    RgbLed(gpio_num_t r_pin, gpio_num_t g_pin, gpio_num_t b_pin, bool output_invert=false);
+    virtual ~RgbLed();
 
     void TurnOn() override;
     void TurnOff() override;
     void BlinkOnce() override;
     void Blink(int times, int interval_ms) override;
+    void SetBrightness(uint8_t brightness) override { }
     void SetColor(uint8_t r, uint8_t g, uint8_t b) override;
 
-    void SetBrightness(uint8_t brightness) override { }
     void OnBlinkTimer();
 
-private:
+ private:
     std::mutex mutex_;
-    gpio_num_t pin_;
-    TaskHandle_t blink_task_ = nullptr;
-    uint8_t r_ = 0, g_ = 0, b_ = 0;
+    gpio_num_t r_pin_;
+    gpio_num_t g_pin_;
+    gpio_num_t b_pin_;
+    bool output_invert_ = false;
+    uint8_t r_val_ = 0;
+    uint8_t g_val_ = 0;
+    uint8_t b_val_ = 0;
     int blink_counter_ = 0;
     int blink_interval_ms_ = 0;
     Timer* timer_ = nullptr;
-    Adafruit_NeoPixel *pixels = nullptr;
 
-    void StartContinuousBlink(int interval_ms);
     void StartBlinkTask(int times, int interval_ms);
+    void StartContinuousBlink(int interval_ms);
 
-    void Stop();
-    
 };
 
-#endif // _WS2812_LED_H_
+#endif  // _RGB_LED_H_
 
-#endif //CONFIG_USE_LED_WS2812
+#endif //CONFIG_USE_LED_RGB

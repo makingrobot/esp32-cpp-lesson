@@ -12,6 +12,7 @@
 
 #include "sensor.h"
 #include "src/sys/timer.h"
+#include "sensor_value.h"
 
 /**
  * 模拟量传感器
@@ -22,19 +23,21 @@ public:
     AnalogSensor(gpio_num_t pin);
     virtual ~AnalogSensor();
 
-    void OnNewData(std::function<void(int)> callback) { 
+    void OnNewData(std::function<void(const SensorValue&)> callback) { 
         on_newdata_callback_ = callback; 
     }
     void Start(uint32_t interval);
     void Stop();
 
-    void ReadData();
+    virtual void ReadData();
+
+protected:
+    std::function<void(const SensorValue&)> on_newdata_callback_;
 
 private:
     gpio_num_t sensor_pin_;
-    int sensor_val_;
+    SensorValue *sensor_val_;
     Timer* timer_ = nullptr;
-    std::function<void(int)> on_newdata_callback_;
 
 };
 
