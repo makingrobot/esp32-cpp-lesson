@@ -21,6 +21,11 @@
 
 #define TAG "WifiConfigurationImpl"
 
+void LogMiddleware::run(AsyncWebServerRequest *request, ArMiddlewareNext next) {
+    Log::Info(TAG, "handler: %s %s", request->methodToString(), request->url());
+    next();
+}
+
 WifiConfigurationImpl::~WifiConfigurationImpl() {
 
     if (web_server_!=nullptr) {
@@ -66,6 +71,7 @@ void WifiConfigurationImpl::LoadAdvancedConfig() {
 void WifiConfigurationImpl::StartWebServer() {
 
     web_server_ = new AsyncWebServer(80);
+    web_server_->addMiddleware(new LogMiddleware());
 
     BindSsidRoute();
 

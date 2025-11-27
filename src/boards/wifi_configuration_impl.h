@@ -16,6 +16,11 @@
 #include <freertos/task.h>
 #include "src/wifi/wifi_configuration.h"
 
+class LogMiddleware : public AsyncMiddleware {
+public:
+    void run(AsyncWebServerRequest *request, ArMiddlewareNext next) override;
+};
+
 class WifiConfigurationImpl : public WifiConfiguration {
 public:
     WifiConfigurationImpl() { }
