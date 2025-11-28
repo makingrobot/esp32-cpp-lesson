@@ -5,7 +5,7 @@
  * Author: Billy Zhang（billy_zh@126.com）
  */
 #include "config.h"
-#if CONFIG_WIFI_CONFIGURE_ENABLE==1
+#if CONFIG_WIFI_CONFIGURE_ASYNCWEBSERVER==1
 
 #include "wifi_configuration_impl.h"
 #include <WiFi.h>
@@ -20,11 +20,6 @@
 #include "wifi_configuration_html.h"
 
 #define TAG "WifiConfigurationImpl"
-
-void LogMiddleware::run(AsyncWebServerRequest *request, ArMiddlewareNext next) {
-    Log::Info(TAG, "handler: %s %s", request->methodToString(), request->url());
-    next();
-}
 
 WifiConfigurationImpl::~WifiConfigurationImpl() {
 
@@ -71,7 +66,6 @@ void WifiConfigurationImpl::LoadAdvancedConfig() {
 void WifiConfigurationImpl::StartWebServer() {
 
     web_server_ = new AsyncWebServer(80);
-    web_server_->addMiddleware(new LogMiddleware());
 
     BindSsidRoute();
 
@@ -267,4 +261,4 @@ void WifiConfigurationImpl::BindAdvancedRoute() {
     LoadAdvancedConfig();
 }
 
-#endif //CONFIG_WIFI_CONFIGURE_ENABLE
+#endif //CONFIG_WIFI_CONFIGURE_ASYNCWEBSERVER
