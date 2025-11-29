@@ -7,23 +7,23 @@
 #include <Arduino.h>
 #include <U8g2lib.h>
 #include <Wire.h>
-#include "src/display/u8g2_display.h"
+#include "src/framework/display/u8g2_display.h"
 #endif
 #if CONFIG_USE_TFT_ESPI==1
 #include <Arduino.h>
 #include <TFT_eSPI.h>
 #include <SPI.h>
-#include "src/display/tft_display.h"
+#include "src/framework/display/tft_display.h"
 #endif
 
-#include "src/sys/system_reset.h"
-#include "src/boards/board.h"
-#include "src/boards/i2c_device.h"
-#include "src/led/gpio_led.h"
+#include "src/framework/sys/system_reset.h"
+#include "src/framework/board/board.h"
+#include "src/framework/board/i2c_device.h"
+#include "src/framework/led/gpio_led.h"
 
 #if CONFIG_USE_LVGL==1
-#include "src/display/lcd_driver.h"
-#include "src/display/drivers/ili9341/ili9341_driver.h"
+#include "src/framework/display/lcd_driver.h"
+#include "src/framework/display/drivers/ili9341/ili9341_driver.h"
 #endif
 
 #define TAG "BOARD_IOT_DEVKIT_SUIT"
