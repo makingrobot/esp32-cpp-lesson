@@ -36,6 +36,8 @@ void TftDisplay::Unlock() {
 void TftDisplay::Init() {
     Log::Info(TAG, "Init ......");
 
+    driver_->begin();
+    
     if (window_ == nullptr) {
         window_ = new TftWindow();
     }
@@ -50,7 +52,7 @@ void TftDisplay::SetStatus(const std::string& status) {
 
 void TftDisplay::SetText(const std::string& text) {
     if (window_!=nullptr) {
-        window_->SetText(text);
+        window_->SetText(1, text);
     }
 }
 

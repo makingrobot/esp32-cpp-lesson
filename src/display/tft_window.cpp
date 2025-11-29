@@ -12,7 +12,6 @@
 void TftWindow::Setup(TFT_eSPI* driver) {
     driver_ = driver;
 
-    driver_->setRotation(3);
     driver_->fillScreen(TFT_BLACK);
     driver_->setTextColor(TFT_WHITE);
 }
@@ -24,11 +23,16 @@ void TftWindow::SetStatus(const std::string& status) {
     driver_->println(status_.c_str());
 }
 
-void TftWindow::SetText(const std::string& text) {
-    text_ = text;
+void TftWindow::SetText(uint8_t line, const std::string& text) {
+    if (line > text_line_.size()) {
+        text_line_.resize(line);
+    }
+    text_line_[line-1] = text;
 
     driver_->setCursor(4, 60, 4);
-    driver_->println(text_.c_str());
+    for (const std::string& str : text_line_) {
+        driver_->println(str.c_str());
+    }
 }
 
 #endif //CONFIG_USE_TFT_ESPI

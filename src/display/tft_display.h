@@ -18,8 +18,10 @@ class TftDisplay : public Display {
 public:
     TftDisplay(TFT_eSPI *driver_, int width, int height);
 
-    void SetWindow(TftWindow* window);
     void Init() override;
+
+    void SetWindow(TftWindow* window);
+    TftWindow* GetWindow() { return window_; }
     
     void SetStatus(const std::string& status) override;
     void SetText(const std::string& text) override;

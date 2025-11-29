@@ -12,6 +12,7 @@
 
 #include <TFT_eSPI.h>
 #include <string>
+#include <vector>
 
 class TftWindow {
 public:
@@ -19,13 +20,13 @@ public:
 
     virtual void Setup(TFT_eSPI* driver);
     virtual void SetStatus(const std::string& status);
-    virtual void SetText(const std::string& text);
+    virtual void SetText(uint8_t line, const std::string& text);
    
 private:
 
     TFT_eSPI* driver_ = nullptr;
     std::string status_ = "";
-    std::string text_ = "";
+    std::vector<std::string> text_line_(5);
 };
 
 #endif //TFT_WINDOW_H
