@@ -37,4 +37,7 @@ public:
     ~PwmBacklight();
 
     void SetBrightnessImpl(uint8_t brightness) override;
+private:
+    gpio_num_t pin_;
+
 };
