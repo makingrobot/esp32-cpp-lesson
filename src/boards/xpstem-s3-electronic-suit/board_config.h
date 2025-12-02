@@ -107,6 +107,9 @@
 #define CONFIG_USE_LED_RGB                  0
 #define CONFIG_USE_LED_WS2812               0
 
+// 使用ESP_LOG（与USB串口特性相关）
+#define CONFIG_USE_ESP_LOG                  0
+
 #endif // _BOARD_CONFIG_H
 
 #endif

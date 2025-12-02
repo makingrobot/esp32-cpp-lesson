@@ -16,12 +16,12 @@
 class GfxApplication : public Application {
 public:
     GfxApplication();
-    ~GfxApplication();
     
-    void OnInit() override;
-
     const std::string& GetAppName() const override { return "DEMO_GFX"; }
     const std::string& GetAppVersion() const override { return "1.0.0"; }
+
+protected:
+    void OnInit() override;
 
 private:
     BenchmarkWindow* window_;

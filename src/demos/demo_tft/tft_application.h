@@ -17,10 +17,11 @@ public:
     TftApplication();
     ~TftApplication();
     
-    void OnInit() override;
-
     const std::string& GetAppName() const override { return "DEMO_TFT"; }
     const std::string& GetAppVersion() const override { return "1.0.0"; }
+
+protected:
+    void OnInit() override;
 
 private:
 

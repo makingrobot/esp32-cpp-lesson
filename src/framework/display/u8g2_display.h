@@ -23,6 +23,8 @@ public:
     
     void SetStatus(const std::string& status) override;
     void SetText(const std::string& text) override;
+    void UpdateStatusBar(bool update_all = false) override { }
+    void ShowNotification(const std::string &notification, int duration_ms = 3000) override { }
     void Sleep() override;
    
     void SetWindow(U8g2Window* window);
