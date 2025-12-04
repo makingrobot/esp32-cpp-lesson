@@ -84,7 +84,7 @@ void XPSTEM_JC4827W543::InitializeDisplay() {
 
 #if CONFIG_USE_LVGL==1
     Log::Info( TAG, "Create Lvgl display." );
-    GfxLvglDriver* driver = new GfxLvglDriver(gfx_canvas_, DISPLAY_WIDTH, DISPLAY_HEIGHT);
+    GfxLvglDriver* driver = new GfxLvglDriver(gfx_graphics_, DISPLAY_WIDTH, DISPLAY_HEIGHT);
     display_ = new LvglDisplay(driver, {
                                     .text_font = &font_puhui_20_4,
                                     .icon_font = &font_awesome_16_4,

@@ -78,7 +78,7 @@
 #define CONFIG_USE_CAMERA                   0   // 摄像头
 
 // LVGL
-#define CONFIG_USE_LVGL                     0  // LVGL
+#define CONFIG_USE_LVGL                     1  // LVGL
 #define LV_LVGL_H_INCLUDE_SIMPLE            0
 
 // 图形化（最多设置一个为1，其余必须为0）
