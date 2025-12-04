@@ -15,7 +15,9 @@
 #include <esp_heap_caps.h>
 #include <cstring>
 
+#if CONFIG_USE_LCD_PANEL==1
 #include "src/libs/esp_lvgl_port/esp_lvgl_port.h"
+#endif
 
 #include "../sys/log.h"
 #include "../sys/settings.h"
@@ -50,9 +52,6 @@ LvglDisplay::LvglDisplay(DispDriver* driver, DisplayFonts fonts)
         current_theme_ = LIGHT_THEME;
     }
 
-    driver_->Init();
-
-    statusbar_ = new LvglStatusBar();
 }
 
 LvglDisplay::~LvglDisplay() {
@@ -73,6 +72,11 @@ LvglDisplay::~LvglDisplay() {
 
 void LvglDisplay::Init() {
     Log::Info(TAG, "Init ......");
+
+    driver_->Init();
+    
+    statusbar_ = new LvglStatusBar();
+    
     SetupUI();
 
     if (window_ == nullptr) {
@@ -80,6 +84,10 @@ void LvglDisplay::Init() {
     }
 
     window_->SetupUI(container_, current_theme_, fonts_);    
+}
+
+void LvglDisplay::Rotate(uint8_t rotation) {
+
 }
 
 void LvglDisplay::SetWindow(LvglWindow* window) {
@@ -126,11 +134,18 @@ void LvglDisplay::SetupUI() {
 }
 
 bool LvglDisplay::Lock(int timeout_ms) {
+#if CONFIG_USE_LCD_PANEL==1
     return lvgl_port_lock(timeout_ms);
+#else
+    return true;
+#endif
 }
 
 void LvglDisplay::Unlock() {
+#if CONFIG_USE_LCD_PANEL==1
     lvgl_port_unlock();
+#else
+#endif
 }
 
 void LvglDisplay::SetTheme(const std::string& theme_name) {

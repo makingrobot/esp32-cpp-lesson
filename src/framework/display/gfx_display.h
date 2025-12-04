@@ -19,6 +19,7 @@ public:
     GfxDisplay(Arduino_GFX *driver_, int width, int height);
 
     void Init() override;
+    void Rotate(uint8_t rotation) override;
     
     void SetStatus(const std::string& status) override;
     void SetText(const std::string& text) override;

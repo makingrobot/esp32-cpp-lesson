@@ -19,6 +19,7 @@ public:
     TftDisplay(TFT_eSPI *driver_, int width, int height);
 
     void Init() override;
+    void Rotate(uint8_t rotation) override;
 
     void SetWindow(TftWindow* window);
     TftWindow* GetWindow() { return window_; }

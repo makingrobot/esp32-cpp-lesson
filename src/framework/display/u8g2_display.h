@@ -20,6 +20,7 @@ public:
     U8g2Display(U8G2* u8g2, int width, int height, const uint8_t* fonts);
 
     void Init() override;
+    void Rotate(uint16_t rotation) override;
     
     void SetStatus(const std::string& status) override;
     void SetText(const std::string& text) override;

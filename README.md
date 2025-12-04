@@ -23,7 +23,7 @@ Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架�
 |:--------------------------|:-------:|:--------:|:--------:|:--------:|:---------:|
 | 小鹏ESP32-S3 2.8寸开发板 [链接](https://www.xpstem.com/product/board-esp32s3-tft280)  | OK &#x2705;  |      |      |         | OK &#x2705;  |
 | 小鹏ESP32-S3 创意电子套件 [链接](https://www.xpstem.com/product/xp-esp32s3-electronic-suit)  | OK  &#x2705;  |     |      |        | OK  &#x2705;  |
-| 小鹏ESP32 物联网开发套件 [链接](https://www.xpstem.com/product/iot-devkit-suit)  | OK  &#x2705; |      | OK  &#x2705;  | OK  &#x2705;   |          |
+| 小鹏ESP32 物联网开发套件 [链接](https://www.xpstem.com/product/iot-devkit-suit)  | OK  &#x2705; | OK  &#x2705; | OK  &#x2705;  | OK  &#x2705;   |          |
 | MatrixBit3 [链接](https://www.xpstem.com/product/matrixbit-v3)  |     |    | OK  &#x2705;   |         |      |
 | 小鹏ESP32-S3 4.3寸开发板   |    |  OK  &#x2705;   |     |         |      |
 

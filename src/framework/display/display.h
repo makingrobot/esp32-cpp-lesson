@@ -15,7 +15,14 @@
 
 class Display {
 public:
+    /**
+     * 初始化处理
+     */
     virtual void Init() = 0;
+    /**
+     * 旋转屏幕
+     */
+    virtual void Rotate(uint8_t rotation) = 0;
 
     virtual void SetStatus(const std::string& status) = 0;
     virtual void SetText(const std::string& text) = 0;
@@ -59,7 +66,9 @@ private:
         return true;
     }
     void Unlock() override {}
-    void Init() override {}
+
+    void Init() override { }
+    void Rotate(uint8_t rotation) override { }
     void SetStatus(const std::string& status) override { }
     void SetText(const std::string& text) override { }
     void UpdateStatusBar(bool update_all = false) override { }

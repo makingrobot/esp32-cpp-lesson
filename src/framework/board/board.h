@@ -11,6 +11,7 @@
 #include <map>
 #include <cstdint>
 #include <driver/i2c_master.h>
+#include <freertos/FreeRTOS.h>
 
 #include "config.h"
 #include "../led/led.h"

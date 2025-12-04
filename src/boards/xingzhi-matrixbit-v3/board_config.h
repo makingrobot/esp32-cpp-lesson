@@ -5,7 +5,11 @@
 
 #include <driver/gpio.h>
 
+//*******************************************************************
 // 芯片： ESP32-S3 N16R8
+//
+//
+//*******************************************************************
 
 #ifndef ARDUINO_ESP32S3_DEV
 #error "开发板设置错误，请指定为ESP32S3-DEV。"
@@ -120,7 +124,7 @@
 #define CONFIG_USE_LED_RGB                  0
 #define CONFIG_USE_LED_WS2812               0
 
-// 使用ESP_LOG（与USB串口特性相关）
+// 使用ESP_LOG（无串口转换芯片设置为1）
 #define CONFIG_USE_ESP_LOG                  0
 
 #endif //_BOARD_CONFIG_H

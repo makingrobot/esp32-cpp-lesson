@@ -51,6 +51,7 @@ public:
     virtual ~LvglDisplay();
 
     void Init() override;
+    void Rotate(uint8_t rotation) override;
     
     void SetWindow(LvglWindow* window);
     LvglWindow* GetWindow() { return window_; }

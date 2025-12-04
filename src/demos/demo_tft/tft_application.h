@@ -11,11 +11,11 @@
 #define _TFT_APPLICATION_H
 
 #include "src/framework/app/application.h"
+#include "test_window.h"
 
 class TftApplication : public Application {
 public:
     TftApplication();
-    ~TftApplication();
     
     const std::string& GetAppName() const override { return "DEMO_TFT"; }
     const std::string& GetAppVersion() const override { return "1.0.0"; }
@@ -24,7 +24,8 @@ protected:
     void OnInit() override;
 
 private:
-
+    TestWindow* window_ = nullptr;
+    
 };
 
 #endif //_TFT_APPLICATION_H

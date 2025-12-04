@@ -10,6 +10,7 @@
 #ifndef _GFX_APPLICATION_H
 #define _GFX_APPLICATION_H
 
+#include <freertos/FreeRTOS.h>
 #include "src/framework/app/application.h"
 #include "benchmark_window.h"
 
@@ -25,6 +26,7 @@ protected:
 
 private:
     BenchmarkWindow* window_;
+    TaskHandle_t lvgl_task_handle_;
     
 };
 
