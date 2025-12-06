@@ -35,8 +35,8 @@ private:
     Board(const Board&) = delete; // 禁用拷贝构造函数
     Board& operator=(const Board&) = delete; // 禁用赋值操作
 
-    std::map<std::string, Actuator*> actuator_map_; //执行器外设列列表
-    std::map<std::string, Sensor*> sensor_map_; //传感器外设列表
+    std::map<std::string, std::shared_ptr<Actuator>> actuator_map_; //执行器外设列列表
+    std::map<std::string, std::shared_ptr<Sensor>> sensor_map_; //传感器外设列表
 
 protected:
     Board();
@@ -48,10 +48,10 @@ protected:
     virtual void EnterSleepMode();
     virtual void ExitSleepMode();
 
-    virtual void AddActuator(const std::string& name, Actuator* actuator) {
+    virtual void AddActuator(const std::string& name, std::shared_ptr<Actuator> actuator) {
         actuator_map_[name] = actuator;
     }
-    virtual void AddSensor(const std::string& name, Sensor* sensor) {
+    virtual void AddSensor(const std::string& name, std::shared_ptr<Sensor> sensor) {
         sensor_map_[name] = sensor;
     }
    
@@ -87,7 +87,7 @@ public:
     virtual Time* GetTime() { return nullptr; }
 
     // 查找执行器外设
-    virtual Actuator* GetActuator(const std::string& name) {
+    virtual std::shared_ptr<Actuator> GetActuator(const std::string& name) {
         auto it = actuator_map_.find(name);
         if (it != actuator_map_.end()) {
             return it->second;
@@ -96,7 +96,7 @@ public:
     }
 
     // 查找传感器外设
-    virtual Sensor* GetSensor(const std::string& name) {
+    virtual std::shared_ptr<Sensor> GetSensor(const std::string& name) {
         auto it = sensor_map_.find(name);
         if (it != sensor_map_.end()) {
             return it->second;

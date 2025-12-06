@@ -54,13 +54,25 @@ AdcBatteryMonitor::AdcBatteryMonitor(gpio_num_t charging_pin, adc_unit_t adc_uni
         .bitwidth = ADC_BITWIDTH_12,
     };   
     adc_oneshot_config_channel(adc_handle_, adc_channel_, &channel_config);
-    //init adc cal
+
+    esp_err_t ret;
+#if ADC_CALI_SCHEME_CURVE_FITTING_SUPPORTED
     adc_cali_curve_fitting_config_t cali_config = {
+        .unit_id = adc_unit,
+        .chan = adc_channel_,
+        .atten = ADC_ATTEN_DB_12,
+        .bitwidth = ADC_BITWIDTH_12,
+    };
+    ret = adc_cali_create_scheme_curve_fitting(&cali_config, &adc_cali_handle_);
+#elif ADC_CALI_SCHEME_LINE_FITTING_SUPPORTED
+    adc_cali_line_fitting_config_t cali_config = {
         .unit_id = adc_unit,
         .atten = ADC_ATTEN_DB_12,
         .bitwidth = ADC_BITWIDTH_12,
     };
-    esp_err_t ret = adc_cali_create_scheme_curve_fitting(&cali_config, &adc_cali_handle_);
+    ret = adc_cali_create_scheme_line_fitting(&cali_config, &adc_cali_handle_);
+#endif
+
     if(ret == ESP_OK)
     {
         Log::Info(TAG, "adc calibration scheme create successfully!!");

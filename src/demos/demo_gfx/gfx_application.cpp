@@ -29,10 +29,10 @@ GfxApplication::GfxApplication() : Application() {
 #if CONFIG_USE_LVGL==1
     // lvgl
 #else
-    window_ = new BenchmarkWindow();
+    // window_ = new BenchmarkWindow();
 
-    GfxDisplay* display = (GfxDisplay*)Board::GetInstance().GetDisplay();
-    display->SetWindow(window_);
+    // GfxDisplay* display = (GfxDisplay*)Board::GetInstance().GetDisplay();
+    // display->SetWindow(window_);
 #endif
 }
 
@@ -53,13 +53,13 @@ void GfxApplication::OnInit() {
     board.GetDisplay()->SetStatus("Work");
     board.GetDisplay()->SetText("Hello world!");
 #else
-    // Board& board = Board::GetInstance();
-    // board.GetDisplay()->SetStatus("Work");
-    // board.GetDisplay()->SetText("Hello world!");
-    GfxDisplay* display = (GfxDisplay*)Board::GetInstance().GetDisplay();
-    display->Rotate(1);
+    Board& board = Board::GetInstance();
+    board.GetDisplay()->SetStatus("Work");
+    board.GetDisplay()->SetText("Hello world!");
+    // GfxDisplay* display = (GfxDisplay*)Board::GetInstance().GetDisplay();
+    // display->Rotate(1);
 
-    window_->Start();
+    // window_->Start();
 #endif
     
 }

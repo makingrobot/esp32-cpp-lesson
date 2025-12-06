@@ -10,9 +10,9 @@
 #include <functional>
 #include <vector>
 #include <driver/gpio.h>
-#include <esp_adc/adc_oneshot.h>
-#include <esp_adc/adc_cali.h>
-#include <esp_adc/adc_cali_scheme.h>
+#include "esp_adc/adc_oneshot.h"
+#include "esp_adc/adc_cali.h"
+#include "esp_adc/adc_cali_scheme.h"
 #include "../sys/timer.h"
 
 typedef struct {

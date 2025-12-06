@@ -26,16 +26,17 @@
 
 #if CONFIG_USE_TFT_ESPI==1
 #include <TFT_eSPI.h>
+#include "src/framework/display/backlight.h"
 #endif
 
 #if CONFIG_USE_GFX_LIBRARY==1
 #include <Arduino_GFX_Library.h>
+#include "src/framework/display/backlight.h"
 #endif
 
 #if CONFIG_USE_LCD_PANEL==1
 #include "src/framework/display/backlight.h"
 #include "src/framework/display/disp_driver.h"
-#include "src/framework/display/lvgl_display.h"
 #endif
 
 #include "board_config.h"
@@ -87,7 +88,7 @@ public:
     Backlight* GetBacklight() override { return backlight_; }
 #endif
 
-#if CONFIG_USE_LCD_PANEL==1
+#if CONFIG_USE_LVGL==1
     DispDriver* GetDispDriver() override { return disp_driver_; }
 #endif
 };

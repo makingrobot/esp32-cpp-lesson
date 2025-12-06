@@ -23,16 +23,16 @@ Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架�
 |:--------------------------|:-------:|:--------:|:--------:|:--------:|:---------:|
 | 小鹏ESP32-S3 2.8寸开发板 [链接](https://www.xpstem.com/product/board-esp32s3-tft280)  | OK &#x2705;  |      |      |         | OK &#x2705;  |
 | 小鹏ESP32-S3 创意电子套件 [链接](https://www.xpstem.com/product/xp-esp32s3-electronic-suit)  | OK  &#x2705;  |     |      |        | OK  &#x2705;  |
-| 小鹏ESP32 物联网开发套件 [链接](https://www.xpstem.com/product/iot-devkit-suit)  | OK  &#x2705; | OK  &#x2705; | OK  &#x2705;  | OK  &#x2705;   |          |
+| 小鹏ESP32 物联网开发套件 [链接](https://www.xpstem.com/product/iot-devkit-suit)  | OK  &#x2705;<br/> OK  &#x2705;(GFX) | OK  &#x2705; | OK  &#x2705;  | OK  &#x2705;   |          |
 | MatrixBit3 [链接](https://www.xpstem.com/product/matrixbit-v3)  |     |    | OK  &#x2705;   |         |      |
-| 小鹏ESP32-S3 4.3寸开发板   |    |  OK  &#x2705;   |     |         |      |
+| 小鹏ESP32-S3 4.3寸开发板   | OK  &#x2705;(GFX) |  OK  &#x2705;   |     |         |      |
 
 
 ### 三、运行DEMO
 
 ### 若本开发框架内置了你的开发板
 
-1. 打开config.h文件，找到开发板，将定义值修改为1
+1. 打开config.h文件，找到开发板型号，将定义值修改为1
 
 2. 将要运行应用 APP_DEMO_xxx 的值修改为1
 
@@ -42,7 +42,7 @@ Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架�
 
 ### 若本开发框架未内置你的开发板
 
-1. 在boards文件夹创建一个目录，如youe_board，新建一个继承WifiBoard类（若不使用WiFi功能，也可以继承Board类）的自定义开发板类，然后实现Led、显示、音频等设备的驱动
+1. 在boards文件夹创建一个目录，如your_board，新建一个继承WifiBoard类（若不使用WiFi功能，也可以继承Board类）的自定义开发板类，然后实现Led、显示、音频等设备的驱动
 
 2. 打开config.h文件，将要运行应用 APP_DEMO_xxx 的值修改为1
 

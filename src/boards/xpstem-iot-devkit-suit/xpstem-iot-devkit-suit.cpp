@@ -80,8 +80,7 @@ void XPSTEM_IOT_DEVKIT_SUIT::InitializeDisplay() {
      * 请在TFT_eSPI库包内的User_Setup.h中配置引脚
      */
     tft_espi_ = new TFT_eSPI(DISPLAY_WIDTH, DISPLAY_HEIGHT);
-    //tft_espi_->setRotation(DISPLAY_ROTATION);
-    //tft->invertDisplay(DISPLAY_INVERT_COLOR);
+    //tft_espi_->invertDisplay(DISPLAY_INVERT_COLOR);
     
     //u8g2_font_unifont_t_chinese2
     display_ = new TftDisplay(tft_espi_, DISPLAY_WIDTH, DISPLAY_HEIGHT);

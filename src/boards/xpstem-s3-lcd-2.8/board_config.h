@@ -122,6 +122,9 @@
 // 使用ESP_LOG（无串口转换芯片设置为1）
 #define CONFIG_USE_ESP_LOG                  1
 
+#define ADC_CALI_SCHEME_LINE_FITTING_SUPPORTED  1
+//#define ADC_CALI_SCHEME_CURVE_FITTING_SUPPORTED  1
+
 #endif //_BOARD_CONFIG_H
 
 #endif
