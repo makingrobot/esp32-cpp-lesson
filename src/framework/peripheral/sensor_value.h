@@ -21,6 +21,8 @@ public:
     const std::string& stringValue() const { return string_val_; }
     void setStringValue(const std::string& string_val) { string_val_ = string_val; }
 
+    const uint32_t ulongValue() const { return ulong_val_; }
+    void setUlongValue(uint32_t ulong_val) { ulong_val_ = ulong_val; }
 
 private:
     int int_val_;
@@ -31,6 +33,7 @@ private:
     
     std::string string_val_;
 
+    uint32_t ulong_val_;
 };
 
 #endif //_SENSOR_VALUE_H

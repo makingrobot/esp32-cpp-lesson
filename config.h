@@ -7,67 +7,62 @@
 #ifndef _CONFIG_H
 #define _CONFIG_H
 
-//////////////////////////////////////////////////////////////////////////////////
-// 开发板（只能设置一个为1，其余必须为0）
+#define APP_LESSON43        1
 
-#define BOARD_XPSTEM_S3_LCD_2_80            0  // ESP32-S3 2.8寸显示屏开发板（带音频编解码）
-#define BOARD_XPSTEM_IOT_DEVKIT_SUIT        0  // 小鹏IoT开发套件
-#define BOARD_XPSTEM_S3_ELECTRONIC_SUIT     0   // 小鹏ESP32-S3创意电子套件
-#define BOARD_XINGZHI_MATRIXBIT_V3          0   // Matrixbit V3
-#define BOARD_XPSTEM_JC4827W543             0  // ESP32-S3 4.3寸显示屏开发板
+/********** Unit1 **********/
+#if APP_LESSON01 == 1
+#define BOARD_LESSON01      1
+#include "src/lessons/unit1-lesson01/app_config.h"
+#include "src/lessons/unit1-lesson01/board_config.h"
 
-//////////////////////////////////////////////////////////////////////////////////
-// 应用（至多设置一个为1，其余必须为0）
+/********** Unit2 **********/
+#elif APP_LESSON21 == 1
+#define BOARD_LESSON21      1
+#include "src/lessons/unit2-lesson21/app_config.h"
+#include "src/lessons/unit2-lesson21/board_config.h"
 
-#define APP_DEMO_LVGL                       0   // LVGL显示DEMO
-#define APP_DEMO_TFT                        0   // TFT_eSPI显示DEMO
-#define APP_DEMO_GFX                        0   // TFT_eSPI显示DEMO
-#define APP_DEMO_U8G2                       0   // SSD1306 + U8G2 显示DEMO
-#define APP_DEMO_AUDIO                      0   // 音频播放，需要音频外设
+#elif APP_LESSON22 == 1
+#define BOARD_LESSON22      1
+#include "src/lessons/unit2-lesson22/app_config.h"
+#include "src/lessons/unit2-lesson22/board_config.h"
 
-// 扩展
-#if __has_include("config_ext.h")
-#include "config_ext.h"
-#endif
+#elif APP_LESSON23 == 1
+#define BOARD_LESSON23      1
+#include "src/lessons/unit2-lesson23/app_config.h"
+#include "src/lessons/unit2-lesson23/board_config.h"
 
+/********** Unit3 **********/
+#elif APP_LESSON31 == 1
+#define BOARD_LESSON31      1
+#include "src/lessons/unit3-lesson31/app_config.h"
+#include "src/lessons/unit3-lesson31/board_config.h"
 
-//////////////////////////////////////////////////////////////////////////////////
-// 开发板配置
-#if BOARD_XPSTEM_S3_LCD_2_80 == 1
-#include "src/boards/xpstem-s3-lcd-2.8/board_config.h"
+#elif APP_LESSON32 == 1
+#define BOARD_LESSON32      1
+#include "src/lessons/unit3-lesson32/app_config.h"
+#include "src/lessons/unit3-lesson32/board_config.h"
 
-#elif BOARD_XPSTEM_IOT_DEVKIT_SUIT == 1
-#include "src/boards/xpstem-iot-devkit-suit/board_config.h"
+#elif APP_LESSON33 == 1
+#define BOARD_LESSON33      1
+#include "src/lessons/unit3-lesson33/app_config.h"
+#include "src/lessons/unit3-lesson33/board_config.h"
 
-#elif BOARD_XPSTEM_S3_ELECTRONIC_SUIT == 1
-#include "src/boards/xpstem-s3-electronic-suit/board_config.h"
+/********** Unit4 **********/
+#elif APP_LESSON41 == 1
+#define BOARD_LESSON41      1
+#include "src/lessons/unit4-lesson41/app_config.h"
+#include "src/lessons/unit4-lesson41/board_config.h"
 
-#elif BOARD_XINGZHI_MATRIXBIT_V3 == 1
-#include "src/boards/xingzhi-matrixbit-v3/board_config.h"
+#elif APP_LESSON42 == 1
+#define BOARD_LESSON42      1
+#include "src/lessons/unit4-lesson42/app_config.h"
+#include "src/lessons/unit4-lesson42/board_config.h"
 
-#elif BOARD_XPSTEM_JC4827W543 == 1
-#include "src/boards/xpstem-jc4827w543/board_config.h"
-
-#endif
-
-//////////////////////////////////////////////////////////////////////////////////
-// 应用配置
-#if APP_DEMO_LVGL == 1
-#include "src/demos/demo_lvgl/app_config.h"
-
-#elif APP_DEMO_TFT == 1
-#include "src/demos/demo_tft/app_config.h"
-
-#elif APP_DEMO_GFX == 1
-#include "src/demos/demo_gfx/app_config.h"
-
-#elif APP_DEMO_U8G2 == 1
-#include "src/demos/demo_u8g2/app_config.h"
-
-#elif APP_DEMO_AUDIO == 1
-#include "src/demos/demo_audio/app_config.h"
+#elif APP_LESSON43 == 1
+#define BOARD_LESSON43      1
+#include "src/lessons/unit4-lesson43/app_config.h"
+#include "src/lessons/unit4-lesson43/board_config.h"
 
 #endif
-
 
 #endif //_CONFIG_H

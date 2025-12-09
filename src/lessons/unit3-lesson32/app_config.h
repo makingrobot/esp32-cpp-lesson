@@ -1,0 +1,13 @@
+#if APP_LESSON32==1
+
+#ifndef _APP_CONFIG_H
+#define _APP_CONFIG_H
+
+//////////////////////////////////////////////////////////////////////////////////
+// 特性
+
+
+
+#endif //_APP_CONFIG_H
+
+#endif

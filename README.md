@@ -1,65 +1,53 @@
-# ESP32 Arduino Framework
-Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架。
+# ESP32 Cpp-Lesson
+ESP32 C++ 教程，基于ESP32-Arduino-Framework应用开发框架。
 
 [开发框架说明](FRAMEWORK.md)
 
-[项目说明](PROJECT.md) (*用于Fork项目*)
+### Unit1 基础知识
+* 1-1 C++类
+* 1-2 继承和多态
+* 1-3 Application和Board类
+* 1-4 多线程
 
-## 一、概要
+### Unit2 LED（LED类） 
+* 2-1 点亮LED
+* 2-2 三色LED
+* 2-3 WS2812灯珠（NeoPixels）
 
-`ESP32 Arduino Framework`是专门针对ESP32开发板的Arduino应用开发框架，为用户开发IOT应用、HMI应用提供一致的开发体验。
-目前支持以下功能:
-* 提供常用LCD、OLED显示屏设备的驱动
-* 提供常用音频编解码器设备的驱动
-* 提供LED、灯珠等设备的驱动
-* 提供统一的抽象化接口来操作UI、音频编解码等
-* 提供WiFi信息配置界面
-* 提供OTA在线升级
-* 内置支持LVGL、TFT_eSPI、U8G2、GFX_Library图形化开发库
+### Unit3 输入（Button类）
+* 3-1 按键（知识点：按键信号转换、OneButton库、匿名函数、硬件与软件的推荐交互流程）
+* 3-2 触摸输入（知识点：FreeRTOS任务）
+* 3-3 触摸输入中断（知识点：中断处理）
 
-## 二、DEMO和内置开发板
+### Unit4 传感器（Sensor类）
+* 4-1 触控传感器（知识点：数字量传感器使用、智能指针、C++标准集集合使用、传感器的推荐交互流程）
+* 4-2 温湿度传感器（知识点：自定义传感器类、DHT11库）
+* 4-3 红外遥控
 
-|                           | DEMO_LVGL | DEMO_GFX | DEMO_TFT | DEMO_U8G2 | DEMO_AUDIO |
-|:--------------------------|:-------:|:--------:|:--------:|:--------:|:---------:|
-| 小鹏ESP32-S3 2.8寸开发板 [链接](https://www.xpstem.com/product/board-esp32s3-tft280)  | OK &#x2705;  |      |      |         | OK &#x2705;  |
-| 小鹏ESP32-S3 创意电子套件 [链接](https://www.xpstem.com/product/xp-esp32s3-electronic-suit)  | OK  &#x2705;  |     |      |        | OK  &#x2705;  |
-| 小鹏ESP32 物联网开发套件 [链接](https://www.xpstem.com/product/iot-devkit-suit)  | OK  &#x2705;<br/> OK  &#x2705;(GFX) | OK  &#x2705; | OK  &#x2705;  | OK  &#x2705;   |          |
-| MatrixBit3 [链接](https://www.xpstem.com/product/matrixbit-v3)  |     |    | OK  &#x2705;   |         |      |
-| 小鹏ESP32-S3 4.3寸开发板   | OK  &#x2705;(GFX) |  OK  &#x2705;   |     |         |      |
+### Unit6 执行器件（Actuator类）
+* 5-1 继电器
+* 5-2 电机驱动
 
+### Unit5 定时器（Timer类）
+* 6-1 软件定时器
+* 6-2 硬件定时器（Tinker）
 
-### 三、运行DEMO
+### Unit7 显示器件（Display类）
+* 7-1 7段式显示屏
+* 7-2 SSD显示屏（U8G2）
+* 7-3 TFT-LCD显示屏（TFT_eSPI）
 
-### 若本开发框架内置了你的开发板
+### Unit8 网络（WiFiStation类）
+* 8-1 WiFi连接
+* 8-2 Web服务（WebServer）
+* 8-3 在网页上控制设备
 
-1. 打开config.h文件，找到开发板型号，将定义值修改为1
+### Unit9 存储（FileSystem类）
+* 9-1 Flash存储
+* 9-2 SD存储（SD）
 
-2. 将要运行应用 APP_DEMO_xxx 的值修改为1
-
-3. 设置开发板的型号、FLASH大小、PSRAM、分区等选项
-
-4. 编译并上传运行
-
-### 若本开发框架未内置你的开发板
-
-1. 在boards文件夹创建一个目录，如your_board，新建一个继承WifiBoard类（若不使用WiFi功能，也可以继承Board类）的自定义开发板类，然后实现Led、显示、音频等设备的驱动
-
-2. 打开config.h文件，将要运行应用 APP_DEMO_xxx 的值修改为1
-
-3. 设置开发板的型号、FLASH大小、PSRAM、分区等选项
-
-4. 编译并上传运行
-
-## 四、基于本框架的应用
-* 小鹏AI语音机器人 
-[产品链接](https://www.xpstem.com/product/xp-aichat-bot-2.8/) 
-[源码链接](https://gitee.com/billyzh/XiaoZhi-Arduino)
-
-* 小鹏IoT自动浇花套件 
-[产品链接](https://www.xpstem.com/product/auto-watering/)
-[源码链接](https://gitee.com/billyzh/auto-watering)
-
-若你的开源应用使用了本框架并想显示在这里，请联系vx: billy_zh
+### Unit10 音频（AudioCodec类）
+* 10-1 I2S
 
 -----
 【&#x1f44d;赞赏&#x1f44d;】

@@ -9,29 +9,46 @@
 
 #include "config.h"
 
-#if __has_include("board_def_ext.h")
-#include "board_def_ext.h"
-#endif
+#if BOARD_LESSON01 == 1
+#define BOARD_NAME "lesson01-board"
+#include "src/lessons/unit1-lesson01/my_board.h"
 
-#if BOARD_XPSTEM_S3_LCD_2_80 == 1
-#define BOARD_NAME "xpstem-s3-lcd-2.80"
-#include "src/boards/xpstem-s3-lcd-2.8/xpstem-s3-lcd-2.8.h"
+#elif BOARD_LESSON21 == 1
+#define BOARD_NAME "lesson21-board"
+#include "src/lessons/unit2-lesson21/my_board.h"
 
-#elif BOARD_XPSTEM_IOT_DEVKIT_SUIT == 1
-#define BOARD_NAME "xpstem-iot-devkit-suit"
-#include "src/boards/xpstem-iot-devkit-suit/xpstem-iot-devkit-suit.h"
+#elif BOARD_LESSON22 == 1
+#define BOARD_NAME "lesson22-board"
+#include "src/lessons/unit2-lesson22/my_board.h"
 
-#elif BOARD_XPSTEM_S3_ELECTRONIC_SUIT == 1
-#define BOARD_NAME "xpstem-s3-electronic-suit"
-#include "src/boards/xpstem-s3-electronic-suit/xpstem-s3-electronic-suit.h"
+#elif BOARD_LESSON23 == 1
+#define BOARD_NAME "lesson23-board"
+#include "src/lessons/unit2-lesson23/my_board.h"
 
-#elif BOARD_XINGZHI_MATRIXBIT_V3 == 1
-#define BOARD_NAME "xingzhi-matrixbit-v3"
-#include "src/boards/xingzhi-matrixbit-v3/xingzhi-matrixbit-v3.h"
+#elif BOARD_LESSON31 == 1
+#define BOARD_NAME "lesson31-board"
+#include "src/lessons/unit3-lesson31/my_board.h"
 
-#elif BOARD_XPSTEM_JC4827W543 == 1
-#define BOARD_NAME "xpstem-jc4827w543"
-#include "src/boards/xpstem-jc4827w543/xpstem-jc4827w543.h"
+#elif BOARD_LESSON32 == 1
+#define BOARD_NAME "lesson32-board"
+#include "src/lessons/unit3-lesson32/my_board.h"
+
+#elif BOARD_LESSON33 == 1
+#define BOARD_NAME "lesson33-board"
+#include "src/lessons/unit3-lesson33/my_board.h"
+
+#elif BOARD_LESSON41 == 1
+#define BOARD_NAME "lesson41-board"
+#include "src/lessons/unit4-lesson41/my_board.h"
+
+#elif BOARD_LESSON42 == 1
+#define BOARD_NAME "lesson42-board"
+#include "src/lessons/unit4-lesson42/my_board.h"
+
+#elif BOARD_LESSON43 == 1
+#define BOARD_NAME "lesson43-board"
+#include "src/lessons/unit4-lesson43/my_board.h"
+
 #endif
 
 

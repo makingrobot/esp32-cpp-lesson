@@ -10,6 +10,7 @@
 #include "ws2812_led.h"
 #include "../sys/log.h"
 #include "../sys/sw_timer.h"
+#include "../app/application.h"
 
 #define TAG "Ws2812Led"
 
@@ -48,6 +49,7 @@ void Ws2812Led::TurnOn() {
     std::lock_guard<std::mutex> lock(mutex_);
     Stop();
 
+    pixels_->clear();
     pixels_->setPixelColor(0, pixels_->Color(r_, g_, b_));
     pixels_->show();
 }
@@ -62,6 +64,7 @@ void Ws2812Led::TurnOff() {
     Stop();
 
     pixels_->clear();
+    pixels_->show();
 }
 
 void Ws2812Led::BlinkOnce() {
@@ -83,27 +86,31 @@ void Ws2812Led::StartBlinkTask(int times, int interval_ms) {
         return;
     }
 
-    std::lock_guard<std::mutex> lock(mutex_);
     Stop();
     
     blink_counter_ = times * 2;
     blink_interval_ms_ = interval_ms;
     
-    timer_->Start(interval_ms, [this](){ OnBlinkTimer(); });
+    timer_->Start(interval_ms, [this](){ 
+        auto& app = Application::GetInstance();
+        app.Schedule([this]() {
+            OnBlinkTimer(); 
+        });
+    });
 }
 
 void Ws2812Led::OnBlinkTimer() {
     std::lock_guard<std::mutex> lock(mutex_);
     blink_counter_--;
+
+    pixels_->clear();
     if (blink_counter_ & 1) {
         pixels_->setPixelColor(0, pixels_->Color(r_, g_, b_));
-        pixels_->show();
-    } else {
-        pixels_->clear();
+    } 
+    pixels_->show();
 
-        if (blink_counter_ == 0) {
-            Stop();
-        }
+    if (blink_counter_ == 0) {
+        Stop();
     }
 }
 
@@ -117,7 +124,6 @@ void Ws2812Led::TurnOn(const std::vector<uint8_t>& nums) {
     Stop();
 
     pixels_->clear();
-    
     for (uint8_t n : nums) {
         pixels_->setPixelColor(n, pixels_->Color(r_, g_, b_));
     }

@@ -8,11 +8,11 @@
 #include <Arduino.h>
 #include "../sys/log.h"
 #include "../sys/sw_timer.h"
+#include "../app/application.h"
 
 #define TAG "Sensor"
 
 Sensor::Sensor() {
-    timer_ = new SwTimer("Sensor");
 }
 
 Sensor::~Sensor() {
@@ -22,11 +22,18 @@ Sensor::~Sensor() {
 }
 
 void Sensor::Start(uint32_t interval_ms) {
-    if (timer_ != nullptr) {
+    if (timer_ == nullptr) {
+        timer_ = new SwTimer("Sensor");
+    } else {
         timer_->Stop();
     }
     
-    timer_->Start(interval_ms, [this](){ReadData();});
+    timer_->Start(interval_ms, [this](){
+        auto& app = Application::GetInstance();
+        app.Schedule([this]() {
+            ReadData();
+        });
+    });
 }
 
 void Sensor::Stop() {
@@ -40,11 +47,15 @@ void Sensor::Stop() {
  */
 void Sensor::ReadData() {
     sensor_val_ = new SensorValue();
-    ReadValue(sensor_val_);
 
-    if (on_newdata_callback_) {
-        on_newdata_callback_(*sensor_val_);
+    bool success = ReadValue(sensor_val_);
+    if (success) {
+        if (on_newdata_callback_) {
+            on_newdata_callback_(*sensor_val_);
+        }
     }
+
+    delete sensor_val_;
 }
 
 /*********** AnalogSensor **************/
@@ -52,8 +63,9 @@ AnalogSensor::AnalogSensor(gpio_num_t pin) : Sensor(),sensor_pin_(pin) {
     pinMode(sensor_pin_, INPUT);
 }
 
-void AnalogSensor::ReadValue(SensorValue *value) {
+bool AnalogSensor::ReadValue(SensorValue *value) {
     value->setIntValue(analogRead(sensor_pin_));
+    return true;
 }
 
 /*********** DigitalSensor **************/
@@ -61,6 +73,7 @@ DigitalSensor::DigitalSensor(gpio_num_t pin) : Sensor(),sensor_pin_(pin) {
     pinMode(sensor_pin_, INPUT);
 }
 
-void DigitalSensor::ReadValue(SensorValue *value) {
+bool DigitalSensor::ReadValue(SensorValue *value) {
     value->setIntValue(digitalRead(sensor_pin_));
+    return false;
 }

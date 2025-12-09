@@ -100,9 +100,21 @@ void Application::Init() {
 
     OnInit();
     
+    xTaskCreate([](void* pvParam){
+        Application *app = (Application*)pvParam;
+        while (1) {
+            app->EventLoop();
+        }
+    }, "EventLoop_Task", 16384, this, 1, &eventloop_taskhandle_);
+
     // Print heap stats
     SystemInfo::PrintHeapStats();
     Log::Info(TAG, "Started.");
+
+}
+
+void Application::Loop() {
+    OnLoop();
 }
 
 void Application::Alert(const char* status, const char* message, const char* emotion) {
@@ -146,7 +158,7 @@ void Application::Schedule(callback_function_t callback) {
 
 bool Application::OnPhysicalButtonEvent(const std::string& button_name, const ButtonAction action) {
 
-    if (strcmp(button_name.c_str(), kBootButton)==0) {
+    if (button_name == kBootButton) {
 
         if (action == ButtonAction::Click) {
             ToggleWorkState();
@@ -164,9 +176,16 @@ bool Application::OnPhysicalButtonEvent(const std::string& button_name, const Bu
     return false;
 }
 
+bool Application::OnPinTouchEvent(const std::string& pin_name) {
+
+    // 未处理
+    Log::Info(TAG, "%s event unhandle.", pin_name.c_str());
+    return false;
+}
+
 bool Application::OnDisplayTouchEvent(const TouchPoint_t& point) {
-    ToggleWorkState();
-    return true;
+    
+    return false;
 }
 
 #if CONFIG_CLOCK_ENABLE==1
@@ -244,24 +263,6 @@ void Application::SetDeviceState(const DeviceState* state) {
 void Application::OnStateChanged() {
     Led* led = Board::GetInstance().GetLed();
 
-    if (device_state_ == kDeviceStateStarting) {
-        led->SetColor(0, 0, DEFAULT_BRIGHTNESS);
-        led->Blink(BLINK_INFINITE, 100);
-    } else if (device_state_ == kDeviceStateWifiConfiguring) {
-        led->SetColor(0, 0, DEFAULT_BRIGHTNESS);
-        led->Blink(BLINK_INFINITE, 500);
-    } else if (device_state_ ==  kDeviceStateIdle) {
-        led->TurnOff();
-    } else if (device_state_ == kDeviceStateConnecting) {
-        led->SetColor(0, 0, DEFAULT_BRIGHTNESS);
-        led->TurnOn();
-    } else if (device_state_ == kDeviceStateUpgrading) {
-        led->SetColor(0, DEFAULT_BRIGHTNESS, 0);
-        led->Blink(BLINK_INFINITE, 100);
-    } else if (device_state_ == kDeviceStateWorking) {
-        led->SetColor(0, DEFAULT_BRIGHTNESS, 0);
-        led->Blink(BLINK_INFINITE, 500);
-    }
 }
 
 void Application::Reboot() {
@@ -382,7 +383,6 @@ void Application::EventLoop() {
             auto tasks = std::move(app_tasks_);
             lock.unlock();
 
-            Log::Info( TAG, "execute tasks.");
             for (auto task : tasks) {
                 task();
             }
