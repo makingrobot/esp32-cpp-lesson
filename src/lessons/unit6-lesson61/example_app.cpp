@@ -4,13 +4,18 @@
  * 
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
+ * 
+ * Unit6-Lesson61：软件定时器
  */
 #include "config.h"
-#if APP_LESSON01==1
+#if APP_LESSON61==1
 
 #include "example_app.h"
 #include "src/framework/sys/log.h"
 #include "src/framework/board/board.h"
+#include "src/framework/peripheral/actuator.h"
+#include "src/framework/peripheral/switch_actuator.h"
+#include "my_board.h"
 
 #define TAG "ExampleApp"
 
@@ -23,12 +28,13 @@ ExampleApp::ExampleApp() : Application() {
 }
 
 void ExampleApp::OnInit() {
-    // do your init.
-    Log::Info(TAG, "OnInit");
+    
 }
 
 void ExampleApp::OnLoop() {
+
     delay(1);
 }
+
 
 #endif 

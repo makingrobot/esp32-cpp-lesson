@@ -4,14 +4,16 @@
  * 
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
+ * 
+ * Unit2-Lesson22：三色LED
  */
 #include "config.h"
-#if APP_LESSON21==1
+#if APP_LESSON22==1
 
 #ifndef _EXAMPLE_APP_H
 #define _EXAMPLE_APP_H
 
-#pragma message("Compile unit2 lesson21 application.")
+#pragma message("Compile unit2 lesson22 application.")
 
 #include <string>
 #include "src/framework/app/application.h"
@@ -20,7 +22,7 @@ class ExampleApp : public Application {
 public:
     ExampleApp();
     
-    const std::string& GetAppName() const override { return "Unit2-Lesson21"; }
+    const std::string& GetAppName() const override { return "Unit2-Lesson22"; }
     const std::string& GetAppVersion() const override { return "1.0.0"; }
 
 protected:

@@ -4,6 +4,8 @@
  * 
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
+ * 
+ * Unit4-Lesson41：触摸传感器
  */
 #include "config.h"
 #if APP_LESSON41==1

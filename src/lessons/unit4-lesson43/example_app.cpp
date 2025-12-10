@@ -4,6 +4,8 @@
  * 
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
+ * 
+ * Unit4-Lesson43：旋转电位器
  */
 #include "config.h"
 #if APP_LESSON43==1
@@ -40,18 +42,8 @@ bool ExampleApp::OnSensorDataEvent(const std::string& sensor_name, const SensorV
     // 步骤三：处理传感器数据
     if (sensor_name == kIrSensor) {
         
-        Log::Info(TAG, "ir code: %02X", value.ulongValue());
-        Led *led = Board::GetInstance().GetLed();
-
-        switch (value.ulongValue()) {
-            case 0xF30CFF00:  // 遥控器上“1”键
-                led->TurnOn();
-                break;
-
-            case 0xE718FF00:
-                led->TurnOff();  // 遥控器上“1”键
-                break;
-        }
+        
+        
         return true;
     }
 

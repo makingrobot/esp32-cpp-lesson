@@ -9,9 +9,9 @@
 
 #include "config.h"
 
-#if BOARD_LESSON01 == 1
-#define BOARD_NAME "lesson01-board"
-#include "src/lessons/unit1-lesson01/my_board.h"
+#if BOARD_LESSON13 == 1
+#define BOARD_NAME "lesson13-board"
+#include "src/lessons/unit1-lesson13/my_board.h"
 
 #elif BOARD_LESSON21 == 1
 #define BOARD_NAME "lesson21-board"
@@ -49,6 +49,37 @@
 #define BOARD_NAME "lesson43-board"
 #include "src/lessons/unit4-lesson43/my_board.h"
 
+#elif BOARD_LESSON51 == 1
+#define BOARD_NAME "lesson51-board"
+#include "src/lessons/unit5-lesson51/my_board.h"
+
+#elif BOARD_LESSON52 == 1
+#define BOARD_NAME "lesson52-board"
+#include "src/lessons/unit5-lesson52/my_board.h"
+
+#elif BOARD_LESSON61 == 1
+#define BOARD_NAME "lesson61-board"
+#include "src/lessons/unit6-lesson61/my_board.h"
+
+#elif BOARD_LESSON62 == 1
+#define BOARD_NAME "lesson62-board"
+#include "src/lessons/unit6-lesson62/my_board.h"
+
+#elif BOARD_LESSON63 == 1
+#define BOARD_NAME "lesson63-board"
+#include "src/lessons/unit6-lesson63/my_board.h"
+
+#elif BOARD_LESSON71 == 1
+#define BOARD_NAME "lesson71-board"
+#include "src/lessons/unit7-lesson71/my_board.h"
+
+#elif BOARD_LESSON72 == 1
+#define BOARD_NAME "lesson72-board"
+#include "src/lessons/unit7-lesson72/my_board.h"
+
+#elif BOARD_LESSON73 == 1
+#define BOARD_NAME "lesson73-board"
+#include "src/lessons/unit7-lesson73/my_board.h"
 #endif
 
 

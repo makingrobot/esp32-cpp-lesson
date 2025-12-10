@@ -4,10 +4,10 @@
  * 
  * Author: Billy Zhang（billy_zh@126.com）
  */
-#define LOG_LOCAL_LEVEL ESP_LOG_DEBUG
+#include "config.h"
+#ifndef APP_LESSON11 || APP_LESSON12
 
 #include <Arduino.h>
-#include "config.h"
 #include "board_def.h"
 #include "src/framework/sys/log.h"
 #include "src/framework/app/application.h"
@@ -30,3 +30,5 @@ void setup() {
 void loop() {
     app->Loop();
 }
+
+#endif

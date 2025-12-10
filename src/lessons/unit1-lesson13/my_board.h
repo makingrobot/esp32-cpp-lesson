@@ -6,19 +6,19 @@
  * Author: Billy Zhang（billy_zh@126.com）
  */
 #include "config.h"
-#if BOARD_LESSON01 == 1
+#if BOARD_LESSON13 == 1
 
-#include "board_config.h"
-#include "my_board.h"
+#ifndef _MY_BOARD_H
+#define _MY_BOARD_H
 
-#define TAG "MY_BOARD"
+#include "src/framework/board/board.h"
 
-void* create_board() { 
-    return new MyBoard();
-}
+class MyBoard : public Board {
+public:
+    MyBoard();
 
-MyBoard::MyBoard() : Board() {
+};
 
-}
+#endif //_MY_BOARD_H
 
 #endif 

@@ -1,9 +1,11 @@
 /**
- * Iot-Devkit-Examples
- * Iot开发套件示例，基于ESP32-Arduino-Framework应用开发框架。
+ * ESP32-Cpp-Lesson
+ * ESP32 C++ 教程，基于ESP32-Arduino-Framework应用开发框架。
  * 
- * 套件详情：https://www.xpstem.com/product/iot-devkit-suit
+ * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
+ * 
+ * Unit4-Lesson42：温湿度传感器
  */
 #include "config.h"
 #if BOARD_LESSON42==1

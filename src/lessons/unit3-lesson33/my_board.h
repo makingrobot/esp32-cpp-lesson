@@ -4,6 +4,8 @@
  * 
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
+ * 
+ * Unit3-Lesson33：触摸输入（中断方式）
  */
 #include "config.h"
 #if BOARD_LESSON33 == 1

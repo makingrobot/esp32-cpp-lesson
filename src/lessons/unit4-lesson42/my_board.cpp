@@ -4,6 +4,8 @@
  * 
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
+ * 
+ * Unit4-Lesson42：温湿度传感器
  */
 #include "config.h"
 #if BOARD_LESSON42 == 1

@@ -4,13 +4,15 @@
  * 
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
+ * 
+ * Unit2-Lesson22：三色LED
  */
 #include "config.h"
-#if BOARD_LESSON21 == 1
+#if BOARD_LESSON22 == 1
 
 #include "board_config.h"
 #include "my_board.h"
-#include "src/framework/led/gpio_led.h"
+#include "src/framework/led/rgb_led.h"
 
 #define TAG "MY_BOARD"
 
@@ -23,7 +25,7 @@ MyBoard::MyBoard() : Board() {
     Log::Info(TAG, "===== Create Board ...... =====");
 
     Log::Info(TAG, "initial led.");
-    led_ = new GpioLed(BUILTIN_LED_PIN, false); // no pwm
+    led_ = new RgbLed(RGB_LED_R_PIN, RGB_LED_G_PIN, RGB_LED_B_PIN, false); 
 
     Log::Info( TAG, "===== Board config completed. =====");
 }

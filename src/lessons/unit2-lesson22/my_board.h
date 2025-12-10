@@ -4,9 +4,11 @@
  * 
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
+ * 
+ * Unit2-Lesson22：三色LED
  */
 #include "config.h"
-#if BOARD_LESSON21 == 1
+#if BOARD_LESSON22 == 1
 
 #ifndef _MY_BOARD_H
 #define _MY_BOARD_H

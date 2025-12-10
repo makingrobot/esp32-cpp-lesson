@@ -7,13 +7,19 @@
 #ifndef _CONFIG_H
 #define _CONFIG_H
 
-#define APP_LESSON43        1
+#define APP_LESSON13        1
 
 /********** Unit1 **********/
-#if APP_LESSON01 == 1
-#define BOARD_LESSON01      1
-#include "src/lessons/unit1-lesson01/app_config.h"
-#include "src/lessons/unit1-lesson01/board_config.h"
+#if APP_LESSON11 ==1
+#define BOARD_NAME   ""
+
+#elif APP_LESSON12 ==1
+#define BOARD_NAME   ""
+
+#elif APP_LESSON13 == 1
+#define BOARD_LESSON13      1
+#include "src/lessons/unit1-lesson13/app_config.h"
+#include "src/lessons/unit1-lesson13/board_config.h"
 
 /********** Unit2 **********/
 #elif APP_LESSON21 == 1
@@ -62,6 +68,49 @@
 #define BOARD_LESSON43      1
 #include "src/lessons/unit4-lesson43/app_config.h"
 #include "src/lessons/unit4-lesson43/board_config.h"
+
+/********** Unit5 **********/
+#elif APP_LESSON51 == 1
+#define BOARD_LESSON51      1
+#include "src/lessons/unit5-lesson51/app_config.h"
+#include "src/lessons/unit5-lesson51/board_config.h"
+
+#elif APP_LESSON52 == 1
+#define BOARD_LESSON52      1
+#include "src/lessons/unit5-lesson52/app_config.h"
+#include "src/lessons/unit5-lesson52/board_config.h"
+
+/********** Unit6 **********/
+#elif APP_LESSON61 == 1
+#define BOARD_LESSON61      1
+#include "src/lessons/unit6-lesson61/app_config.h"
+#include "src/lessons/unit6-lesson61/board_config.h"
+
+#elif APP_LESSON62 == 1
+#define BOARD_LESSON62      1
+#include "src/lessons/unit6-lesson62/app_config.h"
+#include "src/lessons/unit6-lesson62/board_config.h"
+
+#elif APP_LESSON63 == 1
+#define BOARD_LESSON63      1
+#include "src/lessons/unit6-lesson63/app_config.h"
+#include "src/lessons/unit6-lesson63/board_config.h"
+
+/********** Unit7 **********/
+#elif APP_LESSON71 == 1
+#define BOARD_LESSON71      1
+#include "src/lessons/unit7-lesson71/app_config.h"
+#include "src/lessons/unit7-lesson71/board_config.h"
+
+#elif APP_LESSON72 == 1
+#define BOARD_LESSON72      1
+#include "src/lessons/unit7-lesson72/app_config.h"
+#include "src/lessons/unit7-lesson72/board_config.h"
+
+#elif APP_LESSON63 == 1
+#define BOARD_LESSON63      1
+#include "src/lessons/unit7-lesson73/app_config.h"
+#include "src/lessons/unit7-lesson73/board_config.h"
 
 #endif
 

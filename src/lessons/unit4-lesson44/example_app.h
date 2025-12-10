@@ -4,23 +4,28 @@
  * 
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
+ * 
+ * Unit4-Lesson44：红外遥控
  */
 #include "config.h"
-#if APP_LESSON01==1
+#if APP_LESSON44==1
 
 #ifndef _EXAMPLE_APP_H
 #define _EXAMPLE_APP_H
 
-#pragma message("Compile unit1 lesson01 application.")
+#pragma message("Compile unit4 lesson44 application.")
 
 #include <string>
 #include "src/framework/app/application.h"
+#include "src/framework/peripheral/sensor.h"
 
 class ExampleApp : public Application {
 public:
     ExampleApp();
     
-    const std::string& GetAppName() const override { return "Unit1-Lesson01"; }
+    bool OnSensorDataEvent(const std::string& sensor_name, const SensorValue& value) override;
+
+    const std::string& GetAppName() const override { return "Unit4-Lesson44"; }
     const std::string& GetAppVersion() const override { return "1.0.0"; }
 
 protected:
@@ -28,7 +33,7 @@ protected:
     void OnLoop() override;
 
 private:
-
+    bool touch1_detected_ = false;
 };
 
 #endif //_EXAMPLE_APP_H

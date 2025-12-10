@@ -4,6 +4,8 @@
  * 
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
+ * 
+ * Unit2-Lesson23：点亮LED
  */
 #include "config.h"
 #if BOARD_LESSON21 == 1
