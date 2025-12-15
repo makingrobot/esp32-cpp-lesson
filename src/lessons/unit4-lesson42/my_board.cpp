@@ -5,7 +5,7 @@
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
  * 
- * Unit4-Lesson42：温湿度传感器
+ * Unit4-Lesson43：旋转电位器
  */
 #include "config.h"
 #if BOARD_LESSON42 == 1
@@ -15,7 +15,6 @@
 #include "src/framework/led/gpio_led.h"
 #include "src/framework/app/application.h"
 #include "src/framework/peripheral/sensor.h"
-#include "dht11_sensor.h"
 
 #define TAG "MY_BOARD"
 
@@ -30,13 +29,13 @@ MyBoard::MyBoard() : Board() {
     Log::Info(TAG, "initial led.");
     led_ = new GpioLed(BUILTIN_LED_PIN, false); // no pwm
 
-    // 步骤一：创建传感器对象
-    std::shared_ptr<Dht11Sensor> sensor_ptr = std::make_shared<Dht11Sensor>(DHT11_PIN);
+    Log::Info(TAG, "initial sensor.");
+    std::shared_ptr<AnalogSensor> sensor_ptr = std::make_shared<AnalogSensor>(POTENTIOMETER_PIN);
     sensor_ptr->OnNewData([](const SensorValue& value){
         auto& app = Application::GetInstance();
-        app.OnSensorDataEvent(kDht11, value);
+        app.OnSensorDataEvent(kPotentiometer, value);
     });
-    AddSensor(kDht11, sensor_ptr);
+    AddSensor(kPotentiometer, sensor_ptr);
 
     Log::Info( TAG, "===== Board config completed. =====");
 }

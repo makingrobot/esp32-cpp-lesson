@@ -12,9 +12,11 @@
 #define BUILTIN_LED_PIN                     GPIO_NUM_4
 #define WS2812_PIN                          GPIO_NUM_5
 
-#define TOUCH_1_PIN                           GPIO_NUM_2
-#define TOUCH_2_PIN                           GPIO_NUM_34
+#define TOUCH_1_PIN                         GPIO_NUM_2
+#define TOUCH_2_PIN                         GPIO_NUM_34
 #define DHT11_PIN                           GPIO_NUM_25
+#define IR_SENSOR_PIN                       GPIO_NUM_35
+#define POTENTIOMETER_PIN                   GPIO_NUM_36
 
 //**********************************************************************
 // 配置定义

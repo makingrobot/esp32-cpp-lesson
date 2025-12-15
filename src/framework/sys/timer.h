@@ -4,6 +4,7 @@
 
 #include <functional>
 #include <cstdint>
+#include <string>
 
 class Timer {
 public:
@@ -18,6 +19,11 @@ public:
     virtual bool Stop() = 0;
 
 
+};
+
+class TimerFactory {
+public:
+    static Timer* CreateTimer(const std::string& name);
 };
 
 #endif //_TIMER_H

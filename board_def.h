@@ -25,17 +25,17 @@
 #define BOARD_NAME "lesson23-board"
 #include "src/lessons/unit2-lesson23/my_board.h"
 
-#elif BOARD_LESSON31 == 1
-#define BOARD_NAME "lesson31-board"
-#include "src/lessons/unit3-lesson31/my_board.h"
+#elif BOARD_LESSON31_A == 1
+#define BOARD_NAME "lesson31a-board"
+#include "src/lessons/unit3-lesson31a/my_board.h"
+
+#elif BOARD_LESSON31_B == 1
+#define BOARD_NAME "lesson31b-board"
+#include "src/lessons/unit3-lesson31b/my_board.h"
 
 #elif BOARD_LESSON32 == 1
 #define BOARD_NAME "lesson32-board"
 #include "src/lessons/unit3-lesson32/my_board.h"
-
-#elif BOARD_LESSON33 == 1
-#define BOARD_NAME "lesson33-board"
-#include "src/lessons/unit3-lesson33/my_board.h"
 
 #elif BOARD_LESSON41 == 1
 #define BOARD_NAME "lesson41-board"
@@ -49,6 +49,10 @@
 #define BOARD_NAME "lesson43-board"
 #include "src/lessons/unit4-lesson43/my_board.h"
 
+#elif BOARD_LESSON44 == 1
+#define BOARD_NAME "lesson44-board"
+#include "src/lessons/unit4-lesson44/my_board.h"
+
 #elif BOARD_LESSON51 == 1
 #define BOARD_NAME "lesson51-board"
 #include "src/lessons/unit5-lesson51/my_board.h"
@@ -57,17 +61,29 @@
 #define BOARD_NAME "lesson52-board"
 #include "src/lessons/unit5-lesson52/my_board.h"
 
-#elif BOARD_LESSON61 == 1
-#define BOARD_NAME "lesson61-board"
-#include "src/lessons/unit6-lesson61/my_board.h"
+#elif BOARD_LESSON61_A == 1
+#define BOARD_NAME "lesson61a-board"
+#include "src/lessons/unit6-lesson61a/my_board.h"
 
-#elif BOARD_LESSON62 == 1
-#define BOARD_NAME "lesson62-board"
-#include "src/lessons/unit6-lesson62/my_board.h"
+#elif BOARD_LESSON61_B == 1
+#define BOARD_NAME "lesson61b-board"
+#include "src/lessons/unit6-lesson61b/my_board.h"
 
-#elif BOARD_LESSON63 == 1
-#define BOARD_NAME "lesson63-board"
-#include "src/lessons/unit6-lesson63/my_board.h"
+#elif BOARD_LESSON62_A == 1
+#define BOARD_NAME "lesson62a-board"
+#include "src/lessons/unit6-lesson62a/my_board.h"
+
+#elif BOARD_LESSON62_B == 1
+#define BOARD_NAME "lesson62b-board"
+#include "src/lessons/unit6-lesson62b/my_board.h"
+
+#elif BOARD_LESSON63_A == 1
+#define BOARD_NAME "lesson63a-board"
+#include "src/lessons/unit6-lesson63a/my_board.h"
+
+#elif BOARD_LESSON63_B == 1
+#define BOARD_NAME "lesson63b-board"
+#include "src/lessons/unit6-lesson63b/my_board.h"
 
 #elif BOARD_LESSON71 == 1
 #define BOARD_NAME "lesson71-board"

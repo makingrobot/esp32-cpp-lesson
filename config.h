@@ -7,7 +7,7 @@
 #ifndef _CONFIG_H
 #define _CONFIG_H
 
-#define APP_LESSON13        1
+#define APP_LESSON44        1
 
 /********** Unit1 **********/
 #if APP_LESSON11 ==1
@@ -38,20 +38,20 @@
 #include "src/lessons/unit2-lesson23/board_config.h"
 
 /********** Unit3 **********/
-#elif APP_LESSON31 == 1
-#define BOARD_LESSON31      1
-#include "src/lessons/unit3-lesson31/app_config.h"
-#include "src/lessons/unit3-lesson31/board_config.h"
+#elif APP_LESSON31_A == 1
+#define BOARD_LESSON31_A      1
+#include "src/lessons/unit3-lesson31a/app_config.h"
+#include "src/lessons/unit3-lesson31a/board_config.h"
+
+#elif APP_LESSON31_B == 1
+#define BOARD_LESSON31_B      1
+#include "src/lessons/unit3-lesson31b/app_config.h"
+#include "src/lessons/unit3-lesson31b/board_config.h"
 
 #elif APP_LESSON32 == 1
 #define BOARD_LESSON32      1
 #include "src/lessons/unit3-lesson32/app_config.h"
 #include "src/lessons/unit3-lesson32/board_config.h"
-
-#elif APP_LESSON33 == 1
-#define BOARD_LESSON33      1
-#include "src/lessons/unit3-lesson33/app_config.h"
-#include "src/lessons/unit3-lesson33/board_config.h"
 
 /********** Unit4 **********/
 #elif APP_LESSON41 == 1
@@ -69,6 +69,11 @@
 #include "src/lessons/unit4-lesson43/app_config.h"
 #include "src/lessons/unit4-lesson43/board_config.h"
 
+#elif APP_LESSON44 == 1
+#define BOARD_LESSON44      1
+#include "src/lessons/unit4-lesson44/app_config.h"
+#include "src/lessons/unit4-lesson44/board_config.h"
+
 /********** Unit5 **********/
 #elif APP_LESSON51 == 1
 #define BOARD_LESSON51      1
@@ -81,20 +86,35 @@
 #include "src/lessons/unit5-lesson52/board_config.h"
 
 /********** Unit6 **********/
-#elif APP_LESSON61 == 1
-#define BOARD_LESSON61      1
-#include "src/lessons/unit6-lesson61/app_config.h"
-#include "src/lessons/unit6-lesson61/board_config.h"
+#elif APP_LESSON61_A == 1
+#define BOARD_LESSON61_A      1
+#include "src/lessons/unit6-lesson61a/app_config.h"
+#include "src/lessons/unit6-lesson61a/board_config.h"
 
-#elif APP_LESSON62 == 1
-#define BOARD_LESSON62      1
-#include "src/lessons/unit6-lesson62/app_config.h"
-#include "src/lessons/unit6-lesson62/board_config.h"
+#elif APP_LESSON61_B == 1
+#define BOARD_LESSON61_B      1
+#include "src/lessons/unit6-lesson61b/app_config.h"
+#include "src/lessons/unit6-lesson61b/board_config.h"
 
-#elif APP_LESSON63 == 1
-#define BOARD_LESSON63      1
-#include "src/lessons/unit6-lesson63/app_config.h"
-#include "src/lessons/unit6-lesson63/board_config.h"
+#elif APP_LESSON62_A == 1
+#define BOARD_LESSON62_A      1
+#include "src/lessons/unit6-lesson62a/app_config.h"
+#include "src/lessons/unit6-lesson62a/board_config.h"
+
+#elif APP_LESSON62_B == 1
+#define BOARD_LESSON62_B      1
+#include "src/lessons/unit6-lesson62b/app_config.h"
+#include "src/lessons/unit6-lesson62b/board_config.h"
+
+#elif APP_LESSON63_A == 1
+#define BOARD_LESSON63_A      1
+#include "src/lessons/unit6-lesson63a/app_config.h"
+#include "src/lessons/unit6-lesson63a/board_config.h"
+
+#elif APP_LESSON63_B == 1
+#define BOARD_LESSON63_B      1
+#include "src/lessons/unit6-lesson63b/app_config.h"
+#include "src/lessons/unit6-lesson63b/board_config.h"
 
 /********** Unit7 **********/
 #elif APP_LESSON71 == 1

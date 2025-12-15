@@ -5,7 +5,7 @@
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
  * 
- * Unit4-Lesson43：旋转电位器
+ * Unit4-Lesson42：温湿度传感器
  */
 #include "config.h"
 #if APP_LESSON43==1
@@ -13,7 +13,7 @@
 #ifndef _EXAMPLE_APP_H
 #define _EXAMPLE_APP_H
 
-#pragma message("Compile unit4 lesson43 application.")
+#pragma message("Compile unit4 lesson42 application.")
 
 #include <string>
 #include "src/framework/app/application.h"
@@ -33,7 +33,7 @@ protected:
     void OnLoop() override;
 
 private:
-
+    bool touch1_detected_ = false;
 };
 
 #endif //_EXAMPLE_APP_H

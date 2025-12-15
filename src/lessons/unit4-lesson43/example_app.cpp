@@ -5,7 +5,7 @@
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
  * 
- * Unit4-Lesson43：旋转电位器
+ * Unit4-Lesson42：温湿度传感器
  */
 #include "config.h"
 #if APP_LESSON43==1
@@ -28,8 +28,10 @@ ExampleApp::ExampleApp() : Application() {
 void ExampleApp::OnInit() {
     
     // 步骤二：启动传感器收集数据
-    std::shared_ptr<Sensor> irsensor_ptr = Board::GetInstance().GetSensor(kIrSensor);
-    irsensor_ptr->Start(100);
+    std::shared_ptr<Sensor> dht11_ptr = Board::GetInstance().GetSensor(kDht11);
+    if (dht11_ptr!=nullptr) {
+        dht11_ptr->Start(180000);
+    }
 }
 
 void ExampleApp::OnLoop() {
@@ -40,10 +42,10 @@ void ExampleApp::OnLoop() {
 bool ExampleApp::OnSensorDataEvent(const std::string& sensor_name, const SensorValue& value) {
     
     // 步骤三：处理传感器数据
-    if (sensor_name == kIrSensor) {
-        
-        
-        
+    if (sensor_name == kDht11) {
+        float weidu = value.floatList().at(0);
+        float shidu = value.floatList().at(1);
+        Log::Info(TAG, "温度：%.1f, 湿度：%.1f", weidu, shidu);
         return true;
     }
 

@@ -5,7 +5,7 @@
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
  * 
- * Unit4-Lesson42：温湿度传感器
+ * Unit4-Lesson43：旋转电位器
  */
 #include "config.h"
 #if APP_LESSON42==1
@@ -26,12 +26,11 @@ ExampleApp::ExampleApp() : Application() {
 }
 
 void ExampleApp::OnInit() {
-    
-    // 步骤二：启动传感器收集数据
-    std::shared_ptr<Sensor> dht11_ptr = Board::GetInstance().GetSensor(kDht11);
-    if (dht11_ptr!=nullptr) {
-        dht11_ptr->Start(180000);
-    }
+    Log::Info(TAG, "Initial.");
+
+    // 启动传感器收集数据
+    std::shared_ptr<Sensor> sensor_ptr = Board::GetInstance().GetSensor(kPotentiometer);
+    sensor_ptr->Start(100);
 }
 
 void ExampleApp::OnLoop() {
@@ -42,10 +41,13 @@ void ExampleApp::OnLoop() {
 bool ExampleApp::OnSensorDataEvent(const std::string& sensor_name, const SensorValue& value) {
     
     // 步骤三：处理传感器数据
-    if (sensor_name == kDht11) {
-        float weidu = value.floatList().at(0);
-        float shidu = value.floatList().at(1);
-        Log::Info(TAG, "温度：%.1f, 湿度：%.1f", weidu, shidu);
+    if (sensor_name == kPotentiometer) {
+        // 电位器的值范围为：0-4095，一般使用map函数进行转换
+        int new_value = map(value.intValue(), 0, 4095, 0, 99);
+        if (new_value != prev_value_) {
+            Log::Info(TAG, "new value: %d", new_value);
+            prev_value_ = new_value;
+        }
         return true;
     }
 
