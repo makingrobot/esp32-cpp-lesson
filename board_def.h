@@ -25,17 +25,17 @@
 #define BOARD_NAME "lesson23-board"
 #include "src/lessons/unit2-lesson23/my_board.h"
 
-#elif BOARD_LESSON31_A == 1
-#define BOARD_NAME "lesson31a-board"
-#include "src/lessons/unit3-lesson31a/my_board.h"
+#elif BOARD_LESSON31 == 1
+#define BOARD_NAME "lesson31-board"
+#include "src/lessons/unit3-lesson31/my_board.h"
 
-#elif BOARD_LESSON31_B == 1
-#define BOARD_NAME "lesson31b-board"
-#include "src/lessons/unit3-lesson31b/my_board.h"
+#elif BOARD_LESSON32_A == 1
+#define BOARD_NAME "lesson32a-board"
+#include "src/lessons/unit3-lesson32a/my_board.h"
 
-#elif BOARD_LESSON32 == 1
-#define BOARD_NAME "lesson32-board"
-#include "src/lessons/unit3-lesson32/my_board.h"
+#elif BOARD_LESSON32_B == 1
+#define BOARD_NAME "lesson32b-board"
+#include "src/lessons/unit3-lesson32b/my_board.h"
 
 #elif BOARD_LESSON41 == 1
 #define BOARD_NAME "lesson41-board"

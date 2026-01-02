@@ -10,8 +10,9 @@
 
 #include "board_config.h"
 #include "my_board.h"
+#include "src/framework/led/gpio_led.h"
 
-#define TAG "MY_BOARD"
+#define TAG "MyBoard"
 
 void* create_board() { 
     return new MyBoard();
@@ -19,6 +20,12 @@ void* create_board() {
 
 MyBoard::MyBoard() : Board() {
 
+    Log::Info(TAG, "===== Create Board ...... =====");
+
+    Log::Info(TAG, "initial led.");
+    led_ = new GpioLed(BUILTIN_LED_PIN, false); // no pwm
+
+    Log::Info( TAG, "===== Board config completed. =====");
 }
 
 #endif 

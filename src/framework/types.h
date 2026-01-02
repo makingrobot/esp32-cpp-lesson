@@ -12,12 +12,9 @@
 typedef std::function<void(void)> callback_function_t;
 
 enum ButtonAction {
-    PressDown,
-    PressUp,
-    LongPress,
     Click,
     DoubleClick,
-    MultipleClick,
+    LongPress,
 };
 
 struct TouchPoint_t {

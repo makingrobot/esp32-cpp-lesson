@@ -8,27 +8,31 @@
 #include "config.h"
 #if APP_LESSON13==1
 
-#include "example_app.h"
+#include "my_application.h"
 #include "src/framework/sys/log.h"
 #include "src/framework/board/board.h"
 
-#define TAG "ExampleApp"
+#define TAG "MyApplication"
 
 void* create_application() {
-    return new ExampleApp();
+    return new MyApplication();
 }
 
-ExampleApp::ExampleApp() : Application() { 
+MyApplication::MyApplication() : Application() { 
 
 }
 
-void ExampleApp::OnInit() {
+void MyApplication::OnInit() {
     // do your init.
     Log::Info(TAG, "OnInit");
 }
 
-void ExampleApp::OnLoop() {
-    delay(1);
+void MyApplication::OnLoop() {
+    Led *led = Board::GetInstance().GetLed();
+    led->TurnOn();
+    delay(1000);
+    led->TurnOff();
+    delay(1000);
 }
 
 #endif 

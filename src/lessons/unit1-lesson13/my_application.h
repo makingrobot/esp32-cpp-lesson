@@ -8,17 +8,17 @@
 #include "config.h"
 #if APP_LESSON13==1
 
-#ifndef _EXAMPLE_APP_H
-#define _EXAMPLE_APP_H
+#ifndef _MY_APPLICATION_H
+#define _MY_APPLICATION_H
 
 #pragma message("Compile unit1 lesson13 application.")
 
 #include <string>
 #include "src/framework/app/application.h"
 
-class ExampleApp : public Application {
+class MyApplication : public Application {
 public:
-    ExampleApp();
+    MyApplication();
     
     const std::string& GetAppName() const override { return "Unit1-Lesson13"; }
     const std::string& GetAppVersion() const override { return "1.0.0"; }
@@ -26,11 +26,8 @@ public:
 protected:
     void OnInit() override;
     void OnLoop() override;
-
-private:
-
 };
 
-#endif //_EXAMPLE_APP_H
+#endif //_MY_APPLICATION_H
 
 #endif 

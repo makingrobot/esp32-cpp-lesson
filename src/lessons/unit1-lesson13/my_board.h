@@ -12,10 +12,15 @@
 #define _MY_BOARD_H
 
 #include "src/framework/board/board.h"
+#include "src/framework/led/led.h"
 
 class MyBoard : public Board {
+private:
+    Led* led_ = nullptr;
+
 public:
     MyBoard();
+    Led* GetLed() override { return led_; }
 
 };
 

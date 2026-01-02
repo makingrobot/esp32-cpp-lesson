@@ -5,7 +5,7 @@
  * Author: Billy Zhang（billy_zh@126.com）
  */
 #include "config.h"
-#ifndef APP_LESSON11 || APP_LESSON12
+#if !defined(APP_LESSON11) && !defined(APP_LESSON12)
 
 #include <Arduino.h>
 #include "board_def.h"
