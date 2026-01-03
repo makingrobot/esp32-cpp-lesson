@@ -18,7 +18,7 @@
 
 class IrSensor : public Sensor {
 public:
-    IrSensor(gpio_num_t pin) : Sensor() {
+    IrSensor(const std::string& name, gpio_num_t pin) : Sensor(name) {
         ir_recv_ = new IRrecv(pin);
         ir_recv_->enableIRIn();
     }
@@ -31,7 +31,7 @@ public:
 
             ir_recv_->resume();
 
-            // 等于0的码视为无效码。
+            // 不等于0的码为有效码，返回true。
             if (value->ulongValue() != 0) {
                 return true;
             }

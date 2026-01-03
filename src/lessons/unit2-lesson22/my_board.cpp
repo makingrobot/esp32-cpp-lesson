@@ -5,16 +5,16 @@
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
  * 
- * Unit2-Lesson22：三色LED
+ * Unit2-Lesson23：Ws2812灯条
  */
 #include "config.h"
 #if BOARD_LESSON22 == 1
 
 #include "board_config.h"
 #include "my_board.h"
-#include "src/framework/led/rgb_led.h"
+#include "src/framework/led/ws2812_led.h"
 
-#define TAG "MY_BOARD"
+#define TAG "MyBoard"
 
 void* create_board() { 
     return new MyBoard();
@@ -25,7 +25,7 @@ MyBoard::MyBoard() : Board() {
     Log::Info(TAG, "===== Create Board ...... =====");
 
     Log::Info(TAG, "initial led.");
-    led_ = new RgbLed(RGB_LED_R_PIN, RGB_LED_G_PIN, RGB_LED_B_PIN, false); 
+    led_ = new Ws2812Led(WS2812_PIN, 10); // no pwm
 
     Log::Info( TAG, "===== Board config completed. =====");
 }

@@ -7,7 +7,7 @@
 #ifndef _CONFIG_H
 #define _CONFIG_H
 
-#define APP_LESSON44        1
+#define APP_LESSON51        1
 
 /********** Unit1 **********/
 #if APP_LESSON11 ==1
@@ -22,36 +22,36 @@
 #include "src/lessons/unit1-lesson13/board_config.h"
 
 /********** Unit2 **********/
-#elif APP_LESSON21 == 1
-#define BOARD_LESSON21      1
-#include "src/lessons/unit2-lesson21/app_config.h"
-#include "src/lessons/unit2-lesson21/board_config.h"
+#elif APP_LESSON21_A == 1
+#define BOARD_LESSON21_A     1
+#include "src/lessons/unit2-lesson21a/app_config.h"
+#include "src/lessons/unit2-lesson21a/board_config.h"
+
+#elif APP_LESSON21_B == 1
+#define BOARD_LESSON21_B     1
+#include "src/lessons/unit2-lesson21b/app_config.h"
+#include "src/lessons/unit2-lesson21b/board_config.h"
 
 #elif APP_LESSON22 == 1
 #define BOARD_LESSON22      1
 #include "src/lessons/unit2-lesson22/app_config.h"
 #include "src/lessons/unit2-lesson22/board_config.h"
 
-#elif APP_LESSON23 == 1
-#define BOARD_LESSON23      1
-#include "src/lessons/unit2-lesson23/app_config.h"
-#include "src/lessons/unit2-lesson23/board_config.h"
-
 /********** Unit3 **********/
-#elif APP_LESSON31_A == 1
-#define BOARD_LESSON31_A      1
-#include "src/lessons/unit3-lesson31a/app_config.h"
-#include "src/lessons/unit3-lesson31a/board_config.h"
+#elif APP_LESSON31 == 1
+#define BOARD_LESSON31      1
+#include "src/lessons/unit3-lesson31/app_config.h"
+#include "src/lessons/unit3-lesson31/board_config.h"
 
-#elif APP_LESSON31_B == 1
-#define BOARD_LESSON31_B      1
-#include "src/lessons/unit3-lesson31b/app_config.h"
-#include "src/lessons/unit3-lesson31b/board_config.h"
+#elif APP_LESSON32_A == 1
+#define BOARD_LESSON32_A      1
+#include "src/lessons/unit3-lesson32a/app_config.h"
+#include "src/lessons/unit3-lesson32a/board_config.h"
 
-#elif APP_LESSON32 == 1
-#define BOARD_LESSON32      1
-#include "src/lessons/unit3-lesson32/app_config.h"
-#include "src/lessons/unit3-lesson32/board_config.h"
+#elif APP_LESSON32_B == 1
+#define BOARD_LESSON32_B      1
+#include "src/lessons/unit3-lesson32b/app_config.h"
+#include "src/lessons/unit3-lesson32b/board_config.h"
 
 /********** Unit4 **********/
 #elif APP_LESSON41 == 1

@@ -5,7 +5,7 @@
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
  * 
- * Unit4-Lesson42：温湿度传感器
+ * Unit4-Lesson43：温湿度传感器
  */
 #include "config.h"
 #if BOARD_LESSON43 == 1
@@ -14,9 +14,9 @@
 #include "my_board.h"
 #include "src/framework/led/gpio_led.h"
 #include "src/framework/app/application.h"
-#include "src/framework/peripheral/sensor.h"
+#include "dht11_sensor.h"
 
-#define TAG "MY_BOARD"
+#define TAG "MyBoard"
 
 void* create_board() { 
     return new MyBoard();
@@ -29,13 +29,10 @@ MyBoard::MyBoard() : Board() {
     Log::Info(TAG, "initial led.");
     led_ = new GpioLed(BUILTIN_LED_PIN, false); // no pwm
 
-    // 步骤一：创建传感器对象
-    std::shared_ptr<Dht11Sensor> sensor_ptr = std::make_shared<Dht11Sensor>(DHT11_PIN);
-    sensor_ptr->OnNewData([](const SensorValue& value){
-        auto& app = Application::GetInstance();
-        app.OnSensorDataEvent(kDht11, value);
-    });
-    AddSensor(kDht11, sensor_ptr);
+    // 创建传感器对象
+    std::shared_ptr<Dht11Sensor> dht11_ptr = std::make_shared<Dht11Sensor>(kDht11, DHT11_PIN);
+    dht11_ptr->BindData();
+    AddSensor(dht11_ptr);
 
     Log::Info( TAG, "===== Board config completed. =====");
 }

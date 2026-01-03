@@ -17,7 +17,7 @@
 #include "src/framework/peripheral/sensor.h"
 #include "ir_sensor.h"
 
-#define TAG "MY_BOARD"
+#define TAG "MyBoard"
 
 void* create_board() { 
     return new MyBoard();
@@ -31,12 +31,9 @@ MyBoard::MyBoard() : Board() {
     led_ = new GpioLed(BUILTIN_LED_PIN, false); // no pwm
 
     // 步骤一：创建传感器对象
-    std::shared_ptr<IrSensor> sensor_ptr = std::make_shared<IrSensor>(IR_SENSOR_PIN);
-    sensor_ptr->OnNewData([](const SensorValue& value){
-        auto& app = Application::GetInstance();
-        app.OnSensorDataEvent(kIrSensor, value);
-    });
-    AddSensor(kIrSensor, sensor_ptr);
+    std::shared_ptr<IrSensor> irsensor_ptr = std::make_shared<IrSensor>(kIrSensor, IR_SENSOR_PIN);
+    irsensor_ptr->BindData();
+    AddSensor(irsensor_ptr);
 
     Log::Info( TAG, "===== Board config completed. =====");
 }

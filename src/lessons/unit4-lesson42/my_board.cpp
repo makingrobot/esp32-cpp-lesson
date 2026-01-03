@@ -16,7 +16,7 @@
 #include "src/framework/app/application.h"
 #include "src/framework/peripheral/sensor.h"
 
-#define TAG "MY_BOARD"
+#define TAG "MyBoard"
 
 void* create_board() { 
     return new MyBoard();
@@ -30,12 +30,9 @@ MyBoard::MyBoard() : Board() {
     led_ = new GpioLed(BUILTIN_LED_PIN, false); // no pwm
 
     Log::Info(TAG, "initial sensor.");
-    std::shared_ptr<AnalogSensor> sensor_ptr = std::make_shared<AnalogSensor>(POTENTIOMETER_PIN);
-    sensor_ptr->OnNewData([](const SensorValue& value){
-        auto& app = Application::GetInstance();
-        app.OnSensorDataEvent(kPotentiometer, value);
-    });
-    AddSensor(kPotentiometer, sensor_ptr);
+    std::shared_ptr<AnalogSensor> sensor_ptr = std::make_shared<AnalogSensor>(kPotentiometer, POTENTIOMETER_PIN);
+    sensor_ptr->BindData();
+    AddSensor(sensor_ptr);
 
     Log::Info( TAG, "===== Board config completed. =====");
 }

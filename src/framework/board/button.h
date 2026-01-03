@@ -7,6 +7,8 @@
 #ifndef _BUTTON_H
 #define _BUTTON_H
 
+#include <string>
+
 class Button {
 public:
 
@@ -28,6 +30,8 @@ public:
 
     virtual void Tick() { }
     
+private:
+
 };
 
 #endif //_BUTTON_H

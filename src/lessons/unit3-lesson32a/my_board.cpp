@@ -15,7 +15,7 @@
 #include "src/framework/led/gpio_led.h"
 #include "src/framework/app/application.h"
 
-#define TAG "MY_BOARD"
+#define TAG "MyBoard"
 
 void* create_board() { 
     return new MyBoard();

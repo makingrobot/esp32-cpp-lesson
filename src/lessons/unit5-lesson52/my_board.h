@@ -14,23 +14,21 @@
 #define _MY_BOARD_H
 
 #include <Arduino.h>
-#include <OneButton.h>
 
 #include "src/framework/board/board.h"
 #include "src/framework/led/led.h"
+#include "src/framework/board/button.h"
 
 static const std::string kManualButton = "manual_button";
-static const std::string kTouch1 = "touch1";
-static const std::string kTouch2 = "touch2";
 static const std::string kDht11 = "dht11";
 static const std::string kIrSensor = "ir_sensor";
 static const std::string kRelay = "relay";
-static const std::string kL9110 = "l9110";
+static const std::string kSG90 = "sg90";
 
 class MyBoard : public Board {
 private:
     Led* led_ = nullptr;
-    OneButton *manual_button_ = nullptr;
+    Button *manual_button_ = nullptr;
 
 public:
     MyBoard();

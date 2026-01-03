@@ -14,10 +14,10 @@
 #include "my_board.h"
 #include "src/framework/led/gpio_led.h"
 #include "src/framework/app/application.h"
-#include "src/framework/peripheral/sensor.h"
+#include "src/framework/board/onebutton_impl.h"
 #include "src/framework/peripheral/switch_actuator.h"
 
-#define TAG "MY_BOARD"
+#define TAG "MyBoard"
 
 void* create_board() { 
     return new MyBoard();
@@ -30,12 +30,8 @@ MyBoard::MyBoard() : Board() {
     Log::Info(TAG, "initial led.");
     led_ = new GpioLed(BUILTIN_LED_PIN, false); // no pwm
 
-    manual_button_ = new OneButton(MANUAL_BUTTON_PIN, true, false);
-    manual_button_->attachClick([]() {
-        Log::Info(TAG, "Manual button click.");
-        Application& app = Application::GetInstance();
-        app.OnPhysicalButtonEvent(kManualButton, ButtonAction::Click);
-    });
+    manual_button_ = new OneButtonImpl(kManualButton, MANUAL_BUTTON_PIN, true, false);
+    manual_button_->BindAction(ButtonAction::Click);
 
     // 创建执行器件对象
     std::shared_ptr<SwitchActuator> actuator_ptr = std::make_shared<SwitchActuator>(RELAY_PIN);

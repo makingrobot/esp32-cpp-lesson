@@ -13,18 +13,16 @@
 #ifndef _MY_BOARD_H
 #define _MY_BOARD_H
 
-#include <Arduino.h>
-#include <OneButton.h>
-
 #include "src/framework/board/board.h"
 #include "src/framework/led/led.h"
+#include "src/framework/board/button.h"
 
 static const std::string kManualButton = "manual_button";
 
 class MyBoard : public Board {
 private:
     Led *led_ = nullptr;
-    OneButton *manual_button_ = nullptr;
+    Button *manual_button_ = nullptr;
 
 public:
     MyBoard();

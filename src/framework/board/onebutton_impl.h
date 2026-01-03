@@ -8,12 +8,34 @@
 
 class OneButtonImpl : public Button {
 public:
-    OneButtonImpl(const int pin, const bool activeLow = true, const bool pullupActive = true) {
+    OneButtonImpl(const std::string& name, const int pin, const bool activeLow = true, const bool pullupActive = true) 
+            : name_(name) {
         button_ = new OneButton(pin, activeLow, pullupActive);
     }
 
     void BindAction(ButtonAction action) override { 
+        if (action == ButtonAction::Click) {
+            OnClick([action](void *param) {
+                OneButtonImpl *_this = (OneButtonImpl *)param;
+                Board& board = Board::GetInstance();
+                board.OnPhysicalButtonEvent(_this->name_, action);
+            }, this);
 
+        } else if (action == ButtonAction::DoubleClick) {
+            OnDoubleClick([action](void *param) {
+                OneButtonImpl *_this = (OneButtonImpl *)param;
+                Board& board = Board::GetInstance();
+                board.OnPhysicalButtonEvent(_this->name_, action);
+            }, this);
+
+        } else if (action == ButtonAction::LongPress) {
+            OnLongPress([action](void *param){
+                OneButtonImpl *_this = (OneButtonImpl*)param;
+                Board& board = Board::GetInstance();
+                board.OnPhysicalButtonEvent(_this->name_, action);
+            }, this);
+            
+        }
     }
 
     void OnClick(std::function<void()> click_func) override { 
@@ -63,6 +85,7 @@ public:
     }
 
 private:
+    const std::string& name_;
     OneButton *button_;
 
     std::function<void()> click_func_;

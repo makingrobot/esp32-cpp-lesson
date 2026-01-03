@@ -8,6 +8,7 @@
 
 #define CONFIG_USE_SW_TIMER                1
 
+
 #endif //_APP_CONFIG_H
 
 #endif

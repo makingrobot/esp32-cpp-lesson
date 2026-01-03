@@ -19,8 +19,7 @@
 #define IR_SENSOR_PIN                       GPIO_NUM_35
 
 #define RELAY_PIN                           GPIO_NUM_26
-#define L9110_A_PIN                         GPIO_NUM_14
-#define L9110_B_PIN                         GPIO_NUM_15
+#define SG90_PI                             GPIO_NUM_14
 
 //**********************************************************************
 // 配置定义

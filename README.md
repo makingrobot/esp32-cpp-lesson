@@ -14,9 +14,8 @@ ESP32 C++ 教程，基于ESP32-Arduino-Framework应用开发框架。
 * 1-3 ESP32 Arduino开发框架
 
 ### Unit2 LED
-* 2-1 点亮LED
-* 2-2 RGB三色LED
-* 2-3 WS2812灯珠（Adafruit_NeoPixel库）
+* 2-1 RGB三色LED
+* 2-2 WS2812灯珠（Adafruit_NeoPixel库）
 
 ### Unit3 输入
 * 3-1 按键输入（按键信号转换、OneButton库、匿名函数、硬件与软件的推荐交互流程）
