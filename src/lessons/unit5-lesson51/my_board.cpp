@@ -41,7 +41,7 @@ MyBoard::MyBoard() : Board() {
 }
 
 void MyBoard::ButtonTick() {
-    manual_button_->tick();
+    manual_button_->Tick();
 }
 
 #endif 
