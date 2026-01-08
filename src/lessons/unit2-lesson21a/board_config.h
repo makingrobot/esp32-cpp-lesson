@@ -18,8 +18,8 @@
 // 配置定义
 
 // LED驱动
-#define CONFIG_USE_LED_GPIO                 0
-#define CONFIG_USE_LED_RGB                 1
+#define CONFIG_USE_LED_GPIO                 1
+#define CONFIG_USE_LED_RGB                  1
 #define CONFIG_USE_LED_WS2812               0
 
 // 使用ESP_LOG

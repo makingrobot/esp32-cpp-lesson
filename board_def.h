@@ -21,9 +21,13 @@
 #define BOARD_NAME "lesson21-board"
 #include "src/lessons/unit2-lesson21b/my_board.h"
 
-#elif BOARD_LESSON22 == 1
+#elif BOARD_LESSON22_A == 1
 #define BOARD_NAME "lesson22-board"
-#include "src/lessons/unit2-lesson22/my_board.h"
+#include "src/lessons/unit2-lesson22a/my_board.h"
+
+#elif BOARD_LESSON22_B == 1
+#define BOARD_NAME "lesson22-board"
+#include "src/lessons/unit2-lesson22b/my_board.h"
 
 #elif BOARD_LESSON31 == 1
 #define BOARD_NAME "lesson31-board"

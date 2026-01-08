@@ -42,13 +42,6 @@ void Sensor::Stop() {
     }
 }
 
-void Sensor::BindData() {
-    on_newdata_callback_ = [this](const SensorValue& value) {
-        auto& app = Application::GetInstance();
-        app.OnSensorDataEvent(name_, value);
-    };
-}
-
 /**
  * 读取传感器数据
  */
@@ -59,6 +52,9 @@ void Sensor::ReadData() {
     if (success) {
         if (on_newdata_callback_) {
             on_newdata_callback_(*sensor_val_);
+        } else {
+            auto& app = Application::GetInstance();
+            app.OnSensorDataEvent(name_, *sensor_val_);
         }
     }
 

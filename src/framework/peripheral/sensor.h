@@ -28,8 +28,6 @@ public:
     void Start(uint32_t interval_ms);
     void Stop();
 
-    void BindData();
-
     const std::string& name() const { return name_; }
     
     void OnNewData(std::function<void(const SensorValue&)> callback) { 

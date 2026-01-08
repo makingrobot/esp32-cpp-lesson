@@ -50,7 +50,9 @@ void Ws2812Led::TurnOn() {
     Stop();
 
     pixels_->clear();
-    pixels_->setPixelColor(0, pixels_->Color(r_, g_, b_));
+    for (uint8_t n : light_set_) {
+        pixels_->setPixelColor(n, pixels_->Color(r_, g_, b_));
+    }
     pixels_->show();
 }
 
@@ -105,7 +107,9 @@ void Ws2812Led::OnBlinkTimer() {
 
     pixels_->clear();
     if (blink_counter_ & 1) {
-        pixels_->setPixelColor(0, pixels_->Color(r_, g_, b_));
+        for (uint8_t n : light_set_) {
+            pixels_->setPixelColor(n, pixels_->Color(r_, g_, b_));
+        }
     } 
     pixels_->show();
 
@@ -114,20 +118,14 @@ void Ws2812Led::OnBlinkTimer() {
     }
 }
 
-void Ws2812Led::TurnOn(const std::vector<uint8_t>& nums) {
-    Log::Debug(TAG, "turn on");
-    if (pixels_ == nullptr) {
-        return;
+void Ws2812Led::SetLightNo(const std::vector<uint8_t>& light_set) {
+    light_set_ = {};
+    
+    for (uint8_t n : light_set) {
+        if (n < num_pixels_) {
+            light_set_.push_back(n);
+        }
     }
-
-    std::lock_guard<std::mutex> lock(mutex_);
-    Stop();
-
-    pixels_->clear();
-    for (uint8_t n : nums) {
-        pixels_->setPixelColor(n, pixels_->Color(r_, g_, b_));
-    }
-    pixels_->show();
 }
 
 #endif //CONFIG_USE_LED_WS2812

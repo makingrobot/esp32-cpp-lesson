@@ -9,13 +9,13 @@ ESP32 C++ 教程，基于ESP32-Arduino-Framework应用开发框架。
 * 课程介绍
 
 ### Unit1 基础知识
-* 1-1 开发环境
-* 1-2 C++ 基础知识
-* 1-3 ESP32 Arduino开发框架
+* [1-1 开发环境](https://www.xpstem.com/article/2000476)
+* [1-2 C++ 基础知识](https://www.xpstem.com/article/2000477)
+* [1-3 ESP32 Arduino开发框架](https://www.xpstem.com/article/2000493)
 
 ### Unit2 LED
-* 2-1 RGB三色LED
-* 2-2 WS2812灯珠（Adafruit_NeoPixel库）
+* [2-1 RGB三色LED](https://www.xpstem.com/article/2000495)
+* [2-2 WS2812灯珠（Adafruit_NeoPixel库）](https://www.xpstem.com/article/2000496)
 
 ### Unit3 输入
 * 3-1 按键输入（按键信号转换、OneButton库、匿名函数、硬件与软件的推荐交互流程）

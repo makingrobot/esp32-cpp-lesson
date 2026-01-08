@@ -1,5 +1,5 @@
 #include "config.h"
-#if BOARD_LESSON22 == 1
+#if BOARD_LESSON22_A == 1
 
 #ifndef _BOARD_CONFIG_H
 #define _BOARD_CONFIG_H
@@ -17,6 +17,7 @@
 
 // LED驱动
 #define CONFIG_USE_LED_GPIO                 1
+#define CONFIG_USE_LED_RGB                  0
 #define CONFIG_USE_LED_WS2812               1
 
 // 使用ESP_LOG

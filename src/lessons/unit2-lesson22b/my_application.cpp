@@ -5,14 +5,16 @@
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
  * 
- * Unit2-Lesson21：三色LED
+ * Unit2-Lesson22：Ws2812灯条
  */
 #include "config.h"
-#if APP_LESSON21_A==1
+#if APP_LESSON22_B==1
 
 #include "my_application.h"
 #include "src/framework/sys/log.h"
 #include "src/framework/board/board.h"
+#include "src/framework/led/led.h"
+#include "src/framework/led/ws2812_led.h"
 
 #define TAG "MyApplication"
 
@@ -25,15 +27,18 @@ MyApplication::MyApplication() : Application() {
 }
 
 void MyApplication::OnInit() {
-    // do your init.
+    Ws2812Led* ws_led = (Ws2812Led *)Board::GetInstance().GetLed();
+    ws_led->SetColor(0, 0, 255);
 }
 
 void MyApplication::OnLoop() {
-    Led *led = Board::GetInstance().GetLed();
-    led->TurnOn();
-    delay(1000);
-    led->TurnOff();
-    delay(1000);
+    Ws2812Led* ws_led = (Ws2812Led *)Board::GetInstance().GetLed();
+
+    for (uint8_t n = 0; n<ws_led->num_pixels(); n++) {
+        ws_led->SetLightNo({n}); // 每次只亮一个灯珠
+        ws_led->TurnOn();
+        delay(1000);
+    }
 }
 
 #endif 

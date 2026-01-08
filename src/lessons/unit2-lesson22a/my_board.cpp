@@ -5,10 +5,10 @@
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
  * 
- * Unit2-Lesson23：Ws2812灯条
+ * Unit2-Lesson22：Ws2812灯条
  */
 #include "config.h"
-#if BOARD_LESSON22 == 1
+#if BOARD_LESSON22_A == 1
 
 #include "board_config.h"
 #include "my_board.h"

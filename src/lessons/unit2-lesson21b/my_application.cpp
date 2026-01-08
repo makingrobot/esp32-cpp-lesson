@@ -29,15 +29,14 @@ void MyApplication::OnInit() {
 }
 
 void MyApplication::OnLoop() {
-
     Led *led = Board::GetInstance().GetLed();
 
     led->SetColor(255, 0, 0);
     led->TurnOn();
     delay(2000);
 
-    // 过滤
-    for (int i=0; i<=250; i+=50) {
+    // 过渡渐变
+    for (int i=0; i<=255; i+=50) {
         led->SetColor(255-i, i, 0);
         led->TurnOn();
         delay(200);
@@ -47,8 +46,8 @@ void MyApplication::OnLoop() {
     led->TurnOn();
     delay(2000);
 
-    // 过滤
-    for (int i=0; i<=250; i+=50) {
+    // 过渡渐变
+    for (int i=0; i<=255; i+=50) {
         led->SetColor(0, 255-i, i);
         led->TurnOn();
         delay(200);
@@ -58,13 +57,12 @@ void MyApplication::OnLoop() {
     led->TurnOn();
     delay(2000);
 
-    // 过滤
-    for (int i=0; i<=250; i+=50) {
+    // 过渡渐变
+    for (int i=0; i<=255; i+=50) {
         led->SetColor(i, 0, 255-i);
         led->TurnOn();
         delay(200);
     }
-
 }
 
 #endif 
