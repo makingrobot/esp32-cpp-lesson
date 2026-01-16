@@ -23,21 +23,23 @@ void* create_board() {
 }
 
 MyBoard::MyBoard() : Board() {
-
     Log::Info(TAG, "===== Create Board ...... =====");
 
     Log::Info(TAG, "initial led.");
     led_ = new GpioLed(BUILTIN_LED_PIN, false); // no pwm
 
-    manual_button_ = new OneButtonImpl(kManualButton, MANUAL_BUTTON_PIN, false);
-    manual_button_->BindAction(ButtonAction::Click);
-    manual_button_->BindAction(ButtonAction::DoubleClick);
+    std::shared_ptr<Button> button1 = std::make_shared<OneButtonImpl>(kManualButton, MANUAL_BUTTON_PIN, false);
+    button1->BindAction(ButtonAction::Click);
+    button1->BindAction(ButtonAction::DoubleClick);
+    AddButton(button1);
 
     Log::Info( TAG, "===== Board config completed. =====");
 }
 
 void MyBoard::ButtonTick() {
-    manual_button_->Tick();
+    for (const auto& pair : button_map()) {
+        pair.second->Tick();
+    }
 }
 
 #endif 

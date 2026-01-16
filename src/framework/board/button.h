@@ -11,6 +11,9 @@
 
 class Button {
 public:
+    Button(const std::string& name) : name_(name) { }
+
+    const std::string& name() const { return name_; }
 
     virtual void BindAction(ButtonAction action) { }
 
@@ -26,11 +29,14 @@ public:
 
     virtual void OnLongPress(std::function<void(void*)> longpress_func, void *parameter) { }
 
+    virtual void SetLongPressIntervalMs(uint32_t interval) { }
+
     virtual bool IsPressed() { return false; }
 
     virtual void Tick() { }
-    
+
 private:
+    const std::string name_;
 
 };
 
