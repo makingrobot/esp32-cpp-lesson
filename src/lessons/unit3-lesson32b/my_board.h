@@ -17,6 +17,7 @@
 #include "src/framework/led/led.h"
 
 static const std::string kTouch1 = "touch1";
+static const int kThreshold = 1000;
 
 class MyBoard : public Board {
 private:

@@ -29,20 +29,25 @@ MyBoard::MyBoard() : Board() {
     led_ = new GpioLed(BUILTIN_LED_PIN, false); // no pwm
 
     xTaskCreate([](void* pvParam){
-        while (1) {
-            touch_value_t tv = touchRead(TOUCH_1_PIN);
-            if (tv < 1000) {
-                Log::Info(TAG, "Touch detected.");
-
-                Application& app = Application::GetInstance();
-                app.OnPinTouchEvent(kTouch1);
-            }
-
-            delay(100);
-        }
-    }, "TouchDetected_Task", 4096, NULL, 1, NULL);
+        MyBoard *board = static_cast<MyBoard *>(pvParam);
+        board->TouchCheck();
+    }, "TouchDetected_Task", 4096, this, 1, NULL);
 
     Log::Info( TAG, "===== Board config completed. =====");
+}
+
+void MyBoard::TouchCheck() {
+    while (1) {
+        touch_value_t tv = touchRead(TOUCH_1_PIN);
+        if (tv < kThreshold) {
+            Log::Info(TAG, "Touch detected.");
+
+            Application& app = Application::GetInstance();
+            app.OnPinTouchEvent(kTouch1);
+        }
+
+        delay(100);
+    }
 }
 
 #endif 

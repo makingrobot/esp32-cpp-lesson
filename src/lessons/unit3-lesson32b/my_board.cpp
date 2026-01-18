@@ -21,6 +21,13 @@ void* create_board() {
     return new MyBoard();
 }
 
+void _OnTouched() {
+    Log::Info(TAG, "Touch detected.");
+
+    Application& app = Application::GetInstance();
+    app.OnPinTouchEvent(kTouch1);
+}
+
 MyBoard::MyBoard() : Board() {
 
     Log::Info(TAG, "===== Create Board ...... =====");
@@ -30,13 +37,8 @@ MyBoard::MyBoard() : Board() {
 
     touchAttachInterrupt(
         TOUCH_1_PIN, 
-        [](){ /* 中断调用函数 */
-            Log::Info(TAG, "Touch detected.");
-
-            Application& app = Application::GetInstance();
-            app.OnPinTouchEvent(kTouch1);
-        },
-        1000 /* 中断触发阀值 */
+        _OnTouched, /* 中断调用函数 */
+        kThreshold /* 中断触发阀值 */
     );
     //参考：https://www.xpstem.com/doc/arduino-esp32/api/touch
 

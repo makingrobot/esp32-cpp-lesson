@@ -17,6 +17,7 @@
 #include "src/framework/led/led.h"
 
 static const std::string kTouch1 = "touch1";
+static const int kThreshold = 1000;
 
 class MyBoard : public Board {
 private:
@@ -26,6 +27,7 @@ public:
     MyBoard();
     Led* GetLed() override { return led_; }
 
+    void TouchCheck();
 };
 
 #endif //_MY_BOARD_H

@@ -35,6 +35,7 @@ void MyApplication::OnLoop() {
         Led *led = Board::GetInstance().GetLed();
         led->TurnOn();
         delay(200);
+        led->TurnOff();
         touch1_detected_ = false;
     }
 

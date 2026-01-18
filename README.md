@@ -25,13 +25,13 @@ ESP32 C++ 教程，基于ESP32-Arduino-Framework应用开发框架。
   知识点：类型强制转换
 ```
 ### Unit3 输入
-* 3-1 按键输入
+* [3-1 按键输入](https://www.xpstem.com/article/2000499)
 ```
   知识点：按键信号转换、Button类及派生类、OneButton库封装、Button交互推荐流程
 ```
-* 3-2 触摸感应输入
+* [3-2 触摸感应输入](https://www.xpstem.com/article/2000500)
 ```
-  知识点：中断
+  知识点：触摸引脚、中断处理
 ```
 ### Unit4 传感器
 * 4-1 触摸传感器
