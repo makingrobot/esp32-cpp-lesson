@@ -31,7 +31,6 @@ MyBoard::MyBoard() : Board() {
 
     // 步骤一：创建传感器对象
     std::shared_ptr<DigitalSensor> sensor_ptr = std::make_shared<DigitalSensor>(kTouch2, TOUCH_2_PIN);
-    sensor_ptr->BindData();
     AddSensor(sensor_ptr);
 
     Log::Info( TAG, "===== Board config completed. =====");

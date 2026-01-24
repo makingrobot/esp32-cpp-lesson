@@ -5,18 +5,18 @@
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
  * 
- * Unit4-Lesson43：温湿度传感器
+ * Unit4-Lesson42_B：温湿度传感器
  */
 #include "config.h"
-#if BOARD_LESSON43==1
+#if BOARD_LESSON42_B==1
 
 #ifndef _DHT11_SENSOR_H
 #define _DHT11_SENSOR_H
 
-#include <Arduino.h>
-#include <DHT.h>
 #include <string>
 #include <vector>
+#include <Arduino.h>
+#include <DHT.h> //https://github.com/adafruit/DHT-sensor-library
 #include "src/framework/peripheral/sensor.h"
 
 class Dht11Sensor : public Sensor {

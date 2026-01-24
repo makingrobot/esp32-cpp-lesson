@@ -8,11 +8,12 @@
  * Unit4-Lesson43：旋转电位器
  */
 #include "config.h"
-#if APP_LESSON42==1
+#if APP_LESSON42_A==1
 
 #include "my_application.h"
 #include "src/framework/sys/log.h"
 #include "src/framework/board/board.h"
+#include "src/framework/peripheral/sensor.h"
 #include "my_board.h"
 
 #define TAG "MyApplication"
@@ -34,19 +35,24 @@ void MyApplication::OnInit() {
 }
 
 void MyApplication::OnLoop() {
-
-    delay(1);
+    Led *led = Board::GetInstance().GetLed();
+    if (value_ == 0) {
+        led->TurnOff();
+    } else {
+        led->SetColor(value_, 0, 0);
+        led->TurnOn();
+    }
+    delay(100);
 }
 
 bool MyApplication::OnSensorDataEvent(const std::string& sensor_name, const SensorValue& value) {
-    
-    // 步骤三：处理传感器数据
+    // 处理传感器数据
     if (sensor_name == kPotentiometer) {
         // 电位器的值范围为：0-4095，一般使用map函数进行转换
-        int new_value = map(value.intValue(), 0, 4095, 0, 99);
-        if (new_value != prev_value_) {
+        int new_value = map(value.intValue(), 0, 4095, 0, 255);
+        if (new_value != value_) {
             Log::Info(TAG, "new value: %d", new_value);
-            prev_value_ = new_value;
+            value_ = new_value;
         }
         return true;
     }

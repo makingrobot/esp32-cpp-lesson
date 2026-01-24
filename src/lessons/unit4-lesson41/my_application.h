@@ -33,7 +33,7 @@ protected:
     void OnLoop() override;
 
 private:
-    bool touch1_detected_ = false;
+    volatile bool touch1_detected_ = false;
 };
 
 #endif //_MY_APPLICATION_H

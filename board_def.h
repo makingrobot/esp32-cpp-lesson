@@ -45,17 +45,17 @@
 #define BOARD_NAME "lesson41-board"
 #include "src/lessons/unit4-lesson41/my_board.h"
 
-#elif BOARD_LESSON42 == 1
+#elif BOARD_LESSON42_A == 1
 #define BOARD_NAME "lesson42-board"
-#include "src/lessons/unit4-lesson42/my_board.h"
+#include "src/lessons/unit4-lesson42a/my_board.h"
+
+#elif BOARD_LESSON42_B == 1
+#define BOARD_NAME "lesson42-board"
+#include "src/lessons/unit4-lesson42b/my_board.h"
 
 #elif BOARD_LESSON43 == 1
 #define BOARD_NAME "lesson43-board"
 #include "src/lessons/unit4-lesson43/my_board.h"
-
-#elif BOARD_LESSON44 == 1
-#define BOARD_NAME "lesson44-board"
-#include "src/lessons/unit4-lesson44/my_board.h"
 
 #elif BOARD_LESSON51 == 1
 #define BOARD_NAME "lesson51-board"

@@ -5,7 +5,7 @@
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
  * 
- * Unit4-Lesson43：温湿度传感器
+ * Unit4-Lesson44：红外遥控
  */
 #include "config.h"
 #if BOARD_LESSON43 == 1
@@ -14,7 +14,8 @@
 #include "my_board.h"
 #include "src/framework/led/gpio_led.h"
 #include "src/framework/app/application.h"
-#include "dht11_sensor.h"
+#include "src/framework/peripheral/sensor.h"
+#include "ir_sensor.h"
 
 #define TAG "MyBoard"
 
@@ -29,10 +30,10 @@ MyBoard::MyBoard() : Board() {
     Log::Info(TAG, "initial led.");
     led_ = new GpioLed(BUILTIN_LED_PIN, false); // no pwm
 
-    // 创建传感器对象
-    std::shared_ptr<Dht11Sensor> dht11_ptr = std::make_shared<Dht11Sensor>(kDht11, DHT11_PIN);
-    dht11_ptr->BindData();
-    AddSensor(dht11_ptr);
+    // 步骤一：创建传感器对象
+    std::shared_ptr<IrSensor> irsensor_ptr = std::make_shared<IrSensor>(kIrSensor, IR_SENSOR_PIN);
+    irsensor_ptr->BindData();
+    AddSensor(irsensor_ptr);
 
     Log::Info( TAG, "===== Board config completed. =====");
 }

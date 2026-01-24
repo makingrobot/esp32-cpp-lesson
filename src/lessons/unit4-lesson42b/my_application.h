@@ -5,19 +5,18 @@
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
  * 
- * Unit4-Lesson44：红外遥控
+ * Unit4-Lesson43：温湿度传感器
  */
 #include "config.h"
-#if APP_LESSON44==1
+#if APP_LESSON42_B==1
 
 #ifndef _MY_APPLICATION_H
 #define _MY_APPLICATION_H
 
-#pragma message("Compile unit4 lesson44 application.")
+#pragma message("Compile unit4 lesson42 application.")
 
 #include <string>
 #include "src/framework/app/application.h"
-#include "src/framework/peripheral/sensor.h"
 
 class MyApplication : public Application {
 public:
@@ -25,7 +24,7 @@ public:
     
     bool OnSensorDataEvent(const std::string& sensor_name, const SensorValue& value) override;
 
-    const std::string& GetAppName() const override { return "Unit4-Lesson44"; }
+    const std::string& GetAppName() const override { return "Unit4-Lesson42"; }
     const std::string& GetAppVersion() const override { return "1.0.0"; }
 
 protected:

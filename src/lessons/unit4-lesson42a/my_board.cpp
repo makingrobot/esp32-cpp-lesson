@@ -8,11 +8,11 @@
  * Unit4-Lesson43：旋转电位器
  */
 #include "config.h"
-#if BOARD_LESSON42 == 1
+#if BOARD_LESSON42_A == 1
 
 #include "board_config.h"
 #include "my_board.h"
-#include "src/framework/led/gpio_led.h"
+#include "src/framework/led/rgb_led.h"
 #include "src/framework/app/application.h"
 #include "src/framework/peripheral/sensor.h"
 
@@ -23,15 +23,13 @@ void* create_board() {
 }
 
 MyBoard::MyBoard() : Board() {
-
     Log::Info(TAG, "===== Create Board ...... =====");
 
     Log::Info(TAG, "initial led.");
-    led_ = new GpioLed(BUILTIN_LED_PIN, false); // no pwm
+    led_ = new RgbLed(RGB_LED_R_PIN, RGB_LED_G_PIN, RGB_LED_B_PIN, false); 
 
     Log::Info(TAG, "initial sensor.");
     std::shared_ptr<AnalogSensor> sensor_ptr = std::make_shared<AnalogSensor>(kPotentiometer, POTENTIOMETER_PIN);
-    sensor_ptr->BindData();
     AddSensor(sensor_ptr);
 
     Log::Info( TAG, "===== Board config completed. =====");

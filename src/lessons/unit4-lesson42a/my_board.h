@@ -5,10 +5,10 @@
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
  * 
- * Unit4-Lesson44：红外遥控
+ * Unit4-Lesson43：旋转电位器
  */
 #include "config.h"
-#if BOARD_LESSON44 == 1
+#if BOARD_LESSON42_A == 1
 
 #ifndef _MY_BOARD_H
 #define _MY_BOARD_H
@@ -18,8 +18,7 @@
 
 static const std::string kTouch1 = "touch1";
 static const std::string kTouch2 = "touch2";
-static const std::string kDht11 = "dht11";
-static const std::string kIrSensor = "ir_sensor";
+static const std::string kPotentiometer = "potentiometer";
 
 class MyBoard : public Board {
 private:

@@ -1,9 +1,18 @@
+/**
+ * ESP32-Arduino-Framework
+ * Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架。
+ * 
+ * Author: Billy Zhang（billy_zh@126.com）
+ */
 #ifndef _SENSOR_VALUE_H
 #define _SENSOR_VALUE_H
 
 #include <vector>
 #include <string>
 
+/**
+ * 传感器数据
+ */
 class SensorValue {
 public:
     const int intValue() const { return int_val_; }

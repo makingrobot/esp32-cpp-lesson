@@ -8,7 +8,7 @@
  * Unit4-Lesson43：旋转电位器
  */
 #include "config.h"
-#if APP_LESSON42==1
+#if APP_LESSON42_A==1
 
 #ifndef _MY_APPLICATION_H
 #define _MY_APPLICATION_H
@@ -17,7 +17,6 @@
 
 #include <string>
 #include "src/framework/app/application.h"
-#include "src/framework/peripheral/sensor.h"
 
 class MyApplication : public Application {
 public:
@@ -33,7 +32,7 @@ protected:
     void OnLoop() override;
 
 private:
-    int prev_value_ = 0;
+    volatile int value_ = 0;
     
 };
 

@@ -5,7 +5,7 @@
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
  * 
- * Unit4-Lesson42：温湿度传感器
+ * Unit4-Lesson44：红外遥控
  */
 #include "config.h"
 #if BOARD_LESSON43 == 1
@@ -19,6 +19,7 @@
 static const std::string kTouch1 = "touch1";
 static const std::string kTouch2 = "touch2";
 static const std::string kDht11 = "dht11";
+static const std::string kIrSensor = "ir_sensor";
 
 class MyBoard : public Board {
 private:

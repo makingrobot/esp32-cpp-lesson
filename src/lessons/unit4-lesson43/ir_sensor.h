@@ -6,7 +6,7 @@
  * Author: Billy Zhang（billy_zh@126.com）
  */
 #include "config.h"
-#if BOARD_LESSON44==1
+#if BOARD_LESSON43==1
 
 #ifndef _IR_SENSOR_H
 #define _IR_SENSOR_H
