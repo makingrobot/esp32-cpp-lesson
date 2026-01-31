@@ -42,7 +42,7 @@ ESP32 C++ 教程，基于ESP32-Arduino-Framework应用开发框架。
 ```
   知识点：模拟量传感器使用，旋转电位器、DHT11温湿度传感器，自定义传感器类
 ```
-* 4-3 红外遥控
+* [4-3 红外接收和遥控](https://www.xpstem.com/article/2000504)
 ```
   知识点：红外信号、IRremote库
 ```

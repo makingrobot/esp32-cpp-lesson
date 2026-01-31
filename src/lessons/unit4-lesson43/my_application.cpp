@@ -26,34 +26,33 @@ MyApplication::MyApplication() : Application() {
 }
 
 void MyApplication::OnInit() {
-    
-    // 步骤二：启动传感器收集数据
+    // 启动传感器收集数据
     std::shared_ptr<Sensor> irsensor_ptr = Board::GetInstance().GetSensor(kIrSensor);
     irsensor_ptr->Start(100);
 }
 
 void MyApplication::OnLoop() {
+    Led *led = Board::GetInstance().GetLed();
 
-    delay(1);
+    switch (ir_code_) {
+        case 0xF30CFF00:  // 遥控器上“1”键
+            led->TurnOn();
+            break;
+
+        case 0xE718FF00:
+            led->TurnOff();  // 遥控器上“2”键
+            break;
+    }
+
+    delay(100);
 }
 
 bool MyApplication::OnSensorDataEvent(const std::string& sensor_name, const SensorValue& value) {
-    
-    // 步骤三：处理传感器数据
+    // 处理传感器数据
     if (sensor_name == kIrSensor) {
         
         Log::Info(TAG, "ir code: %02X", value.ulongValue());
-        Led *led = Board::GetInstance().GetLed();
-
-        switch (value.ulongValue()) {
-            case 0xF30CFF00:  // 遥控器上“1”键
-                led->TurnOn();
-                break;
-
-            case 0xE718FF00:
-                led->TurnOff();  // 遥控器上“2”键
-                break;
-        }
+        ir_code_ = value.ulongValue();
         return true;
     }
 

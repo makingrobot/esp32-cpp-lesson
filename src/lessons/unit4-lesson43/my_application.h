@@ -33,7 +33,7 @@ protected:
     void OnLoop() override;
 
 private:
-    bool touch1_detected_ = false;
+    uint32_t ir_code_;
 };
 
 #endif //_MY_APPLICATION_H

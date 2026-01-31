@@ -24,15 +24,13 @@ void* create_board() {
 }
 
 MyBoard::MyBoard() : Board() {
-
     Log::Info(TAG, "===== Create Board ...... =====");
 
     Log::Info(TAG, "initial led.");
     led_ = new GpioLed(BUILTIN_LED_PIN, false); // no pwm
 
-    // 步骤一：创建传感器对象
+    // 创建传感器对象
     std::shared_ptr<IrSensor> irsensor_ptr = std::make_shared<IrSensor>(kIrSensor, IR_SENSOR_PIN);
-    irsensor_ptr->BindData();
     AddSensor(irsensor_ptr);
 
     Log::Info( TAG, "===== Board config completed. =====");
