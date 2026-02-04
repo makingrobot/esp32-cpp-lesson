@@ -19,7 +19,7 @@
 #define IR_SENSOR_PIN                       GPIO_NUM_35
 
 #define RELAY_PIN                           GPIO_NUM_26
-#define SG90_PI                             GPIO_NUM_14
+#define SG90_PIN                            GPIO_NUM_14
 
 //**********************************************************************
 // 配置定义
@@ -27,6 +27,8 @@
 // LED驱动
 #define CONFIG_USE_LED_GPIO                 1
 #define CONFIG_USE_LED_WS2812               0
+
+#define CONFIG_USE_SERVO                    1
 
 // 使用ESP_LOG
 #define CONFIG_USE_ESP_LOG                  0

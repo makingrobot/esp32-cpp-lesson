@@ -394,5 +394,5 @@ void Application::EventLoop() {
         Log::Error( TAG, "Caught exception: %s", e.what() );
     }
 
-    delay(1); //1ms
+    //delay(1); //1ms
 }

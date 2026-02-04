@@ -32,7 +32,6 @@ void MyApplication::OnInit() {
 }
 
 void MyApplication::OnLoop() {
-
     MyBoard *board = static_cast<MyBoard*>(&Board::GetInstance());
     board->ButtonTick();
     
@@ -40,13 +39,17 @@ void MyApplication::OnLoop() {
 }
 
 bool MyApplication::OnPhysicalButtonEvent(const std::string& button_name, const ButtonAction action) {
-
     if (button_name == kManualButton) {
-
-        std::shared_ptr<Actuator> act_ptr = Board::GetInstance().GetActuator(kRelay);
+        Board& board = Board::GetInstance();
+        std::shared_ptr<Actuator> act_ptr = board.GetActuator(kRelay);
         std::shared_ptr<SwitchActuator> relay_ptr = std::static_pointer_cast<SwitchActuator>(act_ptr);
         if (action == ButtonAction::Click) {
             relay_ptr->Switch();
+            if (relay_ptr->IsOn()) {
+                board.GetLed()->TurnOn();
+            } else {
+                board.GetLed()->TurnOff();
+            }
             return true;
         }
     }

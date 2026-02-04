@@ -28,7 +28,6 @@ static const std::string kSG90 = "sg90";
 class MyBoard : public Board {
 private:
     Led* led_ = nullptr;
-    Button *manual_button_ = nullptr;
 
 public:
     MyBoard();

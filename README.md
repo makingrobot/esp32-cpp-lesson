@@ -48,11 +48,14 @@ ESP32 C++ 教程，基于ESP32-Arduino-Framework应用开发框架。
 ```
 
 ### Unit5 执行器件
-* 5-1 继电器
+* [5-1 继电器](https://www.xpstem.com/article/2000505)
 ```
-  知识点：Actuator类及派生类
+  知识点：Actuator类及派生类、继电器
 ```
-* 5-2 舵机控制
+* [5-2 舵机控制](https://www.xpstem.com/article/2000506)
+```
+  知识点：舵机驱动类、ESP32Servo库
+```
 
 ### Unit6 定时器和多线程
 * 6-1 定时器

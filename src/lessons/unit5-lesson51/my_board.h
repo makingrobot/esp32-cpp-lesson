@@ -17,7 +17,6 @@
 
 #include "src/framework/board/board.h"
 #include "src/framework/led/led.h"
-#include "src/framework/board/button.h"
 
 static const std::string kManualButton = "manual_button";
 static const std::string kDht11 = "dht11";
@@ -27,7 +26,6 @@ static const std::string kRelay = "relay";
 class MyBoard : public Board {
 private:
     Led* led_ = nullptr;
-    Button *manual_button_ = nullptr;
 
 public:
     MyBoard();

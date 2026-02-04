@@ -15,6 +15,7 @@
 #include "src/framework/led/gpio_led.h"
 #include "src/framework/app/application.h"
 #include "src/framework/board/onebutton_impl.h"
+#include "src/framework/peripheral/servo_driver.h"
 
 #define TAG "MyBoard"
 
@@ -23,24 +24,26 @@ void* create_board() {
 }
 
 MyBoard::MyBoard() : Board() {
-
     Log::Info(TAG, "===== Create Board ...... =====");
 
     Log::Info(TAG, "initial led.");
     led_ = new GpioLed(BUILTIN_LED_PIN, false); // no pwm
 
-    manual_button_ = new OneButtonImpl(kManualButton, MANUAL_BUTTON_PIN, true, false);
-    manual_button_->BindAction(ButtonAction::Click);
-    manual_button_->BindAction(ButtonAction::DoubleClick);
+    std::shared_ptr<Button> button = std::make_shared<OneButtonImpl>(kManualButton, MANUAL_BUTTON_PIN, true, false);
+    button->BindAction(ButtonAction::Click);
+    button->BindAction(ButtonAction::DoubleClick);
+    AddButton(button);
 
-    std::shared_ptr<SG90Driver> sg90_ptr = std::make_shared<SG90Driver>(SG90_PIN);
-    AddActuator(kSG90, sg90_ptr);
+    std::shared_ptr<ServoDriver> servo_ptr = std::make_shared<ServoDriver>(SG90_PIN);
+    AddActuator(kSG90, servo_ptr);
 
     Log::Info( TAG, "===== Board config completed. =====");
 }
 
 void MyBoard::ButtonTick() {
-    manual_button_->Tick();
+    for (const auto& pair : button_map()) {
+        pair.second->Tick();
+    }
 }
 
 #endif 

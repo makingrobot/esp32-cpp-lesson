@@ -24,6 +24,8 @@ public:
     
     bool OnPhysicalButtonEvent(const std::string& button_name, const ButtonAction action) override;
 
+    void StepMove(int step);
+
     const std::string& GetAppName() const override { return "Unit5-Lesson52"; }
     const std::string& GetAppVersion() const override { return "1.0.0"; }
 

@@ -24,14 +24,14 @@ void* create_board() {
 }
 
 MyBoard::MyBoard() : Board() {
-
     Log::Info(TAG, "===== Create Board ...... =====");
 
     Log::Info(TAG, "initial led.");
     led_ = new GpioLed(BUILTIN_LED_PIN, false); // no pwm
 
-    manual_button_ = new OneButtonImpl(kManualButton, MANUAL_BUTTON_PIN, true, false);
-    manual_button_->BindAction(ButtonAction::Click);
+    std::shared_ptr<Button> button = std::make_shared<OneButtonImpl>(kManualButton, MANUAL_BUTTON_PIN, true, false);
+    button->BindAction(ButtonAction::Click);
+    AddButton(button);
 
     // 创建执行器件对象
     std::shared_ptr<SwitchActuator> actuator_ptr = std::make_shared<SwitchActuator>(RELAY_PIN);
@@ -41,7 +41,9 @@ MyBoard::MyBoard() : Board() {
 }
 
 void MyBoard::ButtonTick() {
-    manual_button_->Tick();
+    for (const auto& pair : button_map()) {
+        pair.second->Tick();
+    }
 }
 
 #endif 

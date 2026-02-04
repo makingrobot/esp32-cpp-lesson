@@ -13,6 +13,7 @@
 #include "my_application.h"
 #include "src/framework/sys/log.h"
 #include "src/framework/board/board.h"
+#include "src/framework/peripheral/servo_driver.h"
 #include "my_board.h"
 
 #define TAG "MyApplication"
@@ -26,11 +27,12 @@ MyApplication::MyApplication() : Application() {
 }
 
 void MyApplication::OnInit() {
-    
+    std::shared_ptr<Actuator> act_ptr = Board::GetInstance().GetActuator(kSG90);
+    std::shared_ptr<ServoDriver> servo_ptr = std::static_pointer_cast<ServoDriver>(act_ptr);
+    servo_ptr->Reset();
 }
 
 void MyApplication::OnLoop() {
-
     MyBoard *board = (MyBoard*)(&Board::GetInstance());
     board->ButtonTick();
     
@@ -38,13 +40,26 @@ void MyApplication::OnLoop() {
 }
 
 bool MyApplication::OnPhysicalButtonEvent(const std::string& button_name, const ButtonAction action) {
-
     if (button_name == kManualButton) {
+        if (action == ButtonAction::Click) {
+            StepMove(5);
+            return true;
 
-       
+        } else if (action == ButtonAction::DoubleClick) {
+            StepMove(-5);
+            return true;
+        }
     }
 
     return Application::OnPhysicalButtonEvent(button_name, action);
+}
+
+void MyApplication::StepMove(int step) {
+    std::shared_ptr<Actuator> act_ptr = Board::GetInstance().GetActuator(kSG90);
+    std::shared_ptr<ServoDriver> servo_ptr = std::static_pointer_cast<ServoDriver>(act_ptr);
+    Schedule([servo_ptr, step](){
+        servo_ptr->Move(step);
+    });
 }
 
 #endif 
