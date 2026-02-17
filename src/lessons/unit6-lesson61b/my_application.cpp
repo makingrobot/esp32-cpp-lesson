@@ -27,20 +27,14 @@ MyApplication::MyApplication() : Application() {
 }
 
 void MyApplication::OnInit() {
-    
     timer1_ = TimerFactory::CreateTimer("timer1");
-    timer1_->Start(10000, [this]() {
+    timer1_->Start(1000, [this]() {
         Timer1Task();
     });
 
-    // timer2_ = TimerFactory::CreateTimer("timer2");
-    // timer2_->Start(8000, [this]() {
-    //     Timer2Task();
-    // });
-
-    timer3_ = TimerFactory::CreateTimer("timer3");
-    timer3_->Start(6000, [this]() {
-        Timer3Task();
+    timer2_ = TimerFactory::CreateTimer("timer2");
+    timer2_->Start(500, [this]() {
+        Timer2Task();
     });
 }
 
@@ -65,18 +59,8 @@ void MyApplication::Timer1Task() {
 void MyApplication::Timer2Task() {
     Log::Info(TAG, "Time2Task execute...");
     
-    // do samething.
-    int n = 0;
-    for (int i=1; i<=100; i++) {
-        n =+ i;
-    }
-}
-
-void MyApplication::Timer3Task() {
-    Log::Info(TAG, "Time3Task execute.....");
-    
-    // 执行时间大于定时器高度时间(600s)
-    delay(7000);
+    // 执行时间大于定时器时间(500s)
+    delay(800);
 }
 
 #endif 

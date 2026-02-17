@@ -27,12 +27,11 @@ MyApplication::MyApplication() : Application() {
 }
 
 void MyApplication::OnInit() {
-    
+    // 创建定时器
     timer1_ = TimerFactory::CreateTimer("timer1");
     timer1_->Start(1000, [this]() {
         Blink();
     });
-
 }
 
 void MyApplication::OnLoop() {
@@ -41,7 +40,6 @@ void MyApplication::OnLoop() {
 }
 
 void MyApplication::Blink() {
-
     Led *led = Board::GetInstance().GetLed();
     if (state_==0) {
         led->TurnOn();

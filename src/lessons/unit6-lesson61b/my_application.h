@@ -17,7 +17,6 @@
 
 #include <string>
 #include "src/framework/app/application.h"
-#include "src/framework/peripheral/sensor.h"
 
 class MyApplication : public Application {
 public:
@@ -33,11 +32,9 @@ protected:
 private:
     void Timer1Task();
     void Timer2Task();
-    void Timer3Task();
 
     Timer *timer1_ = nullptr;
     Timer *timer2_ = nullptr;
-    Timer *timer3_ = nullptr;
     int state_ = 0;
 };
 

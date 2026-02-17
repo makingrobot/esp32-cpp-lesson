@@ -14,8 +14,6 @@
 #include "my_board.h"
 #include "src/framework/led/gpio_led.h"
 #include "src/framework/app/application.h"
-#include "src/framework/peripheral/sensor.h"
-#include "src/framework/peripheral/switch_actuator.h"
 
 #define TAG "MY_BOARD"
 
@@ -24,7 +22,6 @@ void* create_board() {
 }
 
 MyBoard::MyBoard() : Board() {
-
     Log::Info(TAG, "===== Create Board ...... =====");
 
     Log::Info(TAG, "initial led.");

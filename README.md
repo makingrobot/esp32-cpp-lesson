@@ -58,7 +58,7 @@ ESP32 C++ 教程，基于ESP32-Arduino-Framework应用开发框架。
 ```
 
 ### Unit6 定时器和多线程
-* 6-1 定时器
+* [6-1 定时器](https://www.xpstem.com/article/2000509)
 ```
   知识点：Timer类、FreeRTOS定时器、硬件定时器
 ```

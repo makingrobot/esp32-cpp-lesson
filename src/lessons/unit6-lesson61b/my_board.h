@@ -18,13 +18,6 @@
 #include "src/framework/board/board.h"
 #include "src/framework/led/led.h"
 
-static const std::string kManualButton = "manual_button";
-static const std::string kTouch1 = "touch1";
-static const std::string kTouch2 = "touch2";
-static const std::string kDht11 = "dht11";
-static const std::string kIrSensor = "ir_sensor";
-static const std::string kRelay = "relay";
-
 class MyBoard : public Board {
 private:
     Led* led_ = nullptr;

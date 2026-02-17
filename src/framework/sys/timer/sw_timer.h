@@ -15,13 +15,12 @@ public:
     SwTimer(const std::string& name);
     virtual ~SwTimer();
 
-    virtual bool Start(uint32_t interval_ms, std::function<void()> callback_function, bool once=false);
-    virtual bool Stop();
+    bool Start(uint32_t interval_ms, std::function<void()> callback_function, bool once=false) override;
+    bool Stop() override;
 
     std::function<void()> callback_function_;
 
 private:
-    
     TimerHandle_t timer_handle_ = NULL;
     std::string name_;
     

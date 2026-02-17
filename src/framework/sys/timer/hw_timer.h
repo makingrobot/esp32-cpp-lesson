@@ -14,8 +14,8 @@ public:
     HwTimer(const std::string& name);
     virtual ~HwTimer();
 
-    virtual bool Start(uint32_t interval_ms, std::function<void()> callback_function, bool once=false);
-    virtual bool Stop();
+    bool Start(uint32_t interval_ms, std::function<void()> callback_function, bool once=false) override;
+    bool Stop() override;
 
     std::function<void()> callback_function_;
 
