@@ -62,8 +62,14 @@ ESP32 C++ 教程，基于ESP32-Arduino-Framework应用开发框架。
 ```
   知识点：Timer类、FreeRTOS定时器、硬件定时器
 ```
-* 6-2 多任务
-* 6-3 任务间通信
+* [6-2 多任务](https://www.xpstem.com/article/2000510)
+```
+  知识点：FreeRTOS多任务
+```
+* [6-3 任务间通信]
+```
+  知识点：FreeRTOS队列、FreeRTOS事件组
+```
 * 6-4 共享资源访问
 
 ### Unit7 显示器件

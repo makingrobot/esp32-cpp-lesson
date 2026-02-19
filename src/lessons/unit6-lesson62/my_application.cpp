@@ -8,7 +8,7 @@
  * Unit6-Lesson62：硬件定时器
  */
 #include "config.h"
-#if APP_LESSON62_B==1
+#if APP_LESSON62==1
 
 #include "my_application.h"
 #include "src/framework/sys/log.h"
@@ -25,40 +25,18 @@ MyApplication::MyApplication() : Application() {
 
 }
 
-void _task1_func(void *pvParam) {
-    MyApplication *_this = (MyApplication*)pvParam;
-    while (1) {
-        _this->Task1Loop();
-    }
-}
-
-void _task2_func(void *pvParam) {
-    MyApplication *_this = (MyApplication*)pvParam;
-    while (1) {
-        _this->Task2Loop();
-    }
-}
-
 void MyApplication::OnInit() {
-    
-    xTaskCreate(
-        _task1_func, 
-        "Task1", 
-        4096, 
-        this, 
-        1, 
-        &task1_handle_
-    );
+    task1_ = new Task(std::string("task1"));
+    task1_->OnLoop([this](){
+        Task1Loop();
+    });
+    task1_->Start(4096, tskIDLE_PRIORITY+1);
 
-    xTaskCreate(
-        _task2_func, 
-        "Task2", 
-        4096, 
-        this, 
-        2, 
-        &task2_handle_
-    );
-
+    task2_ = new Task(std::string("Task2"));
+    task2_->OnLoop([this](){
+        Task2Loop();
+    });
+    task2_->Start(4096, tskIDLE_PRIORITY+1);
 }
 
 void MyApplication::OnLoop() {
@@ -88,7 +66,7 @@ void MyApplication::Task2Loop() {
     
     Log::Info(TAG, "1...10000000 = %lld", n);
 
-    delay(5000);
+    delay(2000);
 }
 
 #endif 

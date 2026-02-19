@@ -17,9 +17,9 @@
 
 #include <string>
 #include <freertos/FreeRTOS.h>
-#include <freertos/task.h>
 #include <freertos/queue.h>
 #include "src/framework/app/application.h"
+#include "src/framework/sys/task.h"
 
 class MyApplication : public Application {
 public:

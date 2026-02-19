@@ -20,12 +20,14 @@
 #include <freertos/task.h>
 #include <freertos/queue.h>
 #include "src/framework/app/application.h"
+#include "src/framework/sys/task.h"
 
 class MyApplication : public Application {
 public:
     MyApplication();
     
     void Task1Loop();
+    void Task2Loop();
 
     const std::string& GetAppName() const override { return "Unit6-Lesson63a"; }
     const std::string& GetAppVersion() const override { return "1.0.0"; }
@@ -36,8 +38,10 @@ protected:
 
 private:
     QueueHandle_t queue_;
-    TaskHandle_t task1_handle_;
+    Task *task1_;
+    Task *task2_;
 
+    int state_ = 0;
 };
 
 #endif //_MY_APPLICATION_H

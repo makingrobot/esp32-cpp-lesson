@@ -1,4 +1,4 @@
-#if APP_LESSON62_B==1
+#if APP_LESSON62==1
 
 #ifndef _APP_CONFIG_H
 #define _APP_CONFIG_H

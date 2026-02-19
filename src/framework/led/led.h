@@ -7,6 +7,7 @@
 #include "config.h"
 #include <cstdint>
 #include "../sys/timer.h"
+#include "../sys/log.h"
 
 #ifndef _LED_H_
 #define _LED_H_
@@ -16,6 +17,8 @@
 #define LOW_BRIGHTNESS          2
 
 #define BLINK_INFINITE          -1
+
+#define TAG "Led"
 
 /**
  * LED 基类
@@ -69,6 +72,12 @@ protected:
     virtual void OnBlinkTimer() = 0;
 
     virtual void StartBlinkTask(int times, int interval_ms) {
+
+        if (timer_==nullptr) 
+        {
+            Log::Error(TAG, "please create a timer in constructor.");
+            return;
+        }
 
         timer_->Stop();
 

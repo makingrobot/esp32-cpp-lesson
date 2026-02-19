@@ -9,7 +9,6 @@
 
 #include "ws2812_led.h"
 #include "../sys/log.h"
-#include "../sys/timer.h"
 #include "../app/application.h"
 
 #define TAG "Ws2812Led"

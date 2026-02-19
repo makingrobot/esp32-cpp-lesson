@@ -25,37 +25,53 @@ MyApplication::MyApplication() : Application() {
 
 }
 
-void _task1_func(void* pvParam) {
-    MyApplication *_this = (MyApplication*)pvParam;
-    while (1) {
-        _this->Task1Loop();
-    }
-}
-
 void MyApplication::OnInit() {
-    queue_ = xQueueCreate(10, sizeof(uint32_t));
+    queue_ = xQueueCreate(10, sizeof(int));
 
-    xTaskCreate(_task1_func, "Task1", 4096, this, 1, &task1_handle_);
+    task1_ = new Task("Task1");
+    task1_->OnLoop([this](){
+        Task1Loop();
+    });
+    task1_->Start( 4096, tskIDLE_PRIORITY+1);
+    
+    task2_ = new Task("Task2");
+    task2_->OnLoop([this](){
+        Task2Loop();
+    });
+    task2_->Start( 4096, tskIDLE_PRIORITY+1);
 }
 
 void MyApplication::OnLoop() {
 
-    uint32_t value = 1;
-    if (xQueueSend(queue_, &value, 0) != pdPASS) {
-        Log::Warn(TAG, "发送数据到队列失败。");
-    }
-
-    delay(100);
+    delay(1);
 }
 
 void MyApplication::Task1Loop() {
+    state_ = (state_==0 ? 1 : 0);
 
-    uint32_t receive = 0;
-    if (xQueueReceive(queue_, &receive, portMAX_DELAY) != pdPASS) {
-        Log::Warn(TAG, "从队列接收数据失败。");
+    if (xQueueSend(queue_, &state_, 0) != pdPASS) {
+        Log::Warn(TAG, "发送数据到队列失败。");
     }
 
-    delay(100);
+    delay(500);
+}
+
+void MyApplication::Task2Loop() {
+    int receive = 0;
+    if (xQueueReceive(queue_, &receive, portMAX_DELAY) != pdPASS) {
+        Log::Warn(TAG, "从队列接收数据失败。");
+        return;
+    }
+
+    Led *led = Board::GetInstance().GetLed();
+    if (receive==1) 
+    {
+        led->TurnOn();
+    }
+    else 
+    {
+        led->TurnOff();
+    }
 }
 
 #endif 

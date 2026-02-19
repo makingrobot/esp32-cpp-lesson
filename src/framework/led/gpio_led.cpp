@@ -14,8 +14,6 @@
 
 #define TAG "GpioLed"
 
-#define BLINK_INFINITE          -1
-
 // GPIO_LED
 GpioLed::GpioLed(gpio_num_t gpio, bool pwm, bool output_invert)
         : led_pin_(gpio), pwm_(pwm), output_invert_(output_invert) {

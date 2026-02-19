@@ -14,8 +14,6 @@
 
 #define TAG "RgbLed"
 
-#define BLINK_INFINITE          -1
-
 // GPIO_LED
 RgbLed::RgbLed(gpio_num_t r_pin, gpio_num_t g_pin, gpio_num_t b_pin, bool output_invert)
         : r_pin_(r_pin), g_pin_(g_pin), b_pin_(b_pin), output_invert_(output_invert) {

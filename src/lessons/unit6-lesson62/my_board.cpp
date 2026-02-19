@@ -8,14 +8,12 @@
  * Unit6-Lesson62：硬件定时器
  */
 #include "config.h"
-#if BOARD_LESSON62_A == 1
+#if BOARD_LESSON62 == 1
 
 #include "board_config.h"
 #include "my_board.h"
 #include "src/framework/led/gpio_led.h"
 #include "src/framework/app/application.h"
-#include "src/framework/peripheral/sensor.h"
-#include "src/framework/peripheral/switch_actuator.h"
 
 #define TAG "MY_BOARD"
 

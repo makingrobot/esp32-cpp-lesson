@@ -15,7 +15,6 @@
 #include <atomic>
 #include <mutex>
 #include <cstdint>
-#include "../sys/timer.h"
 
 /**
  * 单色LED

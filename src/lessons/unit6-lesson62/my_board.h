@@ -8,7 +8,7 @@
  * Unit6-Lesson62：硬件定时器
  */
 #include "config.h"
-#if BOARD_LESSON62_A == 1
+#if BOARD_LESSON62 == 1
 
 #ifndef _MY_BOARD_H
 #define _MY_BOARD_H
@@ -17,13 +17,6 @@
 
 #include "src/framework/board/board.h"
 #include "src/framework/led/led.h"
-
-static const std::string kManualButton = "manual_button";
-static const std::string kTouch1 = "touch1";
-static const std::string kTouch2 = "touch2";
-static const std::string kDht11 = "dht11";
-static const std::string kIrSensor = "ir_sensor";
-static const std::string kRelay = "relay";
 
 class MyBoard : public Board {
 private:

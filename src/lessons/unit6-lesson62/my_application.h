@@ -8,16 +8,16 @@
  * Unit6-Lesson62：硬件定时器
  */
 #include "config.h"
-#if APP_LESSON62_B==1
+#if APP_LESSON62==1
 
 #ifndef _MY_APPLICATION_H
 #define _MY_APPLICATION_H
 
-#pragma message("Compile unit6 lesson62b application.")
+#pragma message("Compile unit6 lesson62 application.")
 
 #include <string>
-#include <freertos/FreeRTOS.h>
 #include "src/framework/app/application.h"
+#include "src/framework/sys/task.h"
 
 class MyApplication : public Application {
 public:
@@ -26,7 +26,7 @@ public:
     void Task1Loop();
     void Task2Loop();
 
-    const std::string& GetAppName() const override { return "Unit6-Lesson62b"; }
+    const std::string& GetAppName() const override { return "Unit6-Lesson62"; }
     const std::string& GetAppVersion() const override { return "1.0.0"; }
 
 protected:
@@ -35,8 +35,8 @@ protected:
 
 private:
     int state_ = 0;
-    TaskHandle_t task1_handle_;
-    TaskHandle_t task2_handle_;
+    Task *task1_;
+    Task *task2_;
     
 };
 

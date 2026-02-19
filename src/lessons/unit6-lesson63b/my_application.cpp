@@ -25,29 +25,26 @@ MyApplication::MyApplication() : Application() {
 
 }
 
-void _task1_func(void* pvParam) {
-    
-    MyApplication *_this = (MyApplication*)pvParam;
-
-    xEventGroupSetBits(_this->event_group(), 0b00000001);
-    vTaskDelete(NULL);
-}
-
-void _task2_func(void* pvParam) {
-    
-    MyApplication *_this = (MyApplication*)pvParam;
-
-    xEventGroupSetBits(_this->event_group(), 0b00000010);
-    vTaskDelete(NULL);
-}
-
 void MyApplication::OnInit() {
-    
     event_group_ = xEventGroupCreate();
 
-    xTaskCreate(_task1_func, "Task1", 4096, this, 1, NULL);
-    xTaskCreate(_task2_func, "Task2", 4096, this, 1, NULL);
+    // 任务一
+    task1_ = new Task("Task1");
+    task1_->OnInit([this](){
+        // 一些处理
+        delay(1000);
+        xEventGroupSetBits(event_group(), 0b00000001);
+    });
+    task1_->Start(4096, tskIdle_Priority+1);
 
+    // 任务二
+    task2_ = new Task("Task2");
+    task2_->OnInit([this](){
+        // 一些处理
+        delay(1000);
+        xEventGroupSetBits(event_group(), 0b00000010);
+    });
+    task2_->Start(4096, tskIdle_Priority+1);
 }
 
 void MyApplication::OnLoop() {
@@ -60,9 +57,9 @@ void MyApplication::OnLoop() {
         portMAX_DELAY /* 无限期等待，也可使用pdMS_TO_TICKS指定等待时长 */
     );
 
-
-
-
+    Led *led = Board::GetInstance().GetLed;
+    led->TurnOn();
+    
     delay(1);
 }
 

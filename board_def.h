@@ -73,13 +73,9 @@
 #define BOARD_NAME "lesson61b-board"
 #include "src/lessons/unit6-lesson61b/my_board.h"
 
-#elif BOARD_LESSON62_A == 1
-#define BOARD_NAME "lesson62a-board"
-#include "src/lessons/unit6-lesson62a/my_board.h"
-
-#elif BOARD_LESSON62_B == 1
-#define BOARD_NAME "lesson62b-board"
-#include "src/lessons/unit6-lesson62b/my_board.h"
+#elif BOARD_LESSON62 == 1
+#define BOARD_NAME "lesson62-board"
+#include "src/lessons/unit6-lesson62/my_board.h"
 
 #elif BOARD_LESSON63_A == 1
 #define BOARD_NAME "lesson63a-board"
