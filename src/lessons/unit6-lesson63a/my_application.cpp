@@ -42,7 +42,6 @@ void MyApplication::OnInit() {
 }
 
 void MyApplication::OnLoop() {
-
     delay(1);
 }
 

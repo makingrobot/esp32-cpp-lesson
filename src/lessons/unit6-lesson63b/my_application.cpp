@@ -32,24 +32,23 @@ void MyApplication::OnInit() {
     task1_ = new Task("Task1");
     task1_->OnInit([this](){
         // 一些处理
-        delay(1000);
-        xEventGroupSetBits(event_group(), 0b00000001);
+        delay(500);
+        xEventGroupSetBits(event_group_, 0b00000001);
     });
-    task1_->Start(4096, tskIdle_Priority+1);
+    task1_->Start(4096, tskIDLE_PRIORITY+1);
 
     // 任务二
     task2_ = new Task("Task2");
     task2_->OnInit([this](){
         // 一些处理
         delay(1000);
-        xEventGroupSetBits(event_group(), 0b00000010);
+        xEventGroupSetBits(event_group_, 0b00000010);
     });
-    task2_->Start(4096, tskIdle_Priority+1);
+    task2_->Start(4096, tskIDLE_PRIORITY+1);
 }
 
 void MyApplication::OnLoop() {
-
-    // 等待事件位被设置
+    // 等待全部事件位被设置（事件位AND）
     auto bits = xEventGroupWaitBits(event_group_, 
         0b00000011,
         pdTRUE, /* 自动清除，避免重复响应 */
@@ -57,9 +56,26 @@ void MyApplication::OnLoop() {
         portMAX_DELAY /* 无限期等待，也可使用pdMS_TO_TICKS指定等待时长 */
     );
 
-    Led *led = Board::GetInstance().GetLed;
+    Led *led = Board::GetInstance().GetLed();
     led->TurnOn();
     
+    // 有事件设置就触发（事件位OR）
+    /*
+    auto bits = xEventGroupWaitBits(event_group_, 
+        0b00000011,
+        pdTRUE, // 自动清除，避免重复响应 
+        pdFALSE, // 所有事件位被设置就返回 
+        portMAX_DELAY // 无限期等待，也可使用pdMS_TO_TICKS指定等待时长 
+    );
+
+    if (bits & 0b01 = 0b01) {
+        Led *led = Board::GetInstance().GetLed();
+        led->TurnOn();
+    } else (bits & 0b10 = 0b10) {
+        
+    }
+    */
+
     delay(1);
 }
 

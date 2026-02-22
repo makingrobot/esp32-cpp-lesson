@@ -22,7 +22,6 @@ void* create_board() {
 }
 
 MyBoard::MyBoard() : Board() {
-
     Log::Info(TAG, "===== Create Board ...... =====");
 
     Log::Info(TAG, "initial led.");

@@ -28,15 +28,14 @@ public:
     const std::string& GetAppName() const override { return "Unit6-Lesson63b"; }
     const std::string& GetAppVersion() const override { return "1.0.0"; }
 
-    EventGroupHandle_t event_group() const { return event_group_; }
-    
 protected:
     void OnInit() override;
     void OnLoop() override;
 
 private:
     EventGroupHandle_t event_group_;
-
+    Task *task1_;
+    Task *task2_;
 };
 
 #endif //_MY_APPLICATION_H
