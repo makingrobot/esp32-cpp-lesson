@@ -5,7 +5,7 @@
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
  * 
- * Unit6-Lesson63：多线程和同步
+ * Unit6-Lesson63：FreeRTOS任务间通信
  */
 #include "config.h"
 #if APP_LESSON63_B==1
@@ -30,7 +30,7 @@ void MyApplication::OnInit() {
 
     // 任务一
     task1_ = new Task("Task1");
-    task1_->OnInit([this](){
+    task1_->OnLoop([this](){
         // 一些处理
         delay(500);
         xEventGroupSetBits(event_group_, 0b00000001);
@@ -39,7 +39,7 @@ void MyApplication::OnInit() {
 
     // 任务二
     task2_ = new Task("Task2");
-    task2_->OnInit([this](){
+    task2_->OnLoop([this](){
         // 一些处理
         delay(1000);
         xEventGroupSetBits(event_group_, 0b00000010);

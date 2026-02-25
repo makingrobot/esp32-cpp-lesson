@@ -85,6 +85,18 @@
 #define BOARD_NAME "lesson63b-board"
 #include "src/lessons/unit6-lesson63b/my_board.h"
 
+#elif BOARD_LESSON63_C == 1
+#define BOARD_NAME "lesson63c-board"
+#include "src/lessons/unit6-lesson63c/my_board.h"
+
+#elif BOARD_LESSON64_A == 1
+#define BOARD_NAME "lesson64-board"
+#include "src/lessons/unit6-lesson64a/my_board.h"
+
+#elif BOARD_LESSON64_B == 1
+#define BOARD_NAME "lesson64-board"
+#include "src/lessons/unit6-lesson64b/my_board.h"
+
 #elif BOARD_LESSON71 == 1
 #define BOARD_NAME "lesson71-board"
 #include "src/lessons/unit7-lesson71/my_board.h"

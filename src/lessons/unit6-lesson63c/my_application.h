@@ -8,7 +8,7 @@
  * Unit6-Lesson63：FreeRTOS任务间通信
  */
 #include "config.h"
-#if APP_LESSON63_B==1
+#if APP_LESSON63_C==1
 
 #ifndef _MY_APPLICATION_H
 #define _MY_APPLICATION_H
@@ -17,7 +17,7 @@
 
 #include <string>
 #include <freertos/FreeRTOS.h>
-#include <freertos/queue.h>
+#include <freertos/semphr.h>
 #include "src/framework/app/application.h"
 #include "src/framework/sys/task.h"
 
@@ -33,9 +33,8 @@ protected:
     void OnLoop() override;
 
 private:
-    EventGroupHandle_t event_group_;
+    SemaphoreHandle_t binary_semaphore_;
     Task *task1_;
-    Task *task2_;
 };
 
 #endif //_MY_APPLICATION_H

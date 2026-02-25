@@ -8,7 +8,7 @@
  * Unit6-Lesson63：FreeRTOS任务间通信
  */
 #include "config.h"
-#if BOARD_LESSON63_B == 1
+#if BOARD_LESSON63_C == 1
 
 #ifndef _MY_BOARD_H
 #define _MY_BOARD_H

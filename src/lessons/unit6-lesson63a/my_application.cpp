@@ -5,7 +5,7 @@
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
  * 
- * Unit6-Lesson63：多线程和同步
+ * Unit6-Lesson63：FreeRTOS任务间通信
  */
 #include "config.h"
 #if APP_LESSON63_A==1

@@ -5,10 +5,10 @@
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
  * 
- * Unit6-Lesson61b：定时器
+ * Unit6-Lesson63：FreeRTOS任务间通信
  */
 #include "config.h"
-#if APP_LESSON61_B == 1
+#if BOARD_LESSON63_C == 1
 
 #include "board_config.h"
 #include "my_board.h"

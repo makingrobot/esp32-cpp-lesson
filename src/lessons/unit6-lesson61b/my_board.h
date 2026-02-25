@@ -5,7 +5,7 @@
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
  * 
- * Unit6-Lesson61b：硬件定时器
+ * Unit6-Lesson61b：定时器
  */
 #include "config.h"
 #if APP_LESSON61_B == 1
