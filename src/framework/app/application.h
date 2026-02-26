@@ -11,11 +11,11 @@
 
 #include <string>
 #include <deque>
-#include <mutex>
 
 #include "config.h"
 #include "../ota/ota.h"
 #include "../sys/timer.h"
+#include "../sys/mutex.h"
 #include "../peripheral/sensor_value.h"
 #include "device_state.h"
 #include "event_handler.h"
@@ -102,7 +102,7 @@ protected:
     std::string last_error_message_;
     EventGroupHandle_t event_group_;
     EventHandler* event_handler_ = nullptr;
-    std::mutex mutex_;
+    Mutex *mutex_;
     int clock_ticks_ = 0;
 
 private:

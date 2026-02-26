@@ -10,6 +10,7 @@
 #include "gpio_led.h"
 #include "../app/application.h"
 #include "../sys/log.h"
+#include "../sys/mutex/std_mutex.h"
 #include <Arduino.h>
 
 #define TAG "GpioLed"
@@ -19,6 +20,8 @@ GpioLed::GpioLed(gpio_num_t gpio, bool pwm, bool output_invert)
         : led_pin_(gpio), pwm_(pwm), output_invert_(output_invert) {
 
     assert(gpio != GPIO_NUM_NC);
+
+    mutex_ = new StdMutex();
 
     pinMode(gpio, OUTPUT);
     timer_ = TimerFactory::CreateTimer("Gpio_Led");
@@ -40,49 +43,58 @@ void GpioLed::SetBrightness(uint8_t brightness) {
 }
 
 void GpioLed::TurnOn() {
-    std::lock_guard<std::mutex> lock(mutex_);
-    blink_counter_ = 0;
-    timer_->Stop();
+    MutexGuard lock(mutex_);
+    if (lock.IsLocked())
+    {
+        blink_counter_ = 0;
+        timer_->Stop();
 
-    if (pwm_) {
-        analogWrite(led_pin_, output_invert_ ? 0 : brightness_);
-    } else {
-        digitalWrite(led_pin_, output_invert_ ? LOW : HIGH);
-    }
-}
-
-void GpioLed::TurnOff() {
-    std::lock_guard<std::mutex> lock(mutex_);
-    blink_counter_ = 0;
-    timer_->Stop();
-
-    if (pwm_) {
-        analogWrite(led_pin_, output_invert_ ? brightness_ : 0);
-    } else {
-        digitalWrite(led_pin_, output_invert_ ? HIGH : LOW);
-    }
-}
-
-void GpioLed::OnBlinkTimer() {
-    
-    std::lock_guard<std::mutex> lock(mutex_);
-    blink_counter_--;
-    if (blink_counter_ & 1) {
         if (pwm_) {
             analogWrite(led_pin_, output_invert_ ? 0 : brightness_);
         } else {
             digitalWrite(led_pin_, output_invert_ ? LOW : HIGH);
         }
-    } else {
+    }
+}
+
+void GpioLed::TurnOff() {
+    MutexGuard lock(mutex_);
+    if (lock.IsLocked())
+    {
+        blink_counter_ = 0;
+        timer_->Stop();
+
         if (pwm_) {
             analogWrite(led_pin_, output_invert_ ? brightness_ : 0);
         } else {
             digitalWrite(led_pin_, output_invert_ ? HIGH : LOW);
         }
     }
+}
 
-    if (blink_counter_ == 0) {
-        timer_->Stop();
+void GpioLed::OnBlinkTimer() {
+    
+    MutexGuard lock(mutex_);
+    if (lock.IsLocked())
+    {
+        blink_counter_--;
+        if (blink_counter_ & 1) {
+            if (pwm_) {
+                analogWrite(led_pin_, output_invert_ ? 0 : brightness_);
+            } else {
+                digitalWrite(led_pin_, output_invert_ ? LOW : HIGH);
+            }
+        } else {
+            if (pwm_) {
+                analogWrite(led_pin_, output_invert_ ? brightness_ : 0);
+            } else {
+                digitalWrite(led_pin_, output_invert_ ? HIGH : LOW);
+            }
+        }
+
+        if (blink_counter_ == 0) {
+            timer_->Stop();
+        }
     }
 }
 

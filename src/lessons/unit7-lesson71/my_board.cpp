@@ -1,0 +1,43 @@
+/**
+ * ESP32-Cpp-Lesson
+ * ESP32 C++ 教程，基于ESP32-Arduino-Framework应用开发框架。
+ * 
+ * 学习套件：https://www.xpstem.com/product/esp32-study-suit
+ * Author: Billy Zhang（billy_zh@126.com）
+ * 
+ * Unit6-Lesson71：四段7位数码管
+ */
+#include "config.h"
+#if BOARD_LESSON71 == 1
+
+#include <Wire.h>
+#include "board_config.h"
+#include "my_board.h"
+#include "src/framework/led/gpio_led.h"
+#include "src/framework/app/application.h"
+
+#define TAG "MY_BOARD"
+
+void* create_board() { 
+    return new MyBoard();
+}
+
+MyBoard::MyBoard() : Board() {
+    Log::Info(TAG, "===== Create Board ...... =====");
+
+    Log::Info(TAG, "initial led.");
+    led_ = new GpioLed(BUILTIN_LED_PIN, false); // no pwm
+
+    InitTM1650();
+
+    Log::Info( TAG, "===== Board config completed. =====");
+}
+
+void MyBoard::InitTM1650() {
+    Wire.begin();
+
+    tm1650_ = new TM1650();
+    tm1650_->init();
+}
+
+#endif 

@@ -70,8 +70,10 @@ ESP32 C++ 教程，基于ESP32-Arduino-Framework应用开发框架。
 ```
   知识点：FreeRTOS消息队列、事件组和二进制信号量
 ```
-* 6-4 共享资源访问
-
+* [6-4 资源互斥访问](https://www.xpstem.com/article/200051x)
+```
+  知识点：Mutex类、FreeRTOS互斥信号量、
+```
 ### Unit7 显示器件
 * 7-1 7段式显示屏
 ```

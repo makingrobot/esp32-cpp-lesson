@@ -18,6 +18,7 @@
 #include <Arduino.h>
 #include <Adafruit_NeoPixel.h>
 
+#include "../sys/mutex.h"
 #include "led.h"
 
 /**
@@ -50,7 +51,7 @@ private:
     const uint8_t num_pixels_;
     std::vector<uint8_t> light_set_ = { 0 };  // 默认只使用第1个灯珠
 
-    std::mutex mutex_;
+    Mutex *mutex_;
     uint8_t r_ = 0, g_ = 0, b_ = 0;
     Adafruit_NeoPixel *pixels_ = nullptr;
 
