@@ -23,11 +23,13 @@ void* create_application() {
 }
 
 MyApplication::MyApplication() : Application() { 
-
+    window_ = new MyWindow();
+    TftDisplay *disp = (TftDisplay*)(Board::GetInstance().GetDisplay());
+    disp->SetWindow(window_);
 }
 
 void MyApplication::OnInit() {
-
+    window_->Start();
 }
 
 void MyApplication::OnLoop() {

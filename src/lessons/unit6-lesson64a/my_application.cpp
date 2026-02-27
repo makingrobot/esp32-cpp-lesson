@@ -65,7 +65,7 @@ void MyApplication::AccessResource(const std::string& tag) {
     {
         // 独占访问代码
         count_++;
-        Log::Info(tag.c_str(), "count: ", std::to_string(count_).c_str());
+        Log::Info(tag.c_str(), "count: %d", count_);
     }
 }
 

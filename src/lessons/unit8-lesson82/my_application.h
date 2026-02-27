@@ -5,25 +5,27 @@
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
  * 
- * Unit6-Lesson73：TFT-LCD显示屏
+ * Unit6-Lesson82：
  */
 #include "config.h"
-#if APP_LESSON73==1
+#if APP_LESSON82==1
 
 #ifndef _MY_APPLICATION_H
 #define _MY_APPLICATION_H
 
-#pragma message("Compile unit7 lesson73 application.")
+#pragma message("Compile unit8 lesson82 application.")
 
 #include <string>
+#include <Arduino.h>
+#include <WebServer.h>
 #include "src/framework/app/application.h"
-#include "my_window.h"
+#include "src/framework/sys/task.h"
 
 class MyApplication : public Application {
 public:
     MyApplication();
     
-    const std::string& GetAppName() const override { return "Unit7-Lesson73"; }
+    const std::string& GetAppName() const override { return "Unit8-Lesson82"; }
     const std::string& GetAppVersion() const override { return "1.0.0"; }
 
 protected:
@@ -31,8 +33,10 @@ protected:
     void OnLoop() override;
 
 private:
-    MyWindow *window_ = 0;
+    void StartWebServer();
     
+    WebServer *webserver_;
+    Task *webtask_;
 };
 
 #endif //_MY_APPLICATION_H

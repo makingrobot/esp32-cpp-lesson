@@ -108,6 +108,15 @@
 #elif BOARD_LESSON73 == 1
 #define BOARD_NAME "lesson73-board"
 #include "src/lessons/unit7-lesson73/my_board.h"
+
+#elif BOARD_LESSON81 == 1
+#define BOARD_NAME "lesson81-board"
+#include "src/lessons/unit8-lesson81/my_board.h"
+
+#elif BOARD_LESSON82 == 1
+#define BOARD_NAME "lesson82-board"
+#include "src/lessons/unit8-lesson82/my_board.h"
+
 #endif
 
 

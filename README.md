@@ -89,12 +89,18 @@ ESP32 C++ 教程，基于ESP32-Arduino-Framework应用开发框架。
 ```
 
 ### Unit8 网络
-* 8-1 WiFi连接
+* 8-1 WiFi连接和HTTP请求
+```
+  知识点：WiFi、HttpClient
+```
 * 8-2 Web服务
 ```
   知识点：WebServer库
 ```
 * 8-3 在网页上控制设备
+```
+  知识点：
+```
 
 ### Unit9 存储
 * 9-1 Flash存储
