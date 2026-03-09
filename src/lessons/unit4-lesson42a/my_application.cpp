@@ -5,7 +5,7 @@
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
  * 
- * Unit4-Lesson43：旋转电位器
+ * Unit4-Lesson42a：旋转电位器
  */
 #include "config.h"
 #if APP_LESSON42_A==1

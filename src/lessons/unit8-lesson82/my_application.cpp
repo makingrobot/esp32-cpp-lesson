@@ -5,7 +5,7 @@
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
  * 
- * Unit6-Lesson82：
+ * Unit8-Lesson82：Wifi热点与Web服务
  */
 #include "config.h"
 #if APP_LESSON82==1
@@ -18,6 +18,10 @@
 
 #define TAG "MyApplication"
 
+static const IPAddress ap_ip(192,168,5,1);
+static const IPAddress ap_gateway(192,168,5,1);
+static const IPAddress ap_subnet(255,255,255,0);
+
 void* create_application() {
     return new MyApplication();
 }
@@ -28,11 +32,13 @@ MyApplication::MyApplication() : Application() {
 
 void MyApplication::OnInit() {
     WifiBoard *board = (WifiBoard*)(&Board::GetInstance());
-    bool connected = board->StartNetwork("ssid", "password", 10000);
-    if (connected) {
+    char *ssid = "esp32_ap";
+    bool success = board->StartAP(ssid, ap_ip, ap_gateway, ap_subnet);
+    if (success) {
+        Log::Info(TAG, "AP: %s, IP: %s", ssid, ap_ip.toString().c_str());
         StartWebServer();
     } else {
-        Log::Warn(TAG, "连接失败。");
+        Log::Warn(TAG, "创建AP热点失败。");
     }
 }
 
@@ -52,11 +58,10 @@ void MyApplication::StartWebServer() {
     webserver_->begin();
 
     webtask_ = new Task("WebServer");
-    webtask_->OnLoop([](void* parameter){
-        WebServer *server = (WebServer*)parameter;
-        server->handleClient();
+    webtask_->OnLoop([this](){
+        webserver_->handleClient();
         delay(1);
-    }, webserver_);
+    });
     webtask_->Start(8192, tskIDLE_PRIORITY+1);
 }
 

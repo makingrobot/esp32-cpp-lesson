@@ -5,7 +5,7 @@
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
  * 
- * Unit6-Lesson71：四段7位数码管
+ * Unit7-Lesson71：四段7位数码管
  */
 #include "config.h"
 #if APP_LESSON71==1

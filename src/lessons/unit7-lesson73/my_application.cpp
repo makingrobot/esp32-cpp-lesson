@@ -5,7 +5,7 @@
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
  * 
- * Unit6-Lesson73：TFT-LCD显示屏
+ * Unit7-Lesson73：TFT-LCD显示屏
  */
 #include "config.h"
 #if APP_LESSON73==1

@@ -10,6 +10,7 @@
 #ifndef _WIFI_BOARD_H
 #define _WIFI_BOARD_H
 
+#include <IPAddress.h>
 #include "board.h"
 #include "../wifi/wifi_configuration.h"
 
@@ -29,6 +30,7 @@ public:
     virtual void SetPowerSaveMode(bool enabled) override;
     virtual const char* GetNetworkStateIconName() override;
 
+    virtual bool StartAP(const char* ssid, const IPAddress& address, const IPAddress& gateway, const IPAddress& submask, const char* password=NULL);
     virtual bool StartNetwork(uint32_t timeout_ms);
     virtual bool StartNetwork(const std::string& ssid, const std::string& password, uint32_t timeout_ms);
     virtual void Disconnect();

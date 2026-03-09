@@ -5,7 +5,7 @@
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
  * 
- * Unit6-Lesson81：WiFi连接和HTTP请求
+ * Unit8-Lesson81：WiFi连接和HTTP请求
  */
 #include "config.h"
 #if APP_LESSON81==1
@@ -34,6 +34,7 @@ void MyApplication::OnInit() {
     WifiBoard *board = (WifiBoard*)(&Board::GetInstance());
     bool connected = board->StartNetwork("ssid", "password", 10000);
     if (connected) {
+        Log::Info(TAG, "IP: %s", board->GetIpAddress().c_str());
         GetServerData();
     } else {
         Log::Warn(TAG, "连接失败。");

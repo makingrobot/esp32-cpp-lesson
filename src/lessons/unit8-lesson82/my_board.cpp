@@ -5,7 +5,7 @@
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
  * 
- * Unit6-Lesson82：
+ * Unit8-Lesson82：Wifi热点与Web服务
  */
 #include "config.h"
 #if BOARD_LESSON82 == 1

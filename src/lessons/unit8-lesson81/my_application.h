@@ -5,7 +5,7 @@
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
  * 
- * Unit6-Lesson81：WiFi连接和HTTP请求
+ * Unit8-Lesson81：WiFi连接和HTTP请求
  */
 #include "config.h"
 #if APP_LESSON81==1
