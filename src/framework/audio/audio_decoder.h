@@ -9,12 +9,20 @@
 #ifndef _AUDIO_DECODER_H
 #define _AUDIO_DECODER_H
 
-#include <driver/gpio.h>
+#include "audio_input.h"
 
 /**
  * 音频解码器基类
  */
 class AudioDecoder {
+public:
+    virtual bool Init() = 0;
+    virtual bool Decode() = 0;
+
+    int16_t* samples() { return samples_; }
+
+protected:
+    int16_t samples_[2];
 
 };
 

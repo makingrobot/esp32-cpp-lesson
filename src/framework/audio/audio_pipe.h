@@ -1,0 +1,57 @@
+/**
+ * ESP32-Arduino-Framework
+ * Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架。
+ * 
+ */
+#include "config.h"
+#if CONFIG_USE_AUDIO==1
+
+#ifndef _AUDIO_PIPE_H
+#define _AUDIO_PIPE_H
+
+#include <freertos/FreeRTOS.h>
+
+#include "audio_input.h"
+#include "audio_output.h"
+#include "audio_encoder.h"
+#include "audio_decoder.h"
+#include "audio_status.h"
+
+/**
+ * 音频管道
+ */
+class AudioPipe {
+public:
+    AudioPipe(AudioInput *input,  AudioOutput *output) 
+        : input_(input), output_(output) { }
+
+    virtual void Start();
+    virtual void Stop();
+
+    virtual bool SetMetadataCallback(AudioStatus::MetadataCallbackFn fn, void *data) { 
+        return cb.RegisterMetadataCallback(fn, data); 
+    }
+    virtual bool SetStatusCallback(AudioStatus::StatusCallbackFn fn, void *data) { 
+        return cb.RegisterStatusCallback(fn, data); 
+    }
+
+protected:
+    void Execute();
+    int16_t last_sample_[2];
+    AudioStatus cb;
+
+private:
+    bool running_;
+
+    AudioInput *input_ = nullptr;
+    AudioOutput *output_ = nullptr;
+    AudioEncoder *encoder_ = nullptr;
+    AudioDecoder *decoder_ = nullptr;
+
+    TaskHandle_t task_handle_;
+
+};
+
+#endif // _AUDIO_PIPE_H
+
+#endif 

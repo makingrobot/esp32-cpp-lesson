@@ -9,13 +9,17 @@
 #ifndef _AUDIO_INPUT_H
 #define _AUDIO_INPUT_H
 
-#include <driver/gpio.h>
-
 /**
  * 音频输入基类
  */
 class AudioInput {
+public:
+    virtual uint32_t Read(void *data, uint32_t len) = 0;
+    virtual bool Seek(int32_t pos, int dir) = 0;
+    virtual bool Close() = 0;
 
+    virtual size_t GetPosition() { return 0; }
+    virtual size_t GetSize() { return 0; }
 };
 
 #endif // _AUDIO_INPUT_H
