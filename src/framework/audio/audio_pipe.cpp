@@ -8,7 +8,7 @@
 void AudioPipe::Start() {
 
     // 创建解码器
-    decoder_ = new WavDecoder(input_);
+    decoder_ = new WavDecoder(*input_);
 
     // 创建编码器
     // encoder_;
@@ -34,13 +34,16 @@ void AudioPipe::Start() {
 
 void AudioPipe::Execute() {
 
+    // 初始化
+    input_->Init();
+    output_->Init();
     bool ret = decoder_->Init();
     if (!ret) {
         Log::Error(TAG, "Init fail.");
         return;
     }
-    // callback
 
+    // 处理数据
     while (running_) {
         if (decoder_->Decode()) {
             int16_t* samples = decoder_->samples();
@@ -50,6 +53,7 @@ void AudioPipe::Execute() {
 
 
             // 输出
+            output_->WriteSamples(samples, sizeof(samples) / sizeof(int16_t));
         }
     }
 }

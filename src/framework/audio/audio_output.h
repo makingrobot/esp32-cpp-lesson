@@ -15,6 +15,16 @@
  * 音频输出基类
  */
 class AudioOutput {
+public:
+    virtual bool Init() { return false; }
+    virtual uint32_t WriteSamples(const int16_t *data, uint32_t samples) = 0;
+
+    void setSampleRate(int rate) { sample_rate_ = rate; }
+    void setBitPerSample(int bit) { bit_per_sample_ = bit; }
+
+protected:
+    int sample_rate_;
+    int bit_per_sample_;
 
 };
 

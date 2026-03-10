@@ -11,12 +11,12 @@
 #include <driver/i2s_common.h>
 
 #include "../sys/log.h"
-#include "../board/board.h"
 #include "../sys/settings.h"
 
 #define TAG "AudioCodec"
 
-void AudioCodec::Start() {
+void AudioCodec::Init(int input_sample_rate, int output_sample_rate, int bit_per_sample)
+{
     Settings settings("audio", false);
     output_volume_ = settings.GetInt("output_volume", output_volume_);
     if (output_volume_ <= 0) {
@@ -24,7 +24,13 @@ void AudioCodec::Start() {
         output_volume_ = 10;
     }
 
-    Log::Info(TAG, "Audio codec started");
+    if (tx_handle_ != nullptr) {
+        ESP_ERROR_CHECK(i2s_channel_enable(tx_handle_));
+    }
+
+    if (rx_handle_ != nullptr) {
+        ESP_ERROR_CHECK(i2s_channel_enable(rx_handle_));
+    }
 }
 
 void AudioCodec::SetOutputVolume(int volume) {

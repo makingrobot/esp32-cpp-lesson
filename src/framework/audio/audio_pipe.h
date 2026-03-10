@@ -37,6 +37,7 @@ public:
 
 protected:
     void Execute();
+    
     int16_t last_sample_[2];
     AudioStatus cb;
 

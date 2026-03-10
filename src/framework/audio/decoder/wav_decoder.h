@@ -8,7 +8,7 @@
 class WavDecoder : public AudioDecoder
 {
 public:
-    WavDecoder(AudioInput *input);
+    WavDecoder(AudioInput &input);
     virtual ~WavDecoder();
     bool Init() override;
     bool Decode() override;

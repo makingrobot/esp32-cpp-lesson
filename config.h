@@ -7,7 +7,7 @@
 #ifndef _CONFIG_H
 #define _CONFIG_H
 
-#define APP_LESSON91        1
+#define APP_LESSON101        1
 
 /********** Unit1 **********/
 #if APP_LESSON11 ==1
@@ -162,15 +162,30 @@
 #include "src/lessons/unit8-lesson83/app_config.h"
 #include "src/lessons/unit8-lesson83/board_config.h"
 
-#elif APP_LESSON91 == 1
-#define BOARD_LESSON91      1
-#include "src/lessons/unit9-lesson91/app_config.h"
-#include "src/lessons/unit9-lesson91/board_config.h"
+#elif APP_LESSON91_A == 1
+#define BOARD_LESSON91_A      1
+#include "src/lessons/unit9-lesson91a/app_config.h"
+#include "src/lessons/unit9-lesson91a/board_config.h"
+
+#elif APP_LESSON91_B == 1
+#define BOARD_LESSON91_B      1
+#include "src/lessons/unit9-lesson91b/app_config.h"
+#include "src/lessons/unit9-lesson91b/board_config.h"
 
 #elif APP_LESSON92 == 1
 #define BOARD_LESSON92      1
 #include "src/lessons/unit9-lesson92/app_config.h"
 #include "src/lessons/unit9-lesson92/board_config.h"
+
+#elif APP_LESSON101 == 1
+#define BOARD_LESSON101      1
+#include "src/lessons/unit10-lesson101/app_config.h"
+#include "src/lessons/unit10-lesson101/board_config.h"
+
+#elif APP_LESSON102 == 1
+#define BOARD_LESSON102      1
+#include "src/lessons/unit10-lesson102/app_config.h"
+#include "src/lessons/unit10-lesson102/board_config.h"
 
 #endif
 

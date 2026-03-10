@@ -16,7 +16,7 @@
  */
 class AudioDecoder {
 public:
-    virtual bool Init() = 0;
+    virtual bool Init() { return false; }
     virtual bool Decode() = 0;
 
     int16_t* samples() { return samples_; }

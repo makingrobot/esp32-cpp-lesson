@@ -18,6 +18,7 @@ public:
     virtual bool Seek(int32_t pos, int dir) = 0;
     virtual bool Close() = 0;
 
+    virtual bool Init() { return false; }
     virtual size_t GetPosition() { return 0; }
     virtual size_t GetSize() { return 0; }
 };

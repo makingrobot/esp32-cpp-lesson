@@ -18,6 +18,7 @@
 #include "my_board.h"
 #include "src/framework/led/gpio_led.h"
 #include "src/framework/app/application.h"
+#include "src/framework/audio/codec/no_audio_codec.h"
 
 #define TAG "MY_BOARD"
 
@@ -48,6 +49,10 @@ void MyBoard::InitFileSystem() {
 
     Log::Info(TAG, "init filesystem, type: %s, totalbytes: %ld, freebytes: %ld", 
             filesystem_->type(), filesystem_->totalBytes(), filesystem_->freeBytes());
+}
+
+void MyBoard::InitAudioCodec() {
+    audio_codec_ = new NoAudioCodecSimplex(SPK_BCLK_PIN, SPK_WS_PIN, SPK_DOUT_PIN);
 }
 
 #endif 

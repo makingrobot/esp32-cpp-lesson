@@ -6,8 +6,8 @@
 #include "config.h"
 #if CONFIG_USE_AUDIO==1
 
-#ifndef _I2S_INPUT_H
-#define _I2S_INPUT_H
+#ifndef _AUDIO_I2S_INPUT_H
+#define _AUDIO_I2S_INPUT_H
 
 #include <driver/gpio.h>
 #include <driver/i2s_std.h>
@@ -16,18 +16,18 @@
 /**
  * I2s设备输入
  */
-class I2sInput : public AudioInput {
+class AudioI2sInput : public AudioInput {
 private:
-    int Read(int16_t* dest, int samples);
+    uint32_t Read(void *data, uint32_t len) override;
 
     i2s_chan_handle_t rx_handle_ = nullptr;
 
 public:
-    I2sInput(const i2s_chan_config_t &chan_cfg, const i2s_std_config_t &std_cfg);
+    AudioI2sInput(const i2s_chan_config_t &chan_cfg, const i2s_std_config_t &std_cfg);
 
-    virtual ~I2sInput();
+    virtual ~AudioI2sInput();
 };
 
-#endif // _I2S_INPUT_H
+#endif // _AUDIO_I2S_INPUT_H
 
 #endif //CONFIG_USE_AUDIO

@@ -18,18 +18,22 @@
 #include "src/framework/board/wifi_board.h"
 #include "src/framework/led/led.h"
 #include "src/framework/file/file_system.h"
+#include "src/framework/audio/audio_codec.h"
 
 class MyBoard : public WifiBoard {
 private:
-    Led* led_ = nullptr;
-    FileSystem* filesystem_ = nullptr;
+    Led *led_ = nullptr;
+    FileSystem *filesystem_ = nullptr;
+    AudioCodec *audio_codec_ = nullptr;
 
     void InitFileSystem();
+    void InitAudioCodec();
     
 public:
     MyBoard();
     Led* GetLed() override { return led_; }
     FileSystem* GetFileSystem() override { return filesystem_; }
+    AudioCodec* GetAudioCodec() override { return audio_codec_; }
 
 };
 

@@ -4,7 +4,7 @@
 #include <Arduino.h>
 #include "wav_decoder.h"
 
-WavDecoder::WavDecoder(AudioInput *input) : input_(input)
+WavDecoder::WavDecoder(AudioInput &input) : input_(&input)
 {
   buffSize = 128;
   buff = NULL;
@@ -55,6 +55,7 @@ bool WavDecoder::Decode()
         samples_[0] = l;
         samples_[1] = r;
 
+        return true;
     } else if (bitsPerSample == 16) {
         if (!GetBufferedData(2, &samples_[0])) Stop();
         if (channels == 2) {
@@ -62,8 +63,10 @@ bool WavDecoder::Decode()
         } else {
             samples_[1] = 0;
         }
+        return true;
     }
 
+    return false;
 }
 
 // Handle buffered reading, reload each time we run out of data

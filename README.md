@@ -81,30 +81,52 @@ ESP32 C++ 教程，基于ESP32-Arduino-Framework应用开发框架。
 ```
 * 7-2 OLED显示屏
 ```
-  知识点：Display类及派生类、U8G2库
+  知识点：Display类及派生类、U8G2库、I2C协议
 ```
 * 7-3 TFT-LCD显示屏
 ```
-  知识点：TFT_eSPI库
+  知识点：TFT_eSPI库、SPI协议
 ```
 
 ### Unit8 网络
 * 8-1 WiFi连接和HTTP请求
 ```
-  知识点：WiFi、HttpClient
+  知识点：WiFi连接、HttpClient库
 ```
-* 8-2 Web服务
+* 8-2 Wifi热点与Web服务
 ```
-  知识点：WebServer库
+  知识点：WiFi热点、WebServer库
 ```
 * 8-3 在网页上控制设备
 ```
-  知识点：
+  知识点：JavaScript
 ```
 
 ### Unit9 存储
-* 9-1 Flash存储
-* 9-2 SD卡存储
+* 9-1 文件系统
+```
+  知识点：FileSystem类、Flash存储、SD卡、SPI协议
+```
+* 9-2 文件系统应用
+```
+  知识点：Web服务与文件系统
+```
+
+### Unit10 音频
+* 10-1 音频播放
+```
+  知识点：I2sOutput类、I2S协议、DAC数模转换、音频解码
+```
+
+* 10-2 音频录制
+```
+  知识点：I2sInput类、ADC模数转换、音频编码
+```
+
+* 10-3 音频高级处理
+```
+  知识点：音频流、音效处理
+```
 
 -------
 [开发框架说明](FRAMEWORK.md)

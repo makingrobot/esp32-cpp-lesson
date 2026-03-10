@@ -16,6 +16,10 @@
 #define SD_MISO_PIN                         GPIO_NUM_5
 #define SD_CS_PIN                           GPIO_NUM_2
 
+#define SPK_BCLK_PIN                        GPIO_NUM_NC
+#define SPK_WS_PIN                          GPIO_NUM_NC
+#define SPK_DOUT_PIN                        GPIO_NUM_NC
+
 //**********************************************************************
 // 配置定义
 

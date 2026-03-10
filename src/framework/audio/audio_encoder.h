@@ -15,6 +15,8 @@
  * 音频编码器基类
  */
 class AudioEncoder {
+public:
+    virtual bool Init() { return false; }
 
 };
 
