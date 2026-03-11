@@ -3,18 +3,18 @@
 #define _MP3_HELIX_DECODER_H
 
 #include "../audio_decoder.h"
-#include "../audio_input.h"
+#include "../audio_source.h"
 #include "src/libs/helix-mp3/mp3dec.h"
 
 class HelixMP3Decoder : public AudioDecoder
 {
 public:
-    HelixMP3Decoder(AudioInput &input);
+    HelixMP3Decoder(AudioSource *source);
     virtual ~HelixMP3Decoder();
     bool Init() override;
     bool Decode() override;
 
-protected:
+private:
     bool FillBufferWithValidFrame(); // Read until we get a valid syncword and min(feof, 2048) butes in the buffer
     
     // Helix MP3 decoder
@@ -30,12 +30,7 @@ protected:
     int16_t validSamples;
     int16_t curSample;
 
-    // Each frame may change this if they're very strange, I guess
-    unsigned int lastRate;
-    int lastChannels;
-
-private:
-    AudioInput *input_;
+    AudioSource *source_;
     
 };
 

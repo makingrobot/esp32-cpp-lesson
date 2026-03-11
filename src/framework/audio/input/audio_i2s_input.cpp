@@ -11,23 +11,19 @@
 
 #define TAG "I2sInput"
 
-AudioI2sInput::~AudioI2sInput() {
-    if (rx_handle_ != nullptr) {
-        ESP_ERROR_CHECK(i2s_channel_disable(rx_handle_));
-    }
+bool AudioI2sInput::Init() {
+    return false;
 }
 
-AudioI2sInput::AudioI2sInput(const i2s_chan_config_t &chan_cfg, const i2s_std_config_t &std_cfg) {
-
-    ESP_ERROR_CHECK(i2s_new_channel(&chan_cfg, nullptr, &rx_handle_));
-
-    ESP_ERROR_CHECK(i2s_channel_init_std_mode(rx_handle_, &std_cfg));
-
-    Log::Info(TAG, "Simplex channels created");
+bool AudioI2sInput::Handle() {
+    return false;
 }
 
-uint32_t AudioI2sInput::Read(void *data, uint32_t len) {
-    
+bool AudioI2sInput::Close() {
+    return false;
+}
+
+int16_t* AudioI2sInput::GetSamples() {
     return 0;
 }
 

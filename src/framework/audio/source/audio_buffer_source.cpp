@@ -7,48 +7,54 @@
 #if CONFIG_USE_AUDIO==1
 
 #include <Arduino.h>
-#include "audio_buffer_input.h"
+#include "audio_buffer_source.h"
 #include "../../sys/log.h"
 
-#define TAG "BufferInput"
+#define TAG "BufferSource"
 
-AudioBufferInput::AudioBufferInput(AudioInput *source, uint32_t buff_size)
+AudioBufferSource::AudioBufferSource(AudioSource *source, uint32_t buff_size)
     : source_(source), buffSize(buff_size)
 {
-  buffer = (uint8_t*)malloc(sizeof(uint8_t) * buffSize);
-  if (!buffer) Serial.printf_P(PSTR("Unable to allocate AudioBufferInput::buffer[]\n"));
-  deallocateBuffer = true;
-  writePtr = 0;
-  readPtr = 0;
-  length = 0;
-  filled = false;
+    buffer = (uint8_t*)malloc(sizeof(uint8_t) * buffSize);
+    if (!buffer) Serial.printf_P(PSTR("Unable to allocate AudioBufferSource::buffer[]\n"));
+    deallocateBuffer = true;
+    writePtr = 0;
+    readPtr = 0;
+    length = 0;
+    filled = false;
 }
 
-AudioBufferInput::AudioBufferInput(AudioInput *source, void *inBuff, uint32_t buff_size)
+AudioBufferSource::AudioBufferSource(AudioSource *source, void *inBuff, uint32_t buff_size)
     : source_(source), buffSize(buff_size)
 {
-  buffer = (uint8_t*)inBuff;
-  deallocateBuffer = false;
-  writePtr = 0;
-  readPtr = 0;
-  length = 0;
-  filled = false;
+    buffer = (uint8_t*)inBuff;
+    deallocateBuffer = false;
+    writePtr = 0;
+    readPtr = 0;
+    length = 0;
+    filled = false;
 }
 
-AudioBufferInput::~AudioBufferInput()
+AudioBufferSource::~AudioBufferSource()
 {
-  if (deallocateBuffer) free(buffer);
-  buffer = NULL;
+    if (deallocateBuffer) free(buffer);
+    buffer = NULL;
 }
 
-uint32_t AudioBufferInput::Read(void *data, uint32_t len)
+
+bool AudioBufferSource::Init() 
+{ 
+    return source_->Init(); 
+}
+
+uint32_t AudioBufferSource::Read(void *data, uint32_t len)
 {
     if (!buffer) return source_->Read(data, len);
 
     uint32_t bytes = 0;
     if (!filled) {
         // Fill up completely before returning any data at all
-        //cb.st(STATUS_FILLING, PSTR("Refilling buffer"));
+        status.StatusCB(STATUS_FILLING, PSTR("Refilling buffer"));
         length = source_->Read(buffer, buffSize);
         writePtr = length % buffSize;
         filled = true;
@@ -85,7 +91,7 @@ uint32_t AudioBufferInput::Read(void *data, uint32_t len)
         writePtr = 0;
         length = 0;
         filled = false;
-        //cb.st(STATUS_UNDERFLOW, PSTR("Buffer underflow"));
+        status.StatusCB(STATUS_UNDERFLOW, PSTR("Buffer underflow"));
     }
 
     Fill();
@@ -93,7 +99,7 @@ uint32_t AudioBufferInput::Read(void *data, uint32_t len)
     return bytes;
 }
 
-bool AudioBufferInput::Seek(int32_t pos, int dir)
+bool AudioBufferSource::Seek(int32_t pos, int dir)
 {
     if(dir == SEEK_CUR && (readPtr+pos) < length) {
         readPtr += pos;
@@ -107,41 +113,41 @@ bool AudioBufferInput::Seek(int32_t pos, int dir)
     }
 }
 
-bool AudioBufferInput::Close()
+bool AudioBufferSource::Close()
 {
   if (deallocateBuffer) free(buffer);
   buffer = NULL;
   return source_->Close();
 }
 
-void AudioBufferInput::Fill()
+void AudioBufferSource::Fill()
 {
     if (!buffer) return;
 
     if (length < buffSize) {
         // Now try and opportunistically fill the buffer
         if (readPtr > writePtr) {
-        if (readPtr == writePtr+1) return;
-        uint32_t bytesAvailMid = readPtr - writePtr - 1;
-        int cnt = source_->Read(&buffer[writePtr], bytesAvailMid);
-        length += cnt;
-        writePtr = (writePtr + cnt) % buffSize;
-        return;
+            if (readPtr == writePtr+1) return;
+            uint32_t bytesAvailMid = readPtr - writePtr - 1;
+            int cnt = source_->Read(&buffer[writePtr], bytesAvailMid);
+            length += cnt;
+            writePtr = (writePtr + cnt) % buffSize;
+            return;
         }
 
         if (buffSize > writePtr) {
-        uint32_t bytesAvailEnd = buffSize - writePtr;
-        int cnt = source_->Read(&buffer[writePtr], bytesAvailEnd);
-        length += cnt;
-        writePtr = (writePtr + cnt) % buffSize;
-        if (cnt != (int)bytesAvailEnd) return;
+            uint32_t bytesAvailEnd = buffSize - writePtr;
+            int cnt = source_->Read(&buffer[writePtr], bytesAvailEnd);
+            length += cnt;
+            writePtr = (writePtr + cnt) % buffSize;
+            if (cnt != (int)bytesAvailEnd) return;
         }
 
         if (readPtr > 1) {
-        uint32_t bytesAvailStart = readPtr - 1;
-        int cnt = source_->Read(&buffer[writePtr], bytesAvailStart);
-        length += cnt;
-        writePtr = (writePtr + cnt) % buffSize;
+            uint32_t bytesAvailStart = readPtr - 1;
+            int cnt = source_->Read(&buffer[writePtr], bytesAvailStart);
+            length += cnt;
+            writePtr = (writePtr + cnt) % buffSize;
         }
     }
 }

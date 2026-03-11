@@ -6,19 +6,19 @@
 #include "config.h"
 #if CONFIG_USE_AUDIO==1
 
-#ifndef _AUDIO_PROGMEM_INPUT_H
-#define _AUDIO_PROGMEM_INPUT_H
+#ifndef _AUDIO_PROGMEM_SOURCE_H
+#define _AUDIO_PROGMEM_SOURCE_H
 
 #include <string>
-#include "../audio_input.h"
+#include "../audio_source.h"
 
 /**
  * 音频内存数据输入
  */
-class AudioProgMemInput : public AudioInput {
+class AudioProgMemSource : public AudioSource {
 public:
-    AudioProgMemInput(const void *data, uint32_t len);
-    ~AudioProgMemInput();
+    AudioProgMemSource(const void *data, uint32_t len);
+    ~AudioProgMemSource();
 
     uint32_t Read(void *data, uint32_t len) override;
     bool Seek(int32_t pos, int dir) override;
@@ -27,6 +27,8 @@ public:
     size_t GetPosition() override { return -1; }
     size_t GetSize() override { return progmemLen; }
 
+    const char* Tag() override { return "ProgMemSource"; };
+
 private:
     const void *progmemData;
     uint32_t progmemLen;
@@ -34,6 +36,6 @@ private:
     
 };
 
-#endif // _AUDIO_PROGMEM_INPUT_H
+#endif // _AUDIO_PROGMEM_SOURCE_H
 
 #endif //CONFIG_USE_AUDIO

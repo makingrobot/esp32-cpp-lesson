@@ -53,6 +53,23 @@ private:
 };
 
 /**
+ * I2S 麦克风设备
+ */
+class NoAudioCodecSimplexMic : public NoAudioCodec {
+public:
+    // mic
+    NoAudioCodecSimplexMic(gpio_num_t mic_sck, gpio_num_t mic_ws, gpio_num_t mic_din) 
+        : mic_sck_(mic_sck), mic_ws_(mic_ws), mic_din_(mic_din) {  }
+
+    virtual void Init(int input_sample_rate, int output_sample_rate, int bit_per_sample) override;
+
+private:
+    gpio_num_t mic_sck_;
+    gpio_num_t mic_ws_;
+    gpio_num_t mic_din_;
+};
+
+/**
  * 支持PDM的I2S设备
  */
 class NoAudioCodecSimplexPdm : public NoAudioCodec {

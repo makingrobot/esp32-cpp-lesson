@@ -3,37 +3,38 @@
 
 #include <Arduino.h>
 #include "helix_mp3_decoder.h"
+#include "../../sys/log.h"
 
-HelixMP3Decoder::HelixMP3Decoder(AudioInput &input) : input_(&input)
+#define TAG "HelixMP3Decoder"
+
+HelixMP3Decoder::HelixMP3Decoder(AudioSource *source) : source_(source)
 {
-    hMP3Decoder = MP3InitDecoder();
-    if (!hMP3Decoder) {
-      Serial.printf_P(PSTR("Out of memory error! hMP3Decoder==NULL\n"));
-      Serial.flush();
-    }
-    // For sanity's sake...
-    memset(buff, 0, sizeof(buff));
-    memset(outSample, 0, sizeof(outSample));
-    buffValid = 0;
-    lastFrameEnd = 0;
-    validSamples = 0;
-    curSample = 0;
-    lastRate = 0;
-    lastChannels = 0;
 }
 
 HelixMP3Decoder::~HelixMP3Decoder()
 {
-    MP3FreeDecoder(hMP3Decoder);
+    if (hMP3Decoder) {
+        MP3FreeDecoder(hMP3Decoder);
+    }
 }
 
 bool HelixMP3Decoder::Init()
 {
+    hMP3Decoder = MP3InitDecoder();
+    if (!hMP3Decoder) {
+        Log::Warn(TAG, PSTR("Out of memory error! hMP3Decoder==NULL\n"));
+        return false;
+    }
+    // For sanity's sake...
+    memset(buff, 0, sizeof(buff));
+    memset(outSample, 0, sizeof(outSample));
     return true;
 }
 
 bool HelixMP3Decoder::Decode()
 {
+    if (eof_) return false;
+    
     // If we've got data, try and pump it out...
     if (validSamples) {
         samples_[0] = outSample[curSample*2];
@@ -50,26 +51,23 @@ bool HelixMP3Decoder::Decode()
         int bytesLeft = buffValid;
         int ret = MP3Decode(hMP3Decoder, &inBuff, &bytesLeft, outSample, 0);
         if (ret) {
+            Log::Error(TAG, "MP3 decode error %d", ret);
             // Error, skip the frame...
-            // char buff[48];
-            // sprintf(buff, "MP3 decode error %d", ret);
-            // cb.st(ret, buff);
+            char buff[48];
+            sprintf(buff, "MP3 decode error %d", ret);
+            source_->Status()->StatusCB(ret, buff);
             return false;
         } 
 
         lastFrameEnd = buffValid - bytesLeft;
         MP3FrameInfo fi;
         MP3GetLastFrameInfo(hMP3Decoder, &fi);
-        if ((int)fi.samprate!= (int)lastRate) {
-          //output->SetRate(fi.samprate);
-          lastRate = fi.samprate;
-        }
-        if (fi.nChans != lastChannels) {
-          //output->SetChannels(fi.nChans);
-          lastChannels = fi.nChans;
-        }
+        sampleRate_ = fi.samprate;
+        channels_ = fi.nChans;
+        bitsPerSample_ = fi.bitsPerSample;
+        
         curSample = 0;
-        validSamples = fi.outputSamps / lastChannels;
+        validSamples = fi.outputSamps / channels_;
 
         return true;
     } 
@@ -88,11 +86,17 @@ bool HelixMP3Decoder::FillBufferWithValidFrame()
         if (nextSync == -1) {
             if (buff[buffValid-1]==0xff) { // Could be 1st half of syncword, preserve it...
                 buff[0] = 0xff;
-                buffValid = input_->Read(buff+1, sizeof(buff)-1);
-                if (buffValid==0) return false; // No data available, EOF
+                buffValid = source_->Read(buff+1, sizeof(buff)-1);
+                if (buffValid==0) {
+                    eof_ = true;
+                    return false; // No data available, EOF
+                }
             } else { // Try a whole new buffer
-                buffValid = input_->Read(buff, sizeof(buff));
-                if (buffValid==0) return false; // No data available, EOF
+                buffValid = source_->Read(buff, sizeof(buff));
+                if (buffValid==0) {
+                    eof_ = true;
+                    return false; // No data available, EOF
+                }
             }
         }
     } while (nextSync == -1);
@@ -102,7 +106,7 @@ bool HelixMP3Decoder::FillBufferWithValidFrame()
     memmove(buff, buff+nextSync, buffValid);
 
     // We have a sync word at 0 now, try and fill remainder of buffer
-    buffValid += input_->Read(buff + buffValid, sizeof(buff) - buffValid);
+    buffValid += source_->Read(buff + buffValid, sizeof(buff) - buffValid);
 
     return true;
 }

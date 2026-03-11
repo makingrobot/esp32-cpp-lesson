@@ -9,23 +9,27 @@
 #ifndef _AUDIO_I2S_INPUT_H
 #define _AUDIO_I2S_INPUT_H
 
-#include <driver/gpio.h>
-#include <driver/i2s_std.h>
+#include "../audio_codec.h"
 #include "../audio_input.h"
 
 /**
  * I2s设备输入
  */
 class AudioI2sInput : public AudioInput {
-private:
-    uint32_t Read(void *data, uint32_t len) override;
-
-    i2s_chan_handle_t rx_handle_ = nullptr;
-
 public:
-    AudioI2sInput(const i2s_chan_config_t &chan_cfg, const i2s_std_config_t &std_cfg);
+    AudioI2sInput(AudioCodec *codec) : codec_(codec) {  }
+    virtual ~AudioI2sInput() {  }
 
-    virtual ~AudioI2sInput();
+    bool Init() override;
+    bool Handle() override;
+    bool Close() override;
+    int16_t* GetSamples() override;
+
+    const char* Tag() override { return "I2sInput"; };
+
+private:
+    AudioCodec *codec_;
+
 };
 
 #endif // _AUDIO_I2S_INPUT_H

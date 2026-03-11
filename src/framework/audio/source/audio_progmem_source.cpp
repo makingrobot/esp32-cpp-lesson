@@ -7,23 +7,23 @@
 #if CONFIG_USE_AUDIO==1
 
 #include <Arduino.h>
-#include "audio_progmem_input.h"
+#include "audio_progmem_source.h"
 #include "../../sys/log.h"
 
-#define TAG "FileStreamInput"
+#define TAG "FileStreamSource"
 
-AudioProgMemInput::AudioProgMemInput(const void *data, uint32_t len) 
+AudioProgMemSource::AudioProgMemSource(const void *data, uint32_t len) 
     : progmemData(data), progmemLen(len)
 {
     memPointer = 0;
 }
     
-AudioProgMemInput::~AudioProgMemInput()
+AudioProgMemSource::~AudioProgMemSource()
 {
 
 }
 
-uint32_t AudioProgMemInput::Read(void *data, uint32_t len)
+uint32_t AudioProgMemSource::Read(void *data, uint32_t len)
 {
     if (memPointer >= progmemLen) return 0;
 
@@ -35,7 +35,7 @@ uint32_t AudioProgMemInput::Read(void *data, uint32_t len)
     return toRead;
 }
 
-bool AudioProgMemInput::Seek(int32_t pos, int dir)
+bool AudioProgMemSource::Seek(int32_t pos, int dir)
 {
     uint32_t newPtr;
     switch (dir) {
@@ -49,7 +49,7 @@ bool AudioProgMemInput::Seek(int32_t pos, int dir)
     return true;
 }
 
-bool AudioProgMemInput::Close()
+bool AudioProgMemSource::Close()
 {
     progmemData = NULL;
     progmemLen = 0;

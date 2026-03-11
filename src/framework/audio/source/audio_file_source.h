@@ -6,20 +6,20 @@
 #include "config.h"
 #if CONFIG_USE_AUDIO==1
 
-#ifndef _AUDIO_FILE_INPUT_H
-#define _AUDIO_FILE_INPUT_H
+#ifndef _AUDIO_FILE_SOURCE_H
+#define _AUDIO_FILE_SOURCE_H
 
 #include <string>
 #include <FS.h>
-#include "../audio_input.h"
+#include "../audio_source.h"
 
 /**
  * 音频文件输入
  */
-class AudioFileInput : public AudioInput {
+class AudioFileSource : public AudioSource {
 public:
-    AudioFileInput(fs::File &audio_file) : audio_file_(&audio_file) { }
-    ~AudioFileInput() { if (audio_file_) audio_file_->close(); }
+    AudioFileSource(fs::File &audio_file) : audio_file_(&audio_file) { }
+    ~AudioFileSource() { if (audio_file_) audio_file_->close(); }
 
     uint32_t Read(void *data, uint32_t len) override;
     bool Seek(int32_t pos, int dir) override;
@@ -28,11 +28,13 @@ public:
     size_t GetPosition() override { return (audio_file_) ? audio_file_->position() : -1; }
     size_t GetSize() override { return (audio_file_) ? audio_file_->size() : -1; }
 
+    const char* Tag() override { return "FileSource"; };
+
 private:
     fs::File *audio_file_;
     
 };
 
-#endif // _AUDIO_FILE_INPUT_H
+#endif // _AUDIO_FILE_SOURCE_H
 
 #endif //CONFIG_USE_AUDIO

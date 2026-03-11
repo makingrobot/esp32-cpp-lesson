@@ -22,32 +22,24 @@
  */
 class AudioPipe {
 public:
-    AudioPipe(AudioInput *input,  AudioOutput *output) 
-        : input_(input), output_(output) { }
+    AudioPipe() { }
 
-    virtual void Start();
+    virtual void Start(AudioInput *input,  AudioOutput *output);
     virtual void Stop();
 
-    virtual bool SetMetadataCallback(AudioStatus::MetadataCallbackFn fn, void *data) { 
-        return cb.RegisterMetadataCallback(fn, data); 
-    }
-    virtual bool SetStatusCallback(AudioStatus::StatusCallbackFn fn, void *data) { 
-        return cb.RegisterStatusCallback(fn, data); 
-    }
-
+    void MetadataCallback(const char *tag, const char *type, const char *text);
+    void StatusCallback(const char *tag, int code, const char *text);
+    
 protected:
     void Execute();
     
     int16_t last_sample_[2];
-    AudioStatus cb;
 
 private:
     bool running_;
 
     AudioInput *input_ = nullptr;
     AudioOutput *output_ = nullptr;
-    AudioEncoder *encoder_ = nullptr;
-    AudioDecoder *decoder_ = nullptr;
 
     TaskHandle_t task_handle_;
 

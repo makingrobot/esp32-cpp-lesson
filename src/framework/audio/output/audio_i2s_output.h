@@ -23,6 +23,7 @@ public:
 
     bool Init() override;
     uint32_t WriteSamples(const int16_t *data, uint32_t samples) override;
+    const char* Tag() override { return "I2sOutput"; };
 
 private:
     AudioCodec *codec_;

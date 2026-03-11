@@ -1,17 +1,13 @@
 
 #include "audio_pipe.h"
-#include "decoder/wav_decoder.h"
 #include "../sys/log.h"
 
 #define TAG "AudioPipe"
 
-void AudioPipe::Start() {
+void AudioPipe::Start(AudioInput *input,  AudioOutput *output) {
 
-    // 创建解码器
-    decoder_ = new WavDecoder(*input_);
-
-    // 创建编码器
-    // encoder_;
+    input_ = input;
+    output_ = output;
 
     running_ = true;
     // 启动任务
@@ -32,25 +28,40 @@ void AudioPipe::Start() {
     );
 }
 
+void _MetadataCallback(const char *tag, const char *type, const char *text, void *data) {
+    AudioPipe *pipe = (AudioPipe *)data;
+    pipe->MetadataCallback(tag, type, text);
+}
+
+void _StatusCallback(const char *tag, int code, const char *text, void *data) {
+    AudioPipe *pipe = (AudioPipe *)data;
+    pipe->StatusCallback(tag, code, text);
+}
+
 void AudioPipe::Execute() {
 
     // 初始化
-    input_->Init();
-    output_->Init();
-    bool ret = decoder_->Init();
+    bool ret = input_->Init();
     if (!ret) {
-        Log::Error(TAG, "Init fail.");
+        Log::Error(TAG, "audio input init fail.");
         return;
     }
 
+    ret = output_->Init();
+    if (!ret) {
+        Log::Error(TAG, "audio output init fail.");
+        return;
+    }
+
+    input_->SetMetadataCallback(_MetadataCallback, this);
+    input_->SetStatusCallback(_StatusCallback, this);
+
+    output_->SetStatusCallback(_StatusCallback, this);
+
     // 处理数据
     while (running_) {
-        if (decoder_->Decode()) {
-            int16_t* samples = decoder_->samples();
-
-            
-            // 中间处理
-
+        if (input_->Handle()) {
+            int16_t* samples = input_->GetSamples();
 
             // 输出
             output_->WriteSamples(samples, sizeof(samples) / sizeof(int16_t));
@@ -60,4 +71,12 @@ void AudioPipe::Execute() {
 
 void AudioPipe::Stop() {
     running_ = false;
+}
+
+void AudioPipe::MetadataCallback(const char *tag, const char *type, const char *text) {
+    Log::Info(tag, "Metadata: %s = %s", type, text);
+}
+
+void AudioPipe::StatusCallback(const char *tag, int code, const char* text) {
+    Log::Info(tag, "Status(%d): %s", code, text);
 }
