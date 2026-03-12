@@ -6,7 +6,7 @@
 #include "config.h"
 #if CONFIG_USE_AUDIO==1
 
-#include "no_audio_codec.h"
+#include "audio_i2s_no_codec3.h"
 
 #include <cmath>
 #include <cstring>
@@ -15,11 +15,24 @@
 
 #include "../../sys/log.h"
 
-#define TAG "NoAudioCodec"
+#define TAG "AudioI2sNoCodec3"
 
-//-------- NoAudioCodec Implements ---------------
+//-------- AudioI2sNoCodec3 Implements ---------------
 
-uint32_t NoAudioCodec::Write(const int16_t* data, uint32_t samples) {
+void AudioI2sNoCodec3::Init(int input_sample_rate, int output_sample_rate, int bit_per_sample)
+{
+    AudioI2sCodec::Init(input_sample_rate, output_sample_rate, bit_per_sample);
+
+    if (tx_handle_ != nullptr) {
+        ESP_ERROR_CHECK(i2s_channel_enable(tx_handle_));
+    }
+
+    if (rx_handle_ != nullptr) {
+        ESP_ERROR_CHECK(i2s_channel_enable(rx_handle_));
+    }
+}
+
+uint32_t AudioI2sNoCodec3::Write(const int16_t* data, uint32_t samples) {
     std::vector<int32_t> buffer(samples);
 
     // output_volume_: 0-100
@@ -41,7 +54,7 @@ uint32_t NoAudioCodec::Write(const int16_t* data, uint32_t samples) {
     return bytes_written / sizeof(int32_t);
 }
 
-uint32_t NoAudioCodec::Read(int16_t* dest, uint32_t samples) {
+uint32_t AudioI2sNoCodec3::Read(int16_t* dest, uint32_t samples) {
     size_t bytes_read;
 
     std::vector<int32_t> bit32_buffer(samples);
@@ -58,7 +71,7 @@ uint32_t NoAudioCodec::Read(int16_t* dest, uint32_t samples) {
     return samples;
 }
 
-NoAudioCodec::~NoAudioCodec() {
+AudioI2sNoCodec3::~AudioI2sNoCodec3() {
     if (rx_handle_ != nullptr) {
         ESP_ERROR_CHECK(i2s_channel_disable(rx_handle_));
     }
@@ -67,12 +80,10 @@ NoAudioCodec::~NoAudioCodec() {
     }
 }
 
-//------------------ NoAudioCodecDuplex Implements -----------------
+//------------------ AudioI2sNoCodec3Duplex Implements -----------------
 
-void NoAudioCodecDuplex::Init(int input_sample_rate, int output_sample_rate, int bit_per_sample) {
-    input_sample_rate_ = input_sample_rate;
-    output_sample_rate_ = output_sample_rate;
-
+void AudioI2sNoCodec3Duplex::Init(int input_sample_rate, int output_sample_rate, int bit_per_sample) {
+    
     i2s_chan_config_t chan_cfg = {
         .id = I2S_NUM_0,
         .role = I2S_ROLE_MASTER,
@@ -128,15 +139,13 @@ void NoAudioCodecDuplex::Init(int input_sample_rate, int output_sample_rate, int
     ESP_ERROR_CHECK(i2s_channel_init_std_mode(rx_handle_, &std_cfg));
     Log::Info(TAG, "Duplex channels created");
 
-    AudioCodec::Init(input_sample_rate, output_sample_rate, bit_per_sample);
+    AudioI2sNoCodec3::Init(input_sample_rate, output_sample_rate, bit_per_sample);
 }
 
-//------------------ NoAudioCodecSimplex Implements -----------------
+//------------------ AudioI2sNoCodec3Simplex Implements -----------------
 
-void NoAudioCodecSimplex::Init(int input_sample_rate, int output_sample_rate, int bit_per_sample) {
-    input_sample_rate_ = input_sample_rate;
-    output_sample_rate_ = output_sample_rate;
-
+void AudioI2sNoCodec3Simplex::Init(int input_sample_rate, int output_sample_rate, int bit_per_sample) {
+    
     // Create a new channel for speaker
     i2s_chan_config_t chan_cfg = {
         .id = I2S_NUM_0,
@@ -153,7 +162,7 @@ void NoAudioCodecSimplex::Init(int input_sample_rate, int output_sample_rate, in
     
     i2s_std_config_t std_cfg = {
         .clk_cfg = {
-            .sample_rate_hz = (uint32_t)output_sample_rate_,
+            .sample_rate_hz = (uint32_t)output_sample_rate,
             .clk_src = I2S_CLK_SRC_DEFAULT,
             .mclk_multiple = I2S_MCLK_MULTIPLE_256,
 			#ifdef   I2S_HW_VERSION_2
@@ -199,7 +208,7 @@ void NoAudioCodecSimplex::Init(int input_sample_rate, int output_sample_rate, in
         chan_cfg.id = I2S_NUM_1;
         ESP_ERROR_CHECK(i2s_new_channel(&chan_cfg, nullptr, &rx_handle_));
 
-        std_cfg.clk_cfg.sample_rate_hz = (uint32_t)input_sample_rate_;
+        std_cfg.clk_cfg.sample_rate_hz = (uint32_t)input_sample_rate;
         std_cfg.gpio_cfg.bclk = mic_sck_;
         std_cfg.gpio_cfg.ws = mic_ws_;
         std_cfg.gpio_cfg.dout = I2S_GPIO_UNUSED;
@@ -209,15 +218,13 @@ void NoAudioCodecSimplex::Init(int input_sample_rate, int output_sample_rate, in
         Log::Info(TAG, "rx channels created");
     }
 
-    AudioCodec::Init(input_sample_rate, output_sample_rate, bit_per_sample);
+    AudioI2sNoCodec3::Init(input_sample_rate, output_sample_rate, bit_per_sample);
 }
 
-//------------------ NoAudioCodecSimplexMic Implements -----------------
+//------------------ AudioI2sNoCodec3SimplexMic Implements -----------------
 
-void NoAudioCodecSimplexMic::Init(int input_sample_rate, int output_sample_rate, int bit_per_sample) {
-    input_sample_rate_ = input_sample_rate;
-    output_sample_rate_ = output_sample_rate;
-
+void AudioI2sNoCodec3SimplexMic::Init(int input_sample_rate, int output_sample_rate, int bit_per_sample) {
+    
     // Create a new channel for speaker
     i2s_chan_config_t chan_cfg = {
         .id = I2S_NUM_1,
@@ -234,7 +241,7 @@ void NoAudioCodecSimplexMic::Init(int input_sample_rate, int output_sample_rate,
     
     i2s_std_config_t std_cfg = {
         .clk_cfg = {
-            .sample_rate_hz = (uint32_t)input_sample_rate_,
+            .sample_rate_hz = (uint32_t)input_sample_rate,
             .clk_src = I2S_CLK_SRC_DEFAULT,
             .mclk_multiple = I2S_MCLK_MULTIPLE_256,
 			#ifdef   I2S_HW_VERSION_2
@@ -274,15 +281,13 @@ void NoAudioCodecSimplexMic::Init(int input_sample_rate, int output_sample_rate,
 
     Log::Info(TAG, "rx channels created");
 
-    AudioCodec::Init(input_sample_rate, output_sample_rate, bit_per_sample);
+    AudioI2sNoCodec3::Init(input_sample_rate, output_sample_rate, bit_per_sample);
 }
 
-//---------------------- NoAudioCodecSimplexPdm --------------------------------
+//---------------------- AudioI2sNoCodec3SimplexPdm --------------------------------
 
-void NoAudioCodecSimplexPdm::Init(int input_sample_rate, int output_sample_rate, int bit_per_sample) {
-    input_sample_rate_ = input_sample_rate;
-    output_sample_rate_ = output_sample_rate;
-
+void AudioI2sNoCodec3SimplexPdm::Init(int input_sample_rate, int output_sample_rate, int bit_per_sample) {
+    
     // Create a new channel for speaker
     i2s_chan_config_t tx_chan_cfg = I2S_CHANNEL_DEFAULT_CONFIG(I2S_NUM_0, I2S_ROLE_MASTER);
     tx_chan_cfg.dma_desc_num = AUDIO_CODEC_DMA_DESC_NUM;
@@ -296,7 +301,7 @@ void NoAudioCodecSimplexPdm::Init(int input_sample_rate, int output_sample_rate,
 
     i2s_std_config_t tx_std_cfg = {
         .clk_cfg = {
-            .sample_rate_hz = (uint32_t)output_sample_rate_,
+            .sample_rate_hz = (uint32_t)output_sample_rate,
             .clk_src = I2S_CLK_SRC_DEFAULT,
             .mclk_multiple = I2S_MCLK_MULTIPLE_256,
 			#ifdef   I2S_HW_VERSION_2
@@ -326,7 +331,7 @@ void NoAudioCodecSimplexPdm::Init(int input_sample_rate, int output_sample_rate,
     ESP_ERROR_CHECK(i2s_new_channel(&rx_chan_cfg, NULL, &rx_handle_));
 
     i2s_pdm_rx_config_t pdm_rx_cfg = {
-        .clk_cfg = I2S_PDM_RX_CLK_DEFAULT_CONFIG((uint32_t)input_sample_rate_),
+        .clk_cfg = I2S_PDM_RX_CLK_DEFAULT_CONFIG((uint32_t)input_sample_rate),
         /* The data bit-width of PDM mode is fixed to 16 */
         .slot_cfg = I2S_PDM_RX_SLOT_DEFAULT_CONFIG(I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO),
         .gpio_cfg = {
@@ -344,10 +349,10 @@ void NoAudioCodecSimplexPdm::Init(int input_sample_rate, int output_sample_rate,
 #endif
     Log::Info(TAG, "Simplex channels created");
 
-    AudioCodec::Init(input_sample_rate, output_sample_rate, bit_per_sample);
+    AudioI2sNoCodec3::Init(input_sample_rate, output_sample_rate, bit_per_sample);
 }
 
-uint32_t NoAudioCodecSimplexPdm::Read(int16_t* dest, uint32_t samples) {
+uint32_t AudioI2sNoCodec3SimplexPdm::Read(int16_t* dest, uint32_t samples) {
     size_t bytes_read;
 
     // PDM 解调后的数据位宽为 16 位，直接读取到目标缓冲区

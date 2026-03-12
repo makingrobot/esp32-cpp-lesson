@@ -6,8 +6,8 @@
 #include "config.h"
 #if CONFIG_USE_AUDIO==1
 
-#ifndef _AUDIO_I2S_OUTPUT_H
-#define _AUDIO_I2S_OUTPUT_H
+#ifndef _AUDIO_I2S_OUTPUT3_H
+#define _AUDIO_I2S_OUTPUT3_H
 
 #include <driver/i2s_std.h>
 #include "../audio_output.h"
