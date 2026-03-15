@@ -23,13 +23,15 @@ public:
     bool Init() override;
     bool Handle() override;
     bool Close() override;
+    bool isEOF() override;
     int16_t* GetSamples() override;
 
     const char* Tag() override { return "I2sInput"; };
 
 private:
     AudioCodec *codec_;
-
+    int16_t samples_[2];
+    
 };
 
 #endif // _AUDIO_I2S_INPUT_H

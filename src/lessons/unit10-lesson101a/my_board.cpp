@@ -8,12 +8,9 @@
  * Unit10-Lesson101：音频输出
  */
 #include "config.h"
-#if BOARD_LESSON101 == 1
+#if BOARD_LESSON101_A == 1
 
 #include <Arduino.h>
-#include <Wire.h>
-#include <SPI.h>
-#include <SD.h>
 #include "board_config.h"
 #include "my_board.h"
 #include "src/framework/led/gpio_led.h"
@@ -33,22 +30,6 @@ MyBoard::MyBoard() : WifiBoard() {
     led_ = new GpioLed(BUILTIN_LED_PIN, false); // no pwm
 
     Log::Info( TAG, "===== Board config completed. =====");
-}
-
-void MyBoard::InitFileSystem() {
-    SPI.begin(SD_CLK_PIN, SD_MISO_PIN, SD_MOSI_PIN, SD_CS_PIN);
-    if (!SD.begin(SD_CS_PIN)) {
-        Log::Info(TAG, "SD Mount Failed");
-        return;
-    }
-
-    filesystem_ = new FileSystem(SD);
-    filesystem_->setTotalBytes(SD.totalBytes());
-    filesystem_->setFreeBytes(SD.totalBytes() - SD.usedBytes());
-    filesystem_->setType("SD");
-
-    Log::Info(TAG, "init filesystem, type: %s, totalbytes: %ld, freebytes: %ld", 
-            filesystem_->type(), filesystem_->totalBytes(), filesystem_->freeBytes());
 }
 
 void MyBoard::InitAudioCodec() {

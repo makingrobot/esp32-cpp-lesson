@@ -19,10 +19,12 @@ class AudioOutput {
 public:
     virtual bool Init() { return false; }
     virtual uint32_t WriteSamples(const int16_t *data, uint32_t samples) = 0;
+    virtual bool Stop() { return false; }
     virtual const char* Tag() = 0;
 
-    void setSampleRate(int rate) { sample_rate_ = rate; }
-    void setBitPerSample(int bit) { bit_per_sample_ = bit; }
+    virtual void SetSampleRate(int rate) { sample_rate_ = rate; }
+    virtual void SetBitPerSample(int bit) { bit_per_sample_ = bit; }
+    virtual void SetChannels(int chn) { channels_ = chn; }
 
     void SetMetadataCallback(AudioStatus::MetadataCallbackFn fn, void *data) {
         status.RegisterMetadataCallback(fn, Tag(), data);
@@ -33,8 +35,9 @@ public:
     }
 
 protected:
-    int sample_rate_;
-    int bit_per_sample_;
+    int sample_rate_ = 44100;
+    int bit_per_sample_ = 16;
+    int channels_ = 1;
 
     AudioStatus status;
 };

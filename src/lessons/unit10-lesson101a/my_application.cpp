@@ -8,7 +8,7 @@
  * Unit10-Lesson101：音频输出
  */
 #include "config.h"
-#if APP_LESSON101==1
+#if APP_LESSON101_A==1
 
 #include <driver/i2s_std.h>
 #include "my_application.h"
@@ -38,6 +38,9 @@ MyApplication::MyApplication() : Application() {
 }
 
 void MyApplication::OnInit() {
+    // 音频处理流
+    // HttpSource（网络源） -> Buffer（缓存读取） -> Decoder（解码） -> I2sOutput（输出到喇叭）
+
     // Http源
     std::string url = "http://downsc.chinaz.net/Files/DownLoad/sound1/201906/11582.mp3";
     AudioHttpStreamSource *http_source = new AudioHttpStreamSource(url);

@@ -24,6 +24,10 @@ public:
     virtual bool isEOF() = 0;
     virtual const char* Tag() = 0;
     
+    void SetSampleRate(int rate) { sample_rate_ = rate; }
+    void SetBitPerSample(int bit) { bit_per_sample_ = bit; }
+    void SetChannels(int chn) { channels_ = chn; }
+
     virtual void SetMetadataCallback(AudioStatus::MetadataCallbackFn fn, void *data) {
         status.RegisterMetadataCallback(fn, Tag(), data);
     }
@@ -33,6 +37,10 @@ public:
     }
 
 protected:
+    int sample_rate_ = 44100;
+    int bit_per_sample_ = 16;
+    int channels_ = 1;
+
     AudioStatus status;
     
 };

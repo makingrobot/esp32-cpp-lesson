@@ -11,20 +11,31 @@
 
 #define TAG "I2sInput"
 
-bool AudioI2sInput::Init() {
+bool AudioI2sInput::Init() 
+{
+    codec_->Init(sample_rate_, bit_per_sample_, channels_);
+    return true;
+}
+
+bool AudioI2sInput::Handle() 
+{
+    uint32_t bytes_read = codec_->Read(samples_, 2);
+    return true;
+}
+
+bool AudioI2sInput::Close() 
+{
     return false;
 }
 
-bool AudioI2sInput::Handle() {
+bool AudioI2sInput::isEOF() 
+{
     return false;
 }
 
-bool AudioI2sInput::Close() {
-    return false;
-}
-
-int16_t* AudioI2sInput::GetSamples() {
-    return 0;
+int16_t* AudioI2sInput::GetSamples() 
+{
+    return samples_;
 }
 
 #endif //CONFIG_USE_AUDIO

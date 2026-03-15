@@ -133,13 +133,17 @@
 #define BOARD_NAME "lesson92-board"
 #include "src/lessons/unit9-lesson92/my_board.h"
 
-#elif BOARD_LESSON101 == 1
+#elif BOARD_LESSON101_A == 1
 #define BOARD_NAME "lesson101-board"
-#include "src/lessons/unit10-lesson101/my_board.h"
+#include "src/lessons/unit10-lesson101a/my_board.h"
 
-#elif BOARD_LESSON102 == 1
+#elif BOARD_LESSON101_B == 1
+#define BOARD_NAME "lesson101-board"
+#include "src/lessons/unit10-lesson101b/my_board.h"
+
+#elif BOARD_LESSON102_A == 1
 #define BOARD_NAME "lesson102-board"
-#include "src/lessons/unit10-lesson102/my_board.h"
+#include "src/lessons/unit10-lesson102a/my_board.h"
 
 #endif
 

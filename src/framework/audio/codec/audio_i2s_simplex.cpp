@@ -35,8 +35,8 @@ bool AudioI2sSimplex::Init(int sample_rate, int bit_per_sample, int channel)
     return true;
 }
 
-uint32_t AudioI2sSimplex::Write(const int16_t* data, uint32_t samples) {
-     
+uint32_t AudioI2sSimplex::Write(const int16_t* data, uint32_t samples) 
+{     
     if (!output_enable_) {
         return 0;
     }
@@ -45,7 +45,8 @@ uint32_t AudioI2sSimplex::Write(const int16_t* data, uint32_t samples) {
     return bytes_write;
 }
 
-uint32_t AudioI2sSimplex::Read(int16_t* dest, uint32_t samples) {
+uint32_t AudioI2sSimplex::Read(int16_t* dest, uint32_t samples) 
+{
     if (!input_enable_) {
         return 0;
     }
@@ -54,7 +55,8 @@ uint32_t AudioI2sSimplex::Read(int16_t* dest, uint32_t samples) {
     return bytes_read;
 }
 
-AudioI2sSimplex::~AudioI2sSimplex() {
+AudioI2sSimplex::~AudioI2sSimplex() 
+{
     if (i2s_driver_) 
     {
         i2s_driver_->end();

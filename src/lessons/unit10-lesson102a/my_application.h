@@ -5,10 +5,10 @@
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
  * 
- * Unit10-Lesson101：音频输出
+ * Unit10-Lesson102：音频录制
  */
 #include "config.h"
-#if APP_LESSON101==1
+#if APP_LESSON102_A==1
 
 #ifndef _MY_APPLICATION_H
 #define _MY_APPLICATION_H

@@ -9,20 +9,24 @@
 #include <vector>
 #include <Arduino.h>
 #include <freertos/FreeRTOS.h>
-#include "audio_i2s_output.h"
+#include "audio_file_output.h"
 #include "../../sys/log.h"
 
-#define TAG "AudioI2sOutput"
+#define TAG "AudioFileOutput"
 
-bool AudioI2sOutput::Init() 
+bool AudioFileOutput::Init() 
 {
-    codec_->Init(sample_rate_, bit_per_sample_, channels_);
-    return true;
+    return false;
 }
 
-uint32_t AudioI2sOutput::WriteSamples(const int16_t *data, uint32_t samples)
+uint32_t AudioFileOutput::WriteSamples(const int16_t *data, uint32_t samples)
 {
-    return codec_->Write(data, samples);
+    return 0;
+}
+
+bool AudioFileOutput::Stop() 
+{
+    return false;
 }
 
 #endif //CONFIG_USE_AUDIO

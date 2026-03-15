@@ -59,12 +59,14 @@ void AudioPipe::Execute() {
     output_->SetStatusCallback(_StatusCallback, this);
 
     // 处理数据
+    // AudioInput使用Handle方法拉取数据；
+    // AudioOutput使用WriteXxx方法推送数据；
     while (running_ && !input_->isEOF()) {
-        if (input_->Handle()) {
+        if (input_->Handle()) { 
             int16_t* samples = input_->GetSamples();
 
             // 输出
-            output_->WriteSamples(samples, sizeof(samples) / sizeof(int16_t));
+            output_->WriteSamples(samples, sizeof(samples) / sizeof(int16_t)); 
         }
     }
 
@@ -72,6 +74,7 @@ void AudioPipe::Execute() {
 }
 
 void AudioPipe::Stop() {
+    output_->Stop();
     running_ = false;
 }
 

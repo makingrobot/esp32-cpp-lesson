@@ -19,11 +19,13 @@ AudioDecoderInput::AudioDecoderInput(AudioSource *source, const std::string& in_
 
 }
     
-AudioDecoderInput::~AudioDecoderInput() {
-
+AudioDecoderInput::~AudioDecoderInput() 
+{
+    decoder_ = nullptr;
 }
 
-bool AudioDecoderInput::Init() {
+bool AudioDecoderInput::Init() 
+{
     bool ret = source_->Init();
     if (!ret) {
         Log::Error(TAG, "input source init fail.");
@@ -51,18 +53,23 @@ bool AudioDecoderInput::Init() {
     return true;
 }
 
-bool AudioDecoderInput::Handle() {
+bool AudioDecoderInput::Handle() 
+{
     return decoder_->Decode();
 }
 
-int16_t* AudioDecoderInput::GetSamples() {
+int16_t* AudioDecoderInput::GetSamples() 
+{
     return decoder_->samples();
 }
 
-bool AudioDecoderInput::isEOF() {
+bool AudioDecoderInput::isEOF() 
+{
     return decoder_->isEOF();
 }
-bool AudioDecoderInput::Close() {
+
+bool AudioDecoderInput::Close() 
+{
     return source_->Close();
 }
 
