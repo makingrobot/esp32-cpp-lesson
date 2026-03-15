@@ -13,7 +13,7 @@
 
 bool AudioI2sInput::Init() 
 {
-    codec_->Init(sample_rate_, bit_per_sample_, channels_);
+    codec_->Init(config_);
     return true;
 }
 

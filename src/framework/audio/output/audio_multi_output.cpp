@@ -16,23 +16,17 @@
 
 bool AudioMultiOutput::Init() 
 {
-    for (auto& item : output_list_) {
-        item->Init();
-    }
+    return false;
 }
 
 uint32_t AudioMultiOutput::WriteSamples(const int16_t *data, uint32_t samples)
 {
-    for (auto& item : output_list_) {
-        item->WriteSamples(data, samples);
-    }
+    return 0;
 }
 
 bool AudioMultiOutput::Stop() 
 {
-    for (auto& item : output_list_) {
-        item->Stop();
-    }
+    return false;
 }
 
 #endif //CONFIG_USE_AUDIO

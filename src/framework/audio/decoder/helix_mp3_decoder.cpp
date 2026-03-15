@@ -20,6 +20,7 @@ HelixMP3Decoder::~HelixMP3Decoder()
 
 bool HelixMP3Decoder::Init()
 {
+    Log::Info(TAG, "init...");
     hMP3Decoder = MP3InitDecoder();
     if (!hMP3Decoder) {
         Log::Warn(TAG, PSTR("Out of memory error! hMP3Decoder==NULL\n"));

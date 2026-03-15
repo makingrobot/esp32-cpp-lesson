@@ -15,11 +15,10 @@
 
 #define TAG "AudioI2sCodec"
 
-bool AudioI2sCodec::Init(int sample_rate, int bit_per_sample, int channel)
+bool AudioI2sCodec::Init(const audio_config_t &config)
 {
-    sample_rate_ = sample_rate;
-    bit_per_sample_ = bit_per_sample;
-    channel_ = channel;
+    Log::Info(TAG, "init...");
+    config_ = config;
     
     Settings settings("audio", false);
     output_volume_ = settings.GetInt("output_volume", output_volume_);

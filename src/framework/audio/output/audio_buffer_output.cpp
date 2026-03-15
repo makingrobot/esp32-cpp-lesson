@@ -17,19 +17,9 @@ AudioBufferOutput::~AudioBufferOutput()
     free(rightSample);
 }
 
-bool AudioBufferOutput::SetRate(int hz)
+void AudioBufferOutput::SetAudioConfig(const audio_config_t &config)
 {
-    return output->SetRate(hz);
-}
-
-bool AudioBufferOutput::SetBitsPerSample(int bits)
-{
-    return output->SetBitsPerSample(bits);
-}
-
-bool AudioBufferOutput::SetChannels(int channels)
-{
-    return output->SetChannels(channels);
+    output->SetAudioConfig(config);
 }
 
 bool AudioBufferOutput::Stop()
@@ -37,26 +27,26 @@ bool AudioBufferOutput::Stop()
     return output->Stop();
 }
 
-bool AudioBufferOutput::WriteSamples(const int16_t *data, uint32_t samples)
+uint32_t AudioBufferOutput::WriteSamples(const int16_t *data, uint32_t samples)
 {
     // First, try and fill I2S...
-    if (filled) {
-        while (readPtr != writePtr) {
-        int16_t s[2] = {leftSample[readPtr], rightSample[readPtr]};
-        if (!sink->ConsumeSample(s)) break; // Can't stuff any more in I2S...
-        readPtr = (readPtr + 1) % buffSize;
-        }
-    }
+    // if (filled) {
+    //     while (readPtr != writePtr) {
+    //     int16_t s[2] = {leftSample[readPtr], rightSample[readPtr]};
+    //     if (!sink->ConsumeSample(s)) break; // Can't stuff any more in I2S...
+    //         readPtr = (readPtr + 1) % buffSize;
+    //     }
+    // }
 
-    // Now, do we have space for a new sample?
-    int nextWritePtr = (writePtr + 1) % buffSize;
-    if (nextWritePtr == readPtr) {
-        filled = true;
-        return false;
-    }
-    leftSample[writePtr] = data[0];
-    rightSample[writePtr] = data[1];
-    writePtr = nextWritePtr;
-    return true;
+    // // Now, do we have space for a new sample?
+    // int nextWritePtr = (writePtr + 1) % buffSize;
+    // if (nextWritePtr == readPtr) {
+    //     filled = true;
+    //     return false;
+    // }
+    // leftSample[writePtr] = data[0];
+    // rightSample[writePtr] = data[1];
+    // writePtr = nextWritePtr;
+    return samples;
 }
 

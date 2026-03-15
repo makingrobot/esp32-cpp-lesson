@@ -10,6 +10,7 @@
 #define _AUDIO_INPUT_H
 
 #include "audio_status.h"
+#include "audio_common.h"
 
 /**
  * 音频输入基类
@@ -24,9 +25,7 @@ public:
     virtual bool isEOF() = 0;
     virtual const char* Tag() = 0;
     
-    void SetSampleRate(int rate) { sample_rate_ = rate; }
-    void SetBitPerSample(int bit) { bit_per_sample_ = bit; }
-    void SetChannels(int chn) { channels_ = chn; }
+    virtual void SetAudioConfig(const audio_config_t &config) { config_ = config; }
 
     virtual void SetMetadataCallback(AudioStatus::MetadataCallbackFn fn, void *data) {
         status.RegisterMetadataCallback(fn, Tag(), data);
@@ -37,9 +36,11 @@ public:
     }
 
 protected:
-    int sample_rate_ = 44100;
-    int bit_per_sample_ = 16;
-    int channels_ = 1;
+    audio_config_t config_ = {
+        .rate = SAMPLE_RATE_44K,
+        .bits = SAMPLE_BITS_16,
+        .channels = CHANNELS_2,
+    };
 
     AudioStatus status;
     

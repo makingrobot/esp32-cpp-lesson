@@ -14,29 +14,27 @@
 
 class AudioI2sCodec : public AudioCodec {
 public:
-    virtual bool Init(int sample_rate, int bit_per_sample, int channel) override;
+    virtual bool Init(const audio_config_t &config) override;
     virtual uint32_t Read(int16_t* dest, uint32_t samples) = 0;
     virtual uint32_t Write(const int16_t* data, uint32_t samples) = 0;
     
     void SetOutputVolume(int volume) override;
 
-    i2s_data_bit_width_t GetDataBitWidth(int bit_per_sample) 
+    i2s_data_bit_width_t GetDataBitWidth(sample_bits_t bits) 
     {
-        if (bit_per_sample == 32) return I2S_DATA_BIT_WIDTH_32BIT;
-        else if (bit_per_sample == 24) return I2S_DATA_BIT_WIDTH_24BIT;
+        if (bits == SAMPLE_BITS_32) return I2S_DATA_BIT_WIDTH_32BIT;
+        else if (bits == SAMPLE_BITS_24) return I2S_DATA_BIT_WIDTH_24BIT;
         else return I2S_DATA_BIT_WIDTH_16BIT;
     }
 
-    i2s_slot_mode_t GetChannel(int ch) 
+    i2s_slot_mode_t GetChannel(channels_t ch) 
     {
-        if (ch == 1) return I2S_SLOT_MODE_MONO;
-        else if (ch == 2) return I2S_SLOT_MODE_STEREO;
+        if (ch == CHANNELS_1) return I2S_SLOT_MODE_MONO;
+        else if (ch == CHANNELS_2) return I2S_SLOT_MODE_STEREO;
     }
 
 protected:
-    int channel_;
-    int sample_rate_;
-    int bit_per_sample_;
+    audio_config_t config_;
 };
 
 #endif // _AUDIO_I2S_CODEC_H

@@ -16,14 +16,15 @@
 
 #define TAG "AudioI2sDuplex"
 
-bool AudioI2sDuplex::Init(int sample_rate, int bit_per_sample, int channel)
+bool AudioI2sDuplex::Init(const audio_config_t &config)
 {
-    AudioI2sCodec::Init(sample_rate, bit_per_sample, channel);
+    Log::Info(TAG, "init...");
+    AudioI2sCodec::Init(config);
 
-    i2s_data_bit_width_t bps = GetDataBitWidth(bit_per_sample);
-    i2s_slot_mode_t ch = GetChannel(channel);
+    i2s_data_bit_width_t bps = GetDataBitWidth(config.bits);
+    i2s_slot_mode_t ch = GetChannel(config.channels);
 
-    bool ret = i2s_driver_->begin(I2S_MODE_STD, sample_rate, bps, ch);
+    bool ret = i2s_driver_->begin(I2S_MODE_STD, (int)config.rate, bps, ch);
     if (!ret) {
         Log::Error(TAG, "Failed to initialize I2S!");
         return false;

@@ -66,11 +66,11 @@ void AudioPipe::Execute() {
             int16_t* samples = input_->GetSamples();
 
             // 输出
-            output_->WriteSamples(samples, sizeof(samples) / sizeof(int16_t)); 
+            //output_->WriteSamples(samples, sizeof(samples) / sizeof(int16_t)); 
         }
     }
 
-    Log::Error(TAG, "handle end.");
+    Log::Info(TAG, "handle end.");
 }
 
 void AudioPipe::Stop() {

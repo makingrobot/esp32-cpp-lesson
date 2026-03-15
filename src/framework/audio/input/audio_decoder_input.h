@@ -29,7 +29,7 @@ public:
     bool isEOF() override;
 
     const char* Tag() override { return "DecoderInput"; };
-
+    
     virtual void SetMetadataCallback(AudioStatus::MetadataCallbackFn fn, void *data) override {
         status.RegisterMetadataCallback(fn, Tag(), data);
         source_->SetMetadataCallback(fn, data);

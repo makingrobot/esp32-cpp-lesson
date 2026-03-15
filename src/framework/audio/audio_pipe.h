@@ -36,7 +36,7 @@ protected:
     int16_t last_sample_[2];
 
 private:
-    bool running_;
+    volatile bool running_;
 
     AudioInput *input_ = nullptr;
     AudioOutput *output_ = nullptr;

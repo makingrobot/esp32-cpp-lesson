@@ -38,6 +38,14 @@ MyApplication::MyApplication() : Application() {
 }
 
 void MyApplication::OnInit() {
+    // 连接Wifi
+    WifiBoard *board = (WifiBoard *)(&Board::GetInstance());
+    bool ret = board->StartNetwork("qwer_1234", "billyhome", 60000);
+    if (!ret) {
+        Log::Info(TAG, "Wifi连接失败，请检查连接信息。");
+        return;
+    }
+
     // 音频处理流
     // HttpSource（网络源） -> Buffer（缓存读取） -> Decoder（解码） -> I2sOutput（输出到喇叭）
 
@@ -52,8 +60,6 @@ void MyApplication::OnInit() {
     // I2S输出
     AudioCodec *audio_codec = Board::GetInstance().GetAudioCodec();
     AudioI2sOutput *output = new AudioI2sOutput(audio_codec);
-    output->setSampleRate(44100);
-    output->setBitPerSample(16);
 
     // 音频管道
     AudioPipe *pipe = new AudioPipe();

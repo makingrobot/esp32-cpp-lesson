@@ -24,6 +24,7 @@ AudioHttpStreamSource::~AudioHttpStreamSource()
 
 bool AudioHttpStreamSource::Init() 
 {
+    Log::Info(TAG, "init...");
     return Open();
 }
 

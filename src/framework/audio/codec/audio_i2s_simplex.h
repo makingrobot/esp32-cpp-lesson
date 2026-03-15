@@ -20,7 +20,7 @@ class AudioI2sSimplex : public AudioI2sCodec {
 public:
     virtual ~AudioI2sSimplex();
 
-    virtual bool Init(int sample_rate, int bit_per_sample, int channel) override;
+    virtual bool Init(const audio_config_t &config) override;
     virtual uint32_t Write(const int16_t* data, uint32_t samples) override;
     virtual uint32_t Read(int16_t* dest, uint32_t samples) override;
 

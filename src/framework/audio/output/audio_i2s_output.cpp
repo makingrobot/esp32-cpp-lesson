@@ -16,7 +16,8 @@
 
 bool AudioI2sOutput::Init() 
 {
-    codec_->Init(sample_rate_, bit_per_sample_, channels_);
+    Log::Info(TAG, "init...");
+    codec_->Init(config_);
     return true;
 }
 

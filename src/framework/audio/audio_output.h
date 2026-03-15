@@ -9,7 +9,7 @@
 #ifndef _AUDIO_OUTPUT_H
 #define _AUDIO_OUTPUT_H
 
-#include <driver/gpio.h>
+#include "audio_common.h"
 #include "audio_status.h"
 
 /**
@@ -22,9 +22,7 @@ public:
     virtual bool Stop() { return false; }
     virtual const char* Tag() = 0;
 
-    virtual void SetSampleRate(int rate) { sample_rate_ = rate; }
-    virtual void SetBitPerSample(int bit) { bit_per_sample_ = bit; }
-    virtual void SetChannels(int chn) { channels_ = chn; }
+    virtual void SetAudioConfig(const audio_config_t &config) { config_ = config; }
 
     void SetMetadataCallback(AudioStatus::MetadataCallbackFn fn, void *data) {
         status.RegisterMetadataCallback(fn, Tag(), data);
@@ -35,9 +33,11 @@ public:
     }
 
 protected:
-    int sample_rate_ = 44100;
-    int bit_per_sample_ = 16;
-    int channels_ = 1;
+    audio_config_t config_ = {
+        .rate = SAMPLE_RATE_44K,
+        .bits = SAMPLE_BITS_16,
+        .channels = CHANNELS_2,
+    };
 
     AudioStatus status;
 };

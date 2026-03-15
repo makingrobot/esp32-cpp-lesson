@@ -9,6 +9,7 @@
 #ifndef _AUDIO_MULTI_OUTPUT_H
 #define _AUDIO_MULTI_OUTPUT_H
 
+#include <vector>
 #include "../audio_output.h"
 
 /**
@@ -16,8 +17,8 @@
  */
 class AudioMultiOutput : public AudioOutput {
 public:
-    AudioMultiOutput(std::vector<AudioOutput*> &output_list, bool async=false) 
-        : output_list_(&output_list), async_(async) {  }
+    AudioMultiOutput(const std::vector<AudioOutput*> &output_list, bool async=false) 
+        : output_list_(output_list), async_(async) {  }
     virtual ~AudioMultiOutput() {  }
 
     bool Init() override;

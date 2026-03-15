@@ -44,6 +44,7 @@ AudioBufferSource::~AudioBufferSource()
 
 bool AudioBufferSource::Init() 
 { 
+    Log::Info(TAG, "init...");
     return source_->Init(); 
 }
 

@@ -29,6 +29,8 @@ MyBoard::MyBoard() : WifiBoard() {
     Log::Info(TAG, "initial led.");
     led_ = new GpioLed(BUILTIN_LED_PIN, false); // no pwm
 
+    InitAudioCodec();
+    
     Log::Info( TAG, "===== Board config completed. =====");
 }
 

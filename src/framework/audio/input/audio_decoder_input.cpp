@@ -26,6 +26,7 @@ AudioDecoderInput::~AudioDecoderInput()
 
 bool AudioDecoderInput::Init() 
 {
+    Log::Info(TAG, "init...");
     bool ret = source_->Init();
     if (!ret) {
         Log::Error(TAG, "input source init fail.");
