@@ -18,7 +18,7 @@
 #include "my_board.h"
 #include "src/framework/led/gpio_led.h"
 #include "src/framework/app/application.h"
-#include "src/framework/audio/codec/audio_i2s_no_codec.h"
+#include "src/framework/audio/codec/audio_i2s_simple.h"
 
 #define TAG "MY_BOARD"
 
@@ -52,7 +52,7 @@ void MyBoard::InitFileSystem() {
 }
 
 void MyBoard::InitAudioCodec() {
-    audio_codec_ = new AudioI2sNoCodecSimplex(SPK_BCLK_PIN, SPK_WS_PIN, SPK_DOUT_PIN);
+    audio_codec_ = new AudioI2sSimpleSpeaker(SPK_BCLK_PIN, SPK_WS_PIN, SPK_DOUT_PIN);
 }
 
 #endif 

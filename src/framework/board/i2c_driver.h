@@ -4,14 +4,14 @@
  * 
  * Author: Billy Zhang（billy_zh@126.com）
  */
-#ifndef I2C_DEVICE_H
-#define I2C_DEVICE_H
+#ifndef I2C_DRIVER_H
+#define I2C_DRIVER_H
 
 #include <driver/i2c_master.h>
 
-class I2cDevice {
+class I2cDriver {
 public:
-    I2cDevice(i2c_master_bus_handle_t i2c_bus, uint8_t addr);
+    I2cDriver(i2c_master_bus_handle_t i2c_bus, uint8_t addr);
 
 protected:
     i2c_master_dev_handle_t i2c_device_;
@@ -21,4 +21,4 @@ protected:
     void ReadRegs(uint8_t reg, uint8_t* buffer, size_t length);
 };
 
-#endif // I2C_DEVICE_H
+#endif // I2C_DRIVER_H

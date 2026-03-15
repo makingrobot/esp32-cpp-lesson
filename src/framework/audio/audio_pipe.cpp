@@ -59,7 +59,7 @@ void AudioPipe::Execute() {
     output_->SetStatusCallback(_StatusCallback, this);
 
     // 处理数据
-    while (running_) {
+    while (running_ && !input_->isEOF()) {
         if (input_->Handle()) {
             int16_t* samples = input_->GetSamples();
 
@@ -67,6 +67,8 @@ void AudioPipe::Execute() {
             output_->WriteSamples(samples, sizeof(samples) / sizeof(int16_t));
         }
     }
+
+    Log::Error(TAG, "handle end.");
 }
 
 void AudioPipe::Stop() {

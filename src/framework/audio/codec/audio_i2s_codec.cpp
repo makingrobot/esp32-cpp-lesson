@@ -15,11 +15,11 @@
 
 #define TAG "AudioI2sCodec"
 
-void AudioI2sCodec::Init(int input_sample_rate, int output_sample_rate, int bit_per_sample)
+bool AudioI2sCodec::Init(int sample_rate, int bit_per_sample, int channel)
 {
-    input_sample_rate_ = input_sample_rate;
-    output_sample_rate_ = output_sample_rate;
+    sample_rate_ = sample_rate;
     bit_per_sample_ = bit_per_sample;
+    channel_ = channel;
     
     Settings settings("audio", false);
     output_volume_ = settings.GetInt("output_volume", output_volume_);
@@ -27,6 +27,8 @@ void AudioI2sCodec::Init(int input_sample_rate, int output_sample_rate, int bit_
         Log::Warn(TAG, "Output volume value (%d) is too small, setting to default (10)", output_volume_);
         output_volume_ = 10;
     }
+
+    return true;
 }
 
 void AudioI2sCodec::SetOutputVolume(int volume) {

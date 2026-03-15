@@ -11,7 +11,7 @@
 
 class AudioCodec {
 public:
-    virtual void Init(int input_sample_rate, int output_sample_rate, int bit_per_sample) = 0;
+    virtual bool Init(int sample_rate, int bit_per_sample, int channel) = 0;
     virtual uint32_t Read(int16_t* dest, uint32_t samples) = 0;
     virtual uint32_t Write(const int16_t* data, uint32_t samples) = 0;
     
