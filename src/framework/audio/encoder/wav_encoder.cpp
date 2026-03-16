@@ -4,7 +4,7 @@
  * 
  */
 #include "config.h"
-#if CONFIG_USE_AUDIO==1
+#if CONFIG_AUDIO_CODER_WAV==1
 
 #include <Arduino.h>
 #include "wav_encoder.h"

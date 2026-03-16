@@ -26,8 +26,7 @@ public:
 
 protected:
     I2sDriver *i2s_driver_ = nullptr;
-    bool input_enable_ = false;
-    bool output_enable_ = false;
+    
 };
 
 /**
@@ -40,9 +39,10 @@ public:
     { 
         i2s_driver_ = new I2sDriver();
         i2s_driver_->setPins(spk_bclk, spk_ws, spk_dout, -1, mclk);
-        output_enable_ = true;
     }
 
+    virtual void EnableInput(bool enable) override {  }
+    
 private:
 
 };
@@ -57,8 +57,9 @@ public:
     {  
         i2s_driver_ = new I2sDriver();
         i2s_driver_->setPins(mic_sck, mic_ws, -1, mic_din, mclk);
-        input_enable_ = true;
     }
+
+    virtual void EnableOutput(bool enable) override {  }
 
 private:
 

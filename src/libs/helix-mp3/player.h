@@ -1,7 +1,7 @@
 
 
 #include "config.h"
-#if CONFIG_USE_AUDIO==1
+#if CONFIG_AUDIO_CODER_MP3==1
 
 
 //SPI

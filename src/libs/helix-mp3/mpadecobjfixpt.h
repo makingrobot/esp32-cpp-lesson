@@ -34,7 +34,7 @@
  * ***** END LICENSE BLOCK ***** */ 
 
 #include "config.h"
-#if CONFIG_USE_AUDIO==1
+#if CONFIG_AUDIO_CODER_MP3==1
 
 #ifndef _MPADECOBJFIXPT_H_
 #define _MPADECOBJFIXPT_H_

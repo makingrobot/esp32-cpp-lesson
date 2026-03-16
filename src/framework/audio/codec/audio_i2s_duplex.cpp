@@ -35,6 +35,8 @@ bool AudioI2sDuplex::Init(const audio_config_t &config)
 }
 
 uint32_t AudioI2sDuplex::Write(const int16_t* data, uint32_t samples) {
+    if (!output_enabled_) return 0;
+    
     // 根据音量调整值
     // TODO: 
     size_t bytes_write = i2s_driver_->write((const uint8_t*)data, samples*2);
@@ -42,6 +44,8 @@ uint32_t AudioI2sDuplex::Write(const int16_t* data, uint32_t samples) {
 }
 
 uint32_t AudioI2sDuplex::Read(int16_t* dest, uint32_t samples) {
+    if (!input_enabled_) return 0;
+
     size_t bytes_read = i2s_driver_->readBytes((char *)dest, samples*2);
     return bytes_read;
 }

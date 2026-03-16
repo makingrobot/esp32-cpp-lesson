@@ -30,6 +30,9 @@
 // 使用ESP_LOG
 #define CONFIG_USE_ESP_LOG                  0
 
+#define CONFIG_AUDIO_CODEC_ES8311           1
+#define CONFIG_AUDIO_CODEC_ES8388           1
+#define CONFIG_AUDIO_CODEC_ES8374           1
 
 #endif //_BOARD_CONFIG_H
 

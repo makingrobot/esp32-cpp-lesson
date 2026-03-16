@@ -12,6 +12,9 @@
 #define CONFIG_USE_FS                     1
 #define CONFIG_USE_AUDIO                   1
 
+#define CONFIG_AUDIO_CODER_WAV              1
+#define CONFIG_AUDIO_CODER_MP3              1
+
 #endif //_APP_CONFIG_H
 
 #endif

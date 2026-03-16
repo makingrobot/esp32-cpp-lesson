@@ -18,10 +18,16 @@ public:
     virtual uint32_t Write(const int16_t* data, uint32_t samples) = 0;
     
     virtual void SetOutputVolume(int volume) = 0;
+    virtual void EnableInput(bool enable) { input_enabled_ = enable; }
+    virtual void EnableOutput(bool enable) { output_enabled_ = enable; }
+
     const int output_volume() const { return output_volume_; }
 
 protected:
     int output_volume_ = 30;  // 1-100;
+    bool input_enabled_ = false;
+    bool output_enabled_ = false;
+
 };
 
 #endif // _AUDIO_CODEC_H
