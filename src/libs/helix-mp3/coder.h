@@ -33,6 +33,9 @@
  *  
  * ***** END LICENSE BLOCK ***** */ 
 
+#include "config.h"
+#if CONFIG_USE_AUDIO==1
+
 /**************************************************************************************
  * Fixed-point MP3 decoder
  * Jon Recker (jrecker@real.com), Ken Cooke (kenc@real.com)
@@ -307,3 +310,5 @@ extern const int coef32[31];
 extern const int polyCoef[264];
 
 #endif	/* _CODER_H */
+
+#endif

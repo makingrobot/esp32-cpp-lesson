@@ -1,3 +1,13 @@
+/**
+ * ESP32-Arduino-Framework
+ * Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架。
+ * 
+ */
+#include "config.h"
+#if CONFIG_USE_AUDIO==1
+
+#ifndef _AUDIO_BUFFER_OUTPUT_H
+#define _AUDIO_BUFFER_OUTPUT_H
 
 #include "../audio_output.h"
 
@@ -24,3 +34,7 @@ protected:
     int readPtr;
     bool filled;
 };
+
+#endif //_AUDIO_BUFFER_OUTPUT_H
+
+#endif

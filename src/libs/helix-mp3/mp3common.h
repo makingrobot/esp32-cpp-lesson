@@ -33,6 +33,9 @@
  *  
  * ***** END LICENSE BLOCK ***** */ 
 
+#include "config.h"
+#if CONFIG_USE_AUDIO==1
+
 /**************************************************************************************
  * Fixed-point MP3 decoder
  * Jon Recker (jrecker@real.com), Ken Cooke (kenc@real.com)
@@ -122,3 +125,5 @@ extern const int/*short*/ slotTab[3][3][15];
 extern const SFBandTable sfBandTable[3][3];
 
 #endif	/* _MP3COMMON_H */
+
+#endif

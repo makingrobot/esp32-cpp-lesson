@@ -6,10 +6,11 @@
 #include "config.h"
 #if CONFIG_USE_AUDIO==1
 
-#include "audio_i2s_codec.h"
 #include <cstring>
 #include <driver/i2s_common.h>
+#include <Arduino.h>
 
+#include "audio_i2s_codec.h"
 #include "../../sys/log.h"
 #include "../../sys/settings.h"
 

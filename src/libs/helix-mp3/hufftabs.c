@@ -33,6 +33,9 @@
  *  
  * ***** END LICENSE BLOCK ***** */ 
 
+#include "config.h"
+#if CONFIG_USE_AUDIO==1
+
 /**************************************************************************************
  * Fixed-point MP3 decoder
  * Jon Recker (jrecker@real.com), Ken Cooke (kenc@real.com)
@@ -754,3 +757,5 @@ const unsigned char quadTable[64+16] PROGMEM = {
 
 const int quadTabOffset[2] PROGMEM = {0, 64};
 const int quadTabMaxBits[2] PROGMEM = {6, 4};
+
+#endif

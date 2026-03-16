@@ -1,5 +1,10 @@
-/*
-*/
+/**
+ * ESP32-Arduino-Framework
+ * Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架。
+ * 
+ */
+#include "config.h"
+#if CONFIG_USE_AUDIO==1
 
 #include <Arduino.h>
 #include "helix_mp3_decoder.h"
@@ -54,9 +59,9 @@ bool HelixMP3Decoder::Decode()
         if (ret) {
             Log::Error(TAG, "MP3 decode error %d", ret);
             // Error, skip the frame...
-            char buff[48];
-            sprintf(buff, "MP3 decode error %d", ret);
-            source_->Status()->StatusCB(ret, buff);
+            //char buff[48];
+            //sprintf(buff, "MP3 decode error %d", ret);
+            //source_->Status()->StatusCB(ret, buff);
             return false;
         } 
 
@@ -111,3 +116,5 @@ bool HelixMP3Decoder::FillBufferWithValidFrame()
 
     return true;
 }
+
+#endif

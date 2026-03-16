@@ -16,12 +16,12 @@
  */
 class AudioSource {
 public:
-    virtual uint32_t Read(void *data, uint32_t len) = 0;
+    virtual uint32_t Read(uint8_t *data, uint32_t len) = 0;
     virtual bool Seek(int32_t pos, int dir) = 0;
     virtual bool Close() = 0;
     virtual const char* Tag() = 0;
 
-    virtual bool Init() { return false; }
+    virtual bool Init() { return true; }
     virtual size_t GetPosition() { return 0; }
     virtual size_t GetSize() { return 0; }
 

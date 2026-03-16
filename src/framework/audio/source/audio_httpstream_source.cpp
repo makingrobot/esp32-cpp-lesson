@@ -44,7 +44,7 @@ bool AudioHttpStreamSource::Open()
     return true;
 }
 
-uint32_t AudioHttpStreamSource::Read(void *data, uint32_t len)
+uint32_t AudioHttpStreamSource::Read(uint8_t *data, uint32_t len)
 {
 retry_label:
     if (!http_.connected()) {
@@ -94,7 +94,7 @@ retry_label:
     if (avail == 0) return 0;
     if (avail < len) len = avail;
 
-    int bytesRead = stream->read(reinterpret_cast<uint8_t*>(data), len);
+    int bytesRead = stream->read(data, len);
     position_ += bytesRead;
     return bytesRead;
 }

@@ -33,6 +33,9 @@
  *  
  * ***** END LICENSE BLOCK ***** */ 
 
+#include "config.h"
+#if CONFIG_USE_AUDIO==1
+
 /**************************************************************************************
  * Fixed-point MP3 decoder
  * Jon Recker (jrecker@real.com), Ken Cooke (kenc@real.com)
@@ -156,3 +159,5 @@ int Dequantize(MP3DecInfo *mp3DecInfo, int gr)
 	/* output format Q(DQ_FRACBITS_OUT) */
 	return 0;
 }
+
+#endif

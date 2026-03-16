@@ -35,6 +35,7 @@ public:
 
 protected:
     audio_config_t config_;
+    
 };
 
 #endif // _AUDIO_I2S_CODEC_H

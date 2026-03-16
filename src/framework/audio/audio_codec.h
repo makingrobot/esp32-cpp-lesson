@@ -21,8 +21,7 @@ public:
     const int output_volume() const { return output_volume_; }
 
 protected:
-    int output_volume_;
-
+    int output_volume_ = 30;  // 1-100;
 };
 
 #endif // _AUDIO_CODEC_H

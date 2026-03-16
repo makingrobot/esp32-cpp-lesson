@@ -15,7 +15,7 @@
 #include "src/framework/sys/log.h"
 #include "src/framework/board/wifi_board.h"
 #include "src/framework/audio/audio_pipe.h"
-#include "src/framework/audio/source/audio_httpstream_source.h"
+#include "src/framework/audio/source/audio_file_source.h"
 #include "src/framework/audio/source/audio_buffer_source.h"
 #include "src/framework/audio/input/audio_decoder_input.h"
 #include "src/framework/audio/output/audio_i2s_output.h"
@@ -38,24 +38,22 @@ MyApplication::MyApplication() : Application() {
 }
 
 void MyApplication::OnInit() {
-    // 连接Wifi
-    WifiBoard *board = (WifiBoard *)(&Board::GetInstance());
-    bool ret = board->StartNetwork("qwer_1234", "billyhome", 60000);
-    if (!ret) {
-        Log::Info(TAG, "Wifi连接失败，请检查连接信息。");
+
+    FileSystem *fs = Board::GetInstance().GetFileSystem();
+    char *path = "/001.mp3";
+    if (!fs->ExistsFile(path)) {
+        Log::Warn(TAG, "file 001.mp3 not found.");
         return;
     }
 
     // 音频处理流
-    // HttpSource（网络源） -> Buffer（缓存读取） -> Decoder（解码） -> I2sOutput（输出到喇叭）
+    // FileSource（文件源） -> Decoder（解码） -> I2sOutput（输出到喇叭）
 
-    // Http源
-    std::string url = "http://downsc.chinaz.net/Files/DownLoad/sound1/201906/11582.mp3";
-    AudioHttpStreamSource *http_source = new AudioHttpStreamSource(url);
-    AudioBufferSource *buf_source = new AudioBufferSource(http_source, 2048);
+    // 文件源
+    AudioFileSource *file_source = new AudioFileSource(fs, std::string(path));
 
     // 解码输入
-    AudioDecoderInput *input = new AudioDecoderInput(buf_source, "mp3");
+    AudioDecoderInput *input = new AudioDecoderInput(file_source, "mp3");
 
     // I2S输出
     AudioCodec *audio_codec = Board::GetInstance().GetAudioCodec();

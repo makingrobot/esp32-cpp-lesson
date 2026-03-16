@@ -1,3 +1,10 @@
+/**
+ * ESP32-Arduino-Framework
+ * Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架。
+ * 
+ */
+#include "config.h"
+#if CONFIG_USE_AUDIO==1
 
 #ifndef _WAV_DECODER_H
 #define _WAV_DECODER_H
@@ -27,3 +34,5 @@ private:
 };
 
 #endif //_WAV_ENCODER_H
+
+#endif

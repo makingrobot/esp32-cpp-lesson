@@ -33,6 +33,9 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
+#include "config.h"
+#if CONFIG_USE_AUDIO==1
+
 /**************************************************************************************
  * Fixed-point MP3 decoder
  * Jon Recker (jrecker@real.com), Ken Cooke (kenc@real.com)
@@ -373,3 +376,5 @@ static __inline Word64 SAR64(Word64 x, int n)
 #endif	/* platforms */
 
 #endif /* _ASSEMBLY_H */
+
+#endif

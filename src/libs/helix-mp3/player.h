@@ -1,5 +1,8 @@
 
 
+#include "config.h"
+#if CONFIG_USE_AUDIO==1
+
 
 //SPI
 #define PIN_SPI_SCK					14
@@ -11,3 +14,5 @@
 #define PIN_SHUTDOWNPWR3V3	 5
 #define PWR3V3_ON						HIGH
 #define PWR3V3_OFF					LOW
+
+#endif

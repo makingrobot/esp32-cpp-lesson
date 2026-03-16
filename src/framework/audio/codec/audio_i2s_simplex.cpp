@@ -37,12 +37,14 @@ bool AudioI2sSimplex::Init(const audio_config_t &config)
 }
 
 uint32_t AudioI2sSimplex::Write(const int16_t* data, uint32_t samples) 
-{     
+{    
     if (!output_enable_) {
         return 0;
     }
-
-    size_t bytes_write = i2s_driver_->write((const uint8_t*)data, samples*2);
+    
+    // 根据音量调整值
+    // TODO: 
+    size_t bytes_write = i2s_driver_->write((const uint8_t*)buffer.data(), samples*2);
     return bytes_write;
 }
 

@@ -11,6 +11,8 @@
 #if BOARD_LESSON101_A == 1
 
 #include <Arduino.h>
+#include <SPI.h>
+#include <SD.h>
 #include "board_config.h"
 #include "my_board.h"
 #include "src/framework/led/gpio_led.h"
@@ -23,18 +25,36 @@ void* create_board() {
     return new MyBoard();
 }
 
-MyBoard::MyBoard() : WifiBoard() {
+MyBoard::MyBoard() : Board() {
     Log::Info(TAG, "===== Create Board ...... =====");
 
     Log::Info(TAG, "initial led.");
     led_ = new GpioLed(BUILTIN_LED_PIN, false); // no pwm
 
+    InitFileSystem();
     InitAudioCodec();
     
     Log::Info( TAG, "===== Board config completed. =====");
 }
 
+void MyBoard::InitFileSystem() {
+    SPI.begin(SD_CLK_PIN, SD_MISO_PIN, SD_MOSI_PIN, SD_CS_PIN);
+    if (!SD.begin(SD_CS_PIN)) {
+        Log::Info(TAG, "SD Mount Failed");
+        return;
+    }
+
+    filesystem_ = new FileSystem(SD);
+    filesystem_->setTotalBytes(SD.totalBytes());
+    filesystem_->setFreeBytes(SD.totalBytes() - SD.usedBytes());
+    filesystem_->setType("SD");
+
+    Log::Info(TAG, "init filesystem, type: %s, totalbytes: %ld, freebytes: %ld", 
+            filesystem_->type().c_str(), filesystem_->totalBytes(), filesystem_->freeBytes());
+}
+
 void MyBoard::InitAudioCodec() {
+    Log::Info(TAG, "initial audio codec.");
     audio_codec_ = new AudioI2sSimplexSpeaker(SPK_BCLK_PIN, SPK_WS_PIN, SPK_DOUT_PIN);
 }
 

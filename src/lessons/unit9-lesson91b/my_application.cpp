@@ -33,19 +33,20 @@ void MyApplication::OnInit() {
         return;
     }
 
-    char *path = "/hello.txt";
+    char *path = "/001.mp3";
     if (fsys->ExistsFile(path)) {
         Log::Info(TAG, "read file.");
         File f = fsys->OpenFile(path);
         if (f) {
-            String content = f.readString();
-            Serial.println(content);
+            Log::Info(TAG, "File %s size: %d ", path, f.size());
+            uint8_t buf[1025] = { 0 };
+            size_t bytes_read = f.read(buf, 1024);
+            Log::Info(TAG, "read %d bytes ok", bytes_read);
         } else {
-            Log::Warn(TAG, "File %s read failed.", path);
+            Log::Warn(TAG, "File %s op failed.", path);
         }
     } else {
-        Log::Info(TAG, "create file.");
-        fsys->WriteFile(path, "Hello world!");
+        Log::Info(TAG, "file not exists.");
     }
 }
 

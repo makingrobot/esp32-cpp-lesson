@@ -11,14 +11,14 @@
 
 #define BUILTIN_LED_PIN                     GPIO_NUM_4
 
-#define SD_CLK_PIN                          GPIO_NUM_3
-#define SD_MOSI_PIN                         GPIO_NUM_4
-#define SD_MISO_PIN                         GPIO_NUM_5
-#define SD_CS_PIN                           GPIO_NUM_2
+#define SD_MOSI_PIN                         GPIO_NUM_17
+#define SD_MISO_PIN                         GPIO_NUM_16
+#define SD_CLK_PIN                          GPIO_NUM_15
+#define SD_CS_PIN                           GPIO_NUM_14
 
-#define SPK_BCLK_PIN                        GPIO_NUM_17
-#define SPK_WS_PIN                          GPIO_NUM_18
-#define SPK_DOUT_PIN                        GPIO_NUM_48
+#define SPK_BCLK_PIN                        GPIO_NUM_27
+#define SPK_WS_PIN                          GPIO_NUM_26
+#define SPK_DOUT_PIN                        GPIO_NUM_25
 
 //**********************************************************************
 // 配置定义

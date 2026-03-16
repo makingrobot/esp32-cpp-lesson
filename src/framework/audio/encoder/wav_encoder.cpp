@@ -1,5 +1,10 @@
-/*
-*/
+/**
+ * ESP32-Arduino-Framework
+ * Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架。
+ * 
+ */
+#include "config.h"
+#if CONFIG_USE_AUDIO==1
 
 #include <Arduino.h>
 #include "wav_encoder.h"
@@ -27,3 +32,5 @@ bool WavEncoder::Encode(const uint16_t *data, uint32_t samples)
 {
     return false;
 }
+
+#endif

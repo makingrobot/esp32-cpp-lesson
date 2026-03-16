@@ -4,7 +4,7 @@
  * 
  */
 #include "config.h"
-#if CONFIG_USE_AUDIO==1
+#if CONFIG_USE_AUDIO==1 && CONFIG_USE_FS==1
 
 #ifndef _AUDIO_FILE_SOURCE_H
 #define _AUDIO_FILE_SOURCE_H
@@ -12,26 +12,31 @@
 #include <string>
 #include <FS.h>
 #include "../audio_source.h"
+#include "../../file/file_system.h"
 
 /**
  * 音频文件输入
  */
 class AudioFileSource : public AudioSource {
 public:
-    AudioFileSource(fs::File &audio_file) : audio_file_(&audio_file) { }
-    ~AudioFileSource() { if (audio_file_) audio_file_->close(); }
+    AudioFileSource(FileSystem *fs, const std::string &filename) 
+        : fs_(fs), filename_(filename) { }
+    ~AudioFileSource() { Close(); }
 
-    uint32_t Read(void *data, uint32_t len) override;
+    bool Init() override;
+    uint32_t Read(uint8_t *data, uint32_t len) override;
     bool Seek(int32_t pos, int dir) override;
     bool Close() override;
 
-    size_t GetPosition() override { return (audio_file_) ? audio_file_->position() : -1; }
-    size_t GetSize() override { return (audio_file_) ? audio_file_->size() : -1; }
+    size_t GetPosition() override { return (file_) ? file_.position() : -1; }
+    size_t GetSize() override { return (file_) ? file_.size() : -1; }
 
     const char* Tag() override { return "FileSource"; };
 
 private:
-    fs::File *audio_file_;
+    FileSystem *fs_;
+    const std::string filename_;
+    fs::File file_;
     
 };
 

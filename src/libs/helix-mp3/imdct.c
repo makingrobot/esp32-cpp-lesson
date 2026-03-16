@@ -33,6 +33,9 @@
  *  
  * ***** END LICENSE BLOCK ***** */ 
 
+#include "config.h"
+#if CONFIG_USE_AUDIO==1
+
 /**************************************************************************************
  * Fixed-point MP3 decoder
  * Jon Recker (jrecker@real.com), Ken Cooke (kenc@real.com)
@@ -785,3 +788,5 @@ static __inline void imdct12 (int *x, int *out)
 	/* output has gained 2 int bits */
 	return 0;
 }
+
+#endif

@@ -11,6 +11,7 @@
 #include <cmath>
 #include <cstring>
 #include <Arduino.h>
+#include <vector>
 
 #include "../../sys/log.h"
 
@@ -34,6 +35,8 @@ bool AudioI2sDuplex::Init(const audio_config_t &config)
 }
 
 uint32_t AudioI2sDuplex::Write(const int16_t* data, uint32_t samples) {
+    // 根据音量调整值
+    // TODO: 
     size_t bytes_write = i2s_driver_->write((const uint8_t*)data, samples*2);
     return bytes_write;
 }

@@ -12,7 +12,7 @@
 
 #define TAG "FileStreamSource"
 
-AudioProgMemSource::AudioProgMemSource(const void *data, uint32_t len) 
+AudioProgMemSource::AudioProgMemSource(const uint8_t *data, uint32_t len) 
     : progmemData(data), progmemLen(len)
 {
     memPointer = 0;
@@ -23,14 +23,14 @@ AudioProgMemSource::~AudioProgMemSource()
 
 }
 
-uint32_t AudioProgMemSource::Read(void *data, uint32_t len)
+uint32_t AudioProgMemSource::Read(uint8_t *data, uint32_t len)
 {
     if (memPointer >= progmemLen) return 0;
 
     uint32_t toRead = progmemLen - memPointer;
     if (toRead > len) toRead = len;
 
-    memcpy_P(data, reinterpret_cast<const uint8_t*>(progmemData)+memPointer, toRead);
+    memcpy_P(data, progmemData+memPointer, toRead);
     memPointer += toRead;
     return toRead;
 }

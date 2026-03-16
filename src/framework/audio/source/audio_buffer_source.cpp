@@ -48,7 +48,7 @@ bool AudioBufferSource::Init()
     return source_->Init(); 
 }
 
-uint32_t AudioBufferSource::Read(void *data, uint32_t len)
+uint32_t AudioBufferSource::Read(uint8_t *data, uint32_t len)
 {
     if (!buffer) return source_->Read(data, len);
 
@@ -62,7 +62,7 @@ uint32_t AudioBufferSource::Read(void *data, uint32_t len)
     }
 
     // Pull from buffer until we've got none left or we've satisfied the request
-    uint8_t *ptr = reinterpret_cast<uint8_t*>(data);
+    uint8_t *ptr = data;
     uint32_t toReadFromBuffer = (len < length) ? len : length;
     if ( (toReadFromBuffer > 0) && (readPtr >= writePtr) ) {
         uint32_t toReadToEnd = (toReadFromBuffer < (uint32_t)(buffSize - readPtr)) ? toReadFromBuffer : (buffSize - readPtr);
@@ -116,9 +116,9 @@ bool AudioBufferSource::Seek(int32_t pos, int dir)
 
 bool AudioBufferSource::Close()
 {
-  if (deallocateBuffer) free(buffer);
-  buffer = NULL;
-  return source_->Close();
+    if (deallocateBuffer) free(buffer);
+    buffer = NULL;
+    return source_->Close();
 }
 
 void AudioBufferSource::Fill()

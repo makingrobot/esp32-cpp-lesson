@@ -22,7 +22,7 @@ public:
     virtual ~AudioBufferSource();
 
     virtual bool Init() override;
-    uint32_t Read(void *data, uint32_t len) override;
+    uint32_t Read(uint8_t *data, uint32_t len) override;
     bool Seek(int32_t pos, int dir) override;
     bool Close() override;
 

@@ -4,35 +4,49 @@
  * 
  */
 #include "config.h"
-#if CONFIG_USE_AUDIO==1
+#if CONFIG_USE_AUDIO==1 && CONFIG_USE_FS==1
 
 #include "audio_file_source.h"
 #include "../../sys/log.h"
 
 #define TAG "FileSource"
 
-uint32_t AudioFileSource::Read(void *data, uint32_t len)
+bool AudioFileSource::Init() 
+{ 
+    Log::Info(TAG, "init...");
+    file_ = fs_->OpenFile(filename_.c_str(), "r");
+    if (!file_) {
+        Log::Warn(TAG, "file %s open failed.", filename_);
+        return false;
+    }
+
+    Log::Info(TAG, "file %s size: %d", file_.name(), file_.size());
+    return true;
+}
+ 
+uint32_t AudioFileSource::Read(uint8_t *data, uint32_t len)
 {
-    return audio_file_->read(reinterpret_cast<uint8_t*>(data), len);
+    size_t bytes_read = file_.read(data, len);
+    Log::Info(TAG, "read at pos: %d,  readed %d bytes.", file_.position(), bytes_read);
+    return bytes_read;
 }
 
 bool AudioFileSource::Seek(int32_t pos, int dir)
 {
-    if (!audio_file_) return false;
-    if (dir==SEEK_SET) return audio_file_->seek(pos);
-    else if (dir==SEEK_CUR) return audio_file_->seek(audio_file_->position() + pos);
-    else if (dir==SEEK_END) return audio_file_->seek(audio_file_->size() + pos);
+    if (!file_) return false;
+
+    if (dir==SEEK_SET) return file_.seek(pos);
+    else if (dir==SEEK_CUR) return file_.seek(file_.position() + pos);
+    else if (dir==SEEK_END) return file_.seek(file_.size() + pos);
     return false;
 }
 
 bool AudioFileSource::Close()
 {
-    if (!audio_file_) {
-        audio_file_->close();
-        return true;
-    }
+    if (!file_) return false;
 
-    return false;
+    file_.close();
+    return true;
 }
 
 #endif

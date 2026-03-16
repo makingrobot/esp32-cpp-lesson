@@ -33,6 +33,9 @@
  *  
  * ***** END LICENSE BLOCK ***** */ 
 
+#include "config.h"
+#if CONFIG_USE_AUDIO==1
+
 #ifndef _MPADECOBJFIXPT_H_
 #define _MPADECOBJFIXPT_H_
 
@@ -106,3 +109,5 @@ private:
 };
 
 #endif	/* _MPADECOBJFIXPT_H_ */
+
+#endif

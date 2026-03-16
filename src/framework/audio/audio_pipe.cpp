@@ -1,3 +1,10 @@
+/**
+ * ESP32-Arduino-Framework
+ * Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架。
+ * 
+ */
+#include "config.h"
+#if CONFIG_USE_AUDIO==1
 
 #include "audio_pipe.h"
 #include "../sys/log.h"
@@ -66,7 +73,7 @@ void AudioPipe::Execute() {
             int16_t* samples = input_->GetSamples();
 
             // 输出
-            //output_->WriteSamples(samples, sizeof(samples) / sizeof(int16_t)); 
+            output_->WriteSamples(samples, sizeof(samples) / sizeof(int16_t)); 
         }
     }
 
@@ -85,3 +92,5 @@ void AudioPipe::MetadataCallback(const char *tag, const char *type, const char *
 void AudioPipe::StatusCallback(const char *tag, int code, const char* text) {
     Log::Info(tag, "Status(%d): %s", code, text);
 }
+
+#endif

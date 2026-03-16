@@ -17,10 +17,10 @@
  */
 class AudioProgMemSource : public AudioSource {
 public:
-    AudioProgMemSource(const void *data, uint32_t len);
+    AudioProgMemSource(const uint8_t *data, uint32_t len);
     ~AudioProgMemSource();
 
-    uint32_t Read(void *data, uint32_t len) override;
+    uint32_t Read(uint8_t *data, uint32_t len) override;
     bool Seek(int32_t pos, int dir) override;
     bool Close() override;
 
@@ -30,7 +30,7 @@ public:
     const char* Tag() override { return "ProgMemSource"; };
 
 private:
-    const void *progmemData;
+    const uint8_t *progmemData;
     uint32_t progmemLen;
     uint32_t memPointer;
     
