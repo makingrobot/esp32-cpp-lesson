@@ -40,9 +40,10 @@ MyApplication::MyApplication() : Application() {
 void MyApplication::OnInit() {
 
     FileSystem *fs = Board::GetInstance().GetFileSystem();
-    char *path = "/001.mp3";
+    //char *path = "/001.mp3";
+    char *path = "/001.wav";
     if (!fs->ExistsFile(path)) {
-        Log::Warn(TAG, "file 001.mp3 not found.");
+        Log::Warn(TAG, "file %s not found.", path);
         return;
     }
 
@@ -53,10 +54,13 @@ void MyApplication::OnInit() {
     AudioFileSource *file_source = new AudioFileSource(fs, std::string(path));
 
     // 解码输入
-    AudioDecoderInput *input = new AudioDecoderInput(file_source, "mp3");
+    //AudioDecoderInput *input = new AudioDecoderInput(file_source, "mp3");
+    AudioDecoderInput *input = new AudioDecoderInput(file_source, "wav");
 
     // I2S输出
     AudioCodec *audio_codec = Board::GetInstance().GetAudioCodec();
+    audio_codec->EnableOutput(true); // 使能输出
+
     AudioI2sOutput *output = new AudioI2sOutput(audio_codec);
 
     // 音频管道

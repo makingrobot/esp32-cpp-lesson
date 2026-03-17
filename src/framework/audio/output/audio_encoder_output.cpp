@@ -31,7 +31,11 @@ bool AudioEncoderOutput::Init() {
 
     // 创建编码器
     if (out_format_ == "wav") {
+#if CONFIG_AUDIO_CODER_WAV==1
         encoder_ = new WavEncoder();
+#else
+        #pragma message("Please set CONFIG_AUDIO_CODER_WAV=1 in config file when use WAV encode.")
+#endif
     }
     
     if (!encoder_) {

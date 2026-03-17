@@ -35,9 +35,17 @@ bool AudioDecoderInput::Init()
 
     // 创建解码器
     if (in_format_ == "mp3") {
+#if CONFIG_AUDIO_CODER_MP3==1
         decoder_ = new HelixMP3Decoder(source_);
+#else
+        #pragma message("Please set CONFIG_AUDIO_CODER_MP3=1 in config file when use MP3 decode.")
+#endif
     } else if (in_format_ == "wav") {
-        decoder_ = new WavDecoder(source_);
+#if CONFIG_AUDIO_CODER_WAV==1
+        decoder_ = new WavDecoder(source_, 2048);
+#else
+        #pragma message("Please set CONFIG_AUDIO_CODER_WAV=1 in config file when use WAV decode.")
+#endif
     }
     
     if (!decoder_) {
