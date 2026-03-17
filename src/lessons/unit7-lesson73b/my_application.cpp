@@ -8,7 +8,7 @@
  * Unit7-Lesson73：TFT-LCD显示屏
  */
 #include "config.h"
-#if APP_LESSON73==1
+#if APP_LESSON73_B==1
 
 #include "my_application.h"
 #include "src/framework/sys/log.h"

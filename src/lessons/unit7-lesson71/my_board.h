@@ -24,8 +24,6 @@ private:
     Led* led_ = nullptr;
     TM1650 *tm1650_ = nullptr;
 
-    void InitTM1650();
-
 public:
     MyBoard();
     Led* GetLed() override { return led_; }

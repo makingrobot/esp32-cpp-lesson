@@ -7,7 +7,7 @@
 #ifndef _CONFIG_H
 #define _CONFIG_H
 
-#define APP_LESSON102_A        1
+#define APP_LESSON72        1
 
 /********** Unit1 **********/
 #if APP_LESSON11 ==1
@@ -142,10 +142,15 @@
 #include "src/lessons/unit7-lesson72/app_config.h"
 #include "src/lessons/unit7-lesson72/board_config.h"
 
-#elif APP_LESSON73 == 1
-#define BOARD_LESSON73      1
-#include "src/lessons/unit7-lesson73/app_config.h"
-#include "src/lessons/unit7-lesson73/board_config.h"
+#elif APP_LESSON73_A == 1
+#define BOARD_LESSON73_A      1
+#include "src/lessons/unit7-lesson73a/app_config.h"
+#include "src/lessons/unit7-lesson73a/board_config.h"
+
+#elif APP_LESSON73_B == 1
+#define BOARD_LESSON73_B      1
+#include "src/lessons/unit7-lesson73b/app_config.h"
+#include "src/lessons/unit7-lesson73b/board_config.h"
 
 #elif APP_LESSON81 == 1
 #define BOARD_LESSON81      1

@@ -43,29 +43,32 @@ void MyApplication::OnInit() {
 }
 
 void MyApplication::OnLoop() {
-
     delay(1);
 }
 
 void MyApplication::Task1Loop() {
     AccessResource("task1");
-    delay(100);
+    delay(200);
 }
 
 void MyApplication::Task2Loop() {
-
     AccessResource("task2");
-    delay(100);
+    delay(300);
 }
 
-void MyApplication::AccessResource(const std::string& tag) {
-    
-    MutexGuard guard(mutex_, -1);
+void MyApplication::AccessResource(const std::string& owner) {
+    MutexGuard guard(mutex_, 0);
     if (guard.IsLocked())
     {
         // 独占访问代码
+        Led *led = Board::GetInstance().GetLed();
+        led->TurnOn();
+        delay(500);
+        led->TurnOff();
+        delay(500);
+
         count_++;
-        Log::Info(tag.c_str(), "count: %d", count_);
+        Log::Info(TAG, "call by %s, count: %d", owner.c_str(), count_);
     }
 }
 

@@ -37,11 +37,11 @@ void MyApplication::OnLoop() {
     d->displayString("____");
     d->setBrightness(TM1650_MIN_BRIGHT);
     d->displayOn();
-    delay(100);
+    delay(1000);
 
     char line[] = "1234";
     d->displayString(line);
-    d->setBrightnessGradually(TM1650_MAX_BRIGHT);
+    d->setBrightnessGradually(4); //TM1650_MAX_BRIGHT;
     delay(2000);
 
     d->setBrightnessGradually(TM1650_MIN_BRIGHT);
@@ -50,47 +50,17 @@ void MyApplication::OnLoop() {
     
     line[1] |= 128;
     d->displayOn();
-    d->setBrightnessGradually(TM1650_MAX_BRIGHT);
+    d->setBrightnessGradually(4); //TM1650_MAX_BRIGHT;
     d->displayString(line);
     delay(2000);
     
     d->displayString("abcd");
     delay(2000);
 
-    d->displayString("789 ");
-    delay(2000);
-    
     if (d->displayRunning("1234567890abcdef")) {
         while (d->displayRunningShift()) delay(500);
     }
     delay(2000);
-    
-    for (int i = 0; i<20; i++) {
-        d->displayOff();
-        delay(200);
-
-        d->displayOn();
-        delay(200);
-    }
-    
-    for (int i = 0; i<20; i++) {
-        d->setBrightness(1);
-        delay(200);
-
-        d->setBrightness(7);
-        delay(200);
-    }
-
-    for (int i = 0; i<20; i++) {
-        for (int j = 0; j<4; j++) {
-            d->setDot(j,true);
-            delay(200);
-        }
-        for (int j = 0; j<4; j++) {
-            d->setDot(j,false);
-            delay(200);
-        }
-    }
 }
 
 #endif 

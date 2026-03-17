@@ -27,14 +27,16 @@ public:
     }
 
     ~MutexGuard() {
-        mutex_->Unlock();
+        if (is_locked_) 
+        {
+            mutex_->Unlock();
+        }
     }
 
     MutexGuard(const MutexGuard&) = delete;
     MutexGuard& operator=(const MutexGuard&) = delete;
 
     const bool IsLocked() const { return is_locked_; }
-
 private:
     Mutex *mutex_;
     bool is_locked_;

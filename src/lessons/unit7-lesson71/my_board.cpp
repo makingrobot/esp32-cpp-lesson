@@ -28,16 +28,13 @@ MyBoard::MyBoard() : Board() {
     Log::Info(TAG, "initial led.");
     led_ = new GpioLed(BUILTIN_LED_PIN, false); // no pwm
 
-    InitTM1650();
-
-    Log::Info( TAG, "===== Board config completed. =====");
-}
-
-void MyBoard::InitTM1650() {
     Wire.begin();
+    //Wire.begin(I2C_SDA_PIN, I2C_SCL_PIN);
 
     tm1650_ = new TM1650();
     tm1650_->init();
+
+    Log::Info( TAG, "===== Board config completed. =====");
 }
 
 #endif 

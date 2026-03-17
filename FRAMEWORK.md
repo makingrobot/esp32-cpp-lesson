@@ -6,6 +6,7 @@ Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架�
 `ESP32 Arduino Framework`是专门针对ESP32开发板的Arduino应用开发框架，为用户开发IOT应用、HMI应用提供一致的开发体验。
 目前支持以下功能:
 * 提供LED、灯珠等设备的驱动
+* 提供常用音频编解码器设备的驱动
 * 提供统一的抽象化接口来操作UI、音频编解码等
 * 提供WiFi信息配置界面
 * 提供OTA在线升级
@@ -24,6 +25,9 @@ Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架�
 
 ## 使用的库
 
+### 集成的库
+* esp_codec_dev - 音频编解码库 [链接](https://components.espressif.com/components/espressif/esp_codec_dev)
+
 ### ESP32库引用
 * WebServer - 网站服务库
 * WiFi - WiFi操作库
@@ -40,6 +44,7 @@ Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架�
 * GFX_Library v1.4.9 - TFT-LCD屏显示开发库
 * OneButton v2.6.1 - 按键库
 * Adafruit_NeoPixel - WS2812驱动库
+* helix mp3 - MP3解码库
 
 ## 架构预览
 

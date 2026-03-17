@@ -11,6 +11,9 @@
 
 #define BUILTIN_LED_PIN                     GPIO_NUM_4
 
+#define I2C_SDA_PIN                         GPIO_NUM_NC
+#define I2C_SCL_PIN                         GPIO_NUM_NC
+
 //**********************************************************************
 // 配置定义
 

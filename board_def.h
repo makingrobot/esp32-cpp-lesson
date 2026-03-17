@@ -105,9 +105,13 @@
 #define BOARD_NAME "lesson72-board"
 #include "src/lessons/unit7-lesson72/my_board.h"
 
-#elif BOARD_LESSON73 == 1
+#elif BOARD_LESSON73_A == 1
 #define BOARD_NAME "lesson73-board"
-#include "src/lessons/unit7-lesson73/my_board.h"
+#include "src/lessons/unit7-lesson73a/my_board.h"
+
+#elif BOARD_LESSON73_B == 1
+#define BOARD_NAME "lesson73-board"
+#include "src/lessons/unit7-lesson73b/my_board.h"
 
 #elif BOARD_LESSON81 == 1
 #define BOARD_NAME "lesson81-board"
