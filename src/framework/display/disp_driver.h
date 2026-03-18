@@ -5,6 +5,7 @@
  * Author: Billy Zhang（billy_zh@126.com）
  */
 #include "config.h"
+
 #ifndef _DISP_DRIVER_H
 #define _DISP_DRIVER_H
 
