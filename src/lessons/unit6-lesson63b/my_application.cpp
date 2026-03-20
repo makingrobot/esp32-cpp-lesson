@@ -26,34 +26,34 @@ MyApplication::MyApplication() : Application() {
 }
 
 void MyApplication::OnInit() {
-    event_group_ = xEventGroupCreate();
+    event_group_ = new FrtEventGroup("Test");
 
     // 任务一
-    task1_ = new Task("Task1");
+    task1_ = new FrtTask("Task1");
     task1_->OnLoop([this](){
         // 一些处理
         delay(500);
-        xEventGroupSetBits(event_group_, 0b00000001);
+        event_group_->SetBits(0b00000001);
     });
     task1_->Start(4096, tskIDLE_PRIORITY+1);
 
     // 任务二
-    task2_ = new Task("Task2");
+    task2_ = new FrtTask("Task2");
     task2_->OnLoop([this](){
         // 一些处理
         delay(1000);
-        xEventGroupSetBits(event_group_, 0b00000010);
+        event_group_->SetBits(0b00000010);
     });
     task2_->Start(4096, tskIDLE_PRIORITY+1);
 }
 
 void MyApplication::OnLoop() {
     // 等待全部事件位被设置（事件位AND）
-    auto bits = xEventGroupWaitBits(event_group_, 
+    auto bits = event_group_->WaitBits( 
         0b00000011,
-        pdTRUE, /* 自动清除，避免重复响应 */
-        pdTRUE, /* 所有事件位被设置就返回 */
-        portMAX_DELAY /* 无限期等待，也可使用pdMS_TO_TICKS指定等待时长 */
+        true, /* 自动清除，避免重复响应 */
+        true, /* 所有事件位被设置就返回 */
+        -1 /* 无限期等待，也可使用pdMS_TO_TICKS指定等待时长 */
     );
 
     Led *led = Board::GetInstance().GetLed();

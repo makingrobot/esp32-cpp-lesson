@@ -20,7 +20,8 @@
 #include <freertos/task.h>
 #include <freertos/queue.h>
 #include "src/framework/app/application.h"
-#include "src/framework/sys/task.h"
+#include "src/framework/sys/frt_task.h"
+#include "src/framework/sys/frt_queue.h"
 
 class MyApplication : public Application {
 public:
@@ -37,9 +38,9 @@ protected:
     void OnLoop() override;
 
 private:
-    QueueHandle_t queue_;
-    Task *task1_;
-    Task *task2_;
+    FrtQueue *queue_;
+    FrtTask *task1_;
+    FrtTask *task2_;
 
     int state_ = 0;
 };

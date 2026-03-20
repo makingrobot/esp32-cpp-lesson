@@ -77,7 +77,7 @@ void MyWindow::OnLoop() {
 }
 
 void MyWindow::Start() {
-    task_ = new Task("Task1");
+    task_ = new FrtTask("Task1");
     task_->OnLoop([this](){
         OnLoop();
     });

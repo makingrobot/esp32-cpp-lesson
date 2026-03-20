@@ -16,7 +16,8 @@
 #include "../ota/ota.h"
 #include "../sys/timer.h"
 #include "../sys/mutex.h"
-#include "../sys/task.h"
+#include "../sys/frt_task.h"
+#include "../sys/frt_eventgroup.h"
 #include "../peripheral/sensor_value.h"
 #include "device_state.h"
 #include "event_handler.h"
@@ -101,8 +102,8 @@ protected:
 
     DeviceState* device_state_ = const_cast<DeviceState*>(kDeviceStateUnknown);
     std::string last_error_message_;
-    EventGroupHandle_t event_group_;
-    EventHandler* event_handler_ = nullptr;
+    FrtEventGroup *event_group_;
+    EventHandler *event_handler_ = nullptr;
     Mutex *mutex_;
     int clock_ticks_ = 0;
 
@@ -113,7 +114,7 @@ private:
     std::deque<callback_function_t> app_tasks_;
     bool has_server_time_ = false;
 
-    Task *eventloop_task_;
+    FrtTask *eventloop_task_;
 
 #if CONFIG_CLOCK_ENABLE==1
     Timer* clock_timer_;

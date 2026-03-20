@@ -26,15 +26,15 @@ MyApplication::MyApplication() : Application() {
 }
 
 void MyApplication::OnInit() {
-    queue_ = xQueueCreate(10, sizeof(int));
+    queue_ = new FrtQueue("queue1", 10, sizeof(int));
 
-    task1_ = new Task("Task1");
+    task1_ = new FrtTask("Task1");
     task1_->OnLoop([this](){
         Task1Loop();
     });
     task1_->Start( 4096, tskIDLE_PRIORITY+1);
     
-    task2_ = new Task("Task2");
+    task2_ = new FrtTask("Task2");
     task2_->OnLoop([this](){
         Task2Loop();
     });
@@ -48,20 +48,17 @@ void MyApplication::OnLoop() {
 void MyApplication::Task1Loop() {
     state_ = (state_==0 ? 1 : 0);
 
-    if (xQueueSend(queue_, &state_, 0) != pdPASS) {
-        Log::Warn(TAG, "发送数据到队列失败。");
-    }
+    queue_->Send(&state_, 0);
 
     delay(500);
 }
 
 void MyApplication::Task2Loop() {
     int receive = 0;
-    if (xQueueReceive(queue_, &receive, portMAX_DELAY) != pdPASS) {
-        Log::Warn(TAG, "从队列接收数据失败。");
+    if (!queue_->OnReceive(&receive, -1)) {
         return;
     }
-
+    
     Led *led = Board::GetInstance().GetLed();
     if (receive==1) 
     {

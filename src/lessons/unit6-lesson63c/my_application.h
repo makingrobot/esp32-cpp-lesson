@@ -19,7 +19,7 @@
 #include <freertos/FreeRTOS.h>
 #include <freertos/semphr.h>
 #include "src/framework/app/application.h"
-#include "src/framework/sys/task.h"
+#include "src/framework/sys/frt_task.h"
 
 class MyApplication : public Application {
 public:
@@ -34,7 +34,7 @@ protected:
 
 private:
     SemaphoreHandle_t binary_semaphore_;
-    Task *task1_;
+    FrtTask *task1_;
 };
 
 #endif //_MY_APPLICATION_H

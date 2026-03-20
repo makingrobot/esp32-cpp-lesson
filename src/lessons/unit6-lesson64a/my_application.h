@@ -17,7 +17,7 @@
 
 #include <string>
 #include "src/framework/app/application.h"
-#include "src/framework/sys/task.h"
+#include "src/framework/sys/frt_task.h"
 #include "src/framework/sys/mutex.h"
 
 class MyApplication : public Application {
@@ -36,8 +36,8 @@ protected:
     void OnLoop() override;
 
 private:
-    Task *task1_;
-    Task *task2_;
+    FrtTask *task1_;
+    FrtTask *task2_;
     
     Mutex *mutex_;
     volatile uint32_t count_ = 0;

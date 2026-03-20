@@ -79,7 +79,7 @@ void MyApplication::StartWebServer() {
 
     webserver_->begin();
 
-    webtask_ = new Task("WebServer");
+    webtask_ = new FrtTask("WebServer");
     webtask_->OnLoop([this](){
         webserver_->handleClient();
         delay(1);

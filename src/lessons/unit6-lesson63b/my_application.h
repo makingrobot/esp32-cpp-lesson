@@ -16,10 +16,9 @@
 #pragma message("Compile unit6 lesson63b application.")
 
 #include <string>
-#include <freertos/FreeRTOS.h>
-#include <freertos/queue.h>
 #include "src/framework/app/application.h"
-#include "src/framework/sys/task.h"
+#include "src/framework/sys/frt_task.h"
+#include "src/framework/sys/frt_eventgroup.h"
 
 class MyApplication : public Application {
 public:
@@ -33,9 +32,9 @@ protected:
     void OnLoop() override;
 
 private:
-    EventGroupHandle_t event_group_;
-    Task *task1_;
-    Task *task2_;
+    FrtEventGroup *event_group_;
+    FrtTask *task1_;
+    FrtTask *task2_;
 };
 
 #endif //_MY_APPLICATION_H

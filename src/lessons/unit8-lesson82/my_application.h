@@ -19,7 +19,7 @@
 #include <Arduino.h>
 #include <WebServer.h>
 #include "src/framework/app/application.h"
-#include "src/framework/sys/task.h"
+#include "src/framework/sys/frt_task.h"
 
 class MyApplication : public Application {
 public:
@@ -36,7 +36,7 @@ private:
     void StartWebServer();
     
     WebServer *webserver_;
-    Task *webtask_;
+    FrtTask *webtask_;
 };
 
 #endif //_MY_APPLICATION_H

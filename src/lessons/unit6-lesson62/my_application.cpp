@@ -26,13 +26,13 @@ MyApplication::MyApplication() : Application() {
 }
 
 void MyApplication::OnInit() {
-    task1_ = new Task(std::string("task1"));
+    task1_ = new FrtTask(std::string("task1"));
     task1_->OnLoop([this](){
         Task1Loop();
     });
     task1_->Start(4096, tskIDLE_PRIORITY+1);
 
-    task2_ = new Task(std::string("Task2"));
+    task2_ = new FrtTask(std::string("Task2"));
     task2_->OnLoop([this](){
         Task2Loop();
     });

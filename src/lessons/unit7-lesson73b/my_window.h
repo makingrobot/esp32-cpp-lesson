@@ -16,7 +16,7 @@
 #include <TFT_eSPI.h>
 #include <string>
 #include "src/framework/display/tft_window.h"
-#include "src/framework/sys/task.h"
+#include "src/framework/sys/frt_task.h"
 
 class MyWindow : public TftWindow {
 public:
@@ -37,7 +37,7 @@ protected:
 private:
 
     TFT_eSPI* driver_ = nullptr;
-    Task *task_ = nullptr;
+    FrtTask *task_ = nullptr;
 
 };
 

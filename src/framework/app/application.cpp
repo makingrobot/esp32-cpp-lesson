@@ -45,7 +45,7 @@ Application::Application() {
     ESP_ERROR_CHECK(ret);
 
     mutex_ = new StdMutex();
-    event_group_ = xEventGroupCreate();
+    event_group_ = new FrtEventGroup("main");
 }
 
 Application::~Application() {
@@ -56,8 +56,6 @@ Application::~Application() {
     }
 #endif
 
-    vEventGroupDelete(event_group_);
-    
 }
 
 /**
@@ -100,7 +98,7 @@ void Application::Init() {
 
     SetDeviceState(kDeviceStateIdle);
 
-    eventloop_task_ = new Task("EventLoop_Task");
+    eventloop_task_ = new FrtTask("EventLoop_Task");
     eventloop_task_->OnLoop([this](){
         EventLoop();
     });
@@ -152,7 +150,7 @@ void Application::Schedule(callback_function_t callback) {
     if (lock.IsLocked())
     {
         app_tasks_.push_back(std::move(callback));
-        xEventGroupSetBits(event_group_, EventHandler::kEventScheduleTask);
+        event_group_->SetBits(EventHandler::kEventScheduleTask);
     }
 }
 
@@ -354,7 +352,7 @@ void Application::CheckNewVersion() {
         // No new version, mark the current version as valid
         ota.MarkCurrentVersionValid();
         if (!ota.HasActivationCode() && !ota.HasActivationChallenge()) {
-            xEventGroupSetBits(event_group_, EventHandler::kEventNewVersion);
+            event_group_->SetBits(EventHandler::kEventNewVersion);
             // Exit the loop if done checking new version
             break;
         }
@@ -369,11 +367,11 @@ void Application::EventLoop() {
     }
 
     // 等待事件位被设置
-    auto bits = xEventGroupWaitBits(event_group_, 
+    auto bits = event_group_->WaitBits(
         event_handler_->GetEventBits(),
-        pdTRUE, /* 自动清除，避免重复响应 */
-        pdFALSE, /* 任一事件位被设置就返回 */
-        portMAX_DELAY /* 无限期等待，也可使用pdMS_TO_TICKS指定等待时长 */
+        true, /* 自动清除，避免重复响应 */
+        false, /* 任一事件位被设置就返回 */
+        -1 /* 无限期等待 */
     );
 
     try {

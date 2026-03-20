@@ -17,7 +17,7 @@
 
 #include <string>
 #include "src/framework/app/application.h"
-#include "src/framework/sys/task.h"
+#include "src/framework/sys/frt_task.h"
 
 class MyApplication : public Application {
 public:
@@ -35,8 +35,8 @@ protected:
 
 private:
     int state_ = 0;
-    Task *task1_;
-    Task *task2_;
+    FrtTask *task1_;
+    FrtTask *task2_;
     
 };
 

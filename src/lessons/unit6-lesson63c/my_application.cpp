@@ -29,7 +29,7 @@ void MyApplication::OnInit() {
     binary_semaphore_ = xSemaphoreCreateBinary();
 
     // 任务一
-    task1_ = new Task("Task1");
+    task1_ = new FrtTask("Task1");
     task1_->OnLoop([this](){
          /* 释放信号量 */
         xSemaphoreGive(binary_semaphore_);

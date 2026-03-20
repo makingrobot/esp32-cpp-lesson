@@ -20,7 +20,7 @@
 #include <WebServer.h>
 #include <FS.h>
 #include "src/framework/app/application.h"
-#include "src/framework/sys/task.h"
+#include "src/framework/sys/frt_task.h"
 
 class MyApplication : public Application {
 public:
@@ -41,8 +41,8 @@ private:
     void HandleNotFound();
 
     WebServer *webserver_;
-    Task *webtask_;
-    File uploadfile_;
+    FrtTask *webtask_;
+    FrtFile uploadfile_;
 };
 
 #endif //_MY_APPLICATION_H
