@@ -13,7 +13,6 @@
 #include "my_application.h"
 #include "src/framework/sys/log.h"
 #include "src/framework/board/board.h"
-#include "src/framework/display/u8g2_display.h"
 #include "my_board.h"
 
 #define TAG "MyApplication"
@@ -27,13 +26,13 @@ MyApplication::MyApplication() : Application() {
 }
 
 void MyApplication::OnInit() {
-    U8g2Display* display = (U8g2Display*)(Board::GetInstance().GetDisplay());
+    Display* display = Board::GetInstance().GetDisplay();
     display->GetWindow()->SetText(1, "你好，世界!");
 }
 
 void MyApplication::OnLoop() {
     count_++;
-    U8g2Display* display = (U8g2Display*)(Board::GetInstance().GetDisplay());
+    Display* display = Board::GetInstance().GetDisplay();
     display->GetWindow()->SetText(2, "计数: " + std::to_string(count_));
     delay(1000);
 }

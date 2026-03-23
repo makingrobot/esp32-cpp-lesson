@@ -37,7 +37,7 @@ MyBoard::MyBoard() : Board() {
 }
 
 void MyBoard::InitDisplay() {
-    Log::Info( TAG, "Init ili9341 display ......" );
+    Log::Info( TAG, "Init st7789 display ......" );
     /**
      * 注意！！！
      * 请在TFT_eSPI库包内的User_Setup.h中配置引脚

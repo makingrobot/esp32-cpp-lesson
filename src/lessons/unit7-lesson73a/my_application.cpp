@@ -13,7 +13,6 @@
 #include "my_application.h"
 #include "src/framework/sys/log.h"
 #include "src/framework/board/board.h"
-#include "src/framework/display/tft_display.h"
 #include "my_board.h"
 
 #define TAG "MyApplication"
@@ -27,14 +26,14 @@ MyApplication::MyApplication() : Application() {
 }
 
 void MyApplication::OnInit() {
-    TftDisplay *display = (TftDisplay*)(Board::GetInstance().GetDisplay());
+    Display *display = Board::GetInstance().GetDisplay();
     display->Rotate(1);
     display->GetWindow()->SetText(1, "Hello world!");
 }
 
 void MyApplication::OnLoop() {
     count_++;
-    TftDisplay *display = (TftDisplay*)(Board::GetInstance().GetDisplay());
+    Display *display = Board::GetInstance().GetDisplay();
     display->GetWindow()->SetText(2, "Count: " + std::to_string(count_));
     delay(1000);
 }
