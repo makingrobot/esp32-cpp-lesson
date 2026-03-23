@@ -13,6 +13,7 @@
 #include <TFT_eSPI.h>
 #include <string>
 #include <vector>
+#include "window.h"
 
 typedef struct  {
     std::string text = "";
@@ -23,13 +24,13 @@ typedef struct  {
     uint16_t x_pos = 2;
 } tft_line_t;
 
-class TftWindow {
+class TftWindow : public Window {
 public:
     TftWindow() { }
 
     virtual void Setup(TFT_eSPI* driver);
-    virtual void SetStatus(const std::string& status);
-    virtual void SetText(uint8_t line, const std::string& text);
+    virtual void SetStatus(const std::string& status) override;
+    virtual void SetText(uint8_t line, const std::string& text) override;
 
     void SetText(uint8_t line, const tft_line_t& line_t);
    
