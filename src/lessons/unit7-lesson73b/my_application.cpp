@@ -24,17 +24,20 @@ void* create_application() {
 
 MyApplication::MyApplication() : Application() { 
     window_ = new MyWindow();
+    //window_ = new MyWindow2();
     TftDisplay *disp = (TftDisplay*)(Board::GetInstance().GetDisplay());
     disp->SetWindow(window_);
 }
 
 void MyApplication::OnInit() {
-    window_->Start();
+    Display *display = Board::GetInstance().GetDisplay();
+    display->Rotate(1);
 }
 
 void MyApplication::OnLoop() {
-
-    delay(1);
+    // 其它代码
+    window_->Update();
+    delay(5000);
 }
 
 #endif 

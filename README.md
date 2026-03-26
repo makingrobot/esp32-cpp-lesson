@@ -83,9 +83,9 @@ ESP32 C++ 教程，基于ESP32-Arduino-Framework应用开发框架。
 ```
   知识点：Display类及派生类、U8G2库、I2C协议
 ```
-* 7-3 TFT-LCD显示屏
+* [7-3 TFT-LCD显示屏](https://www.xpstem.com/article/2000526)
 ```
-  知识点：TFT_eSPI库、SPI协议
+  知识点：Window类及派生类、TFT_eSPI库、SPI协议
 ```
 
 ### Unit8 网络

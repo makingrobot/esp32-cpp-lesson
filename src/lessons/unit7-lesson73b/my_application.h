@@ -18,6 +18,7 @@
 #include <string>
 #include "src/framework/app/application.h"
 #include "my_window.h"
+#include "my_window2.h"
 
 class MyApplication : public Application {
 public:
@@ -32,6 +33,7 @@ protected:
 
 private:
     MyWindow *window_ = 0;
+    //MyWindow2 *window_ = 0;
     
 };
 

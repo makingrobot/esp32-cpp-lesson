@@ -10,16 +10,16 @@
 #include "config.h"
 #if BOARD_LESSON73_B == 1
 
-#ifndef _MY_WINDOW_H
-#define _MY_WINDOW_H
+#ifndef _MY_WINDOW2_H
+#define _MY_WINDOW2_H
 
 #include <TFT_eSPI.h>
 #include <string>
 #include "src/framework/display/tft_window.h"
 
-class MyWindow : public TftWindow {
+class MyWindow2 : public TftWindow {
 public:
-    MyWindow();
+    MyWindow2();
 
     void SetStatus(const std::string& status) override { }
     void SetText(uint8_t line, const std::string& text) override { }
@@ -28,6 +28,6 @@ public:
     
 };
 
-#endif //_My_WINDOW_H
+#endif //_My_WINDOW2_H
 
 #endif

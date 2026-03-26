@@ -31,6 +31,8 @@ MyBoard::MyBoard() : Board() {
     Log::Info(TAG, "initial led.");
     led_ = new GpioLed(BUILTIN_LED_PIN, false); // no pwm
 
+    InitDisplay();
+    
     Log::Info( TAG, "===== Board config completed. =====");
 }
 
@@ -40,11 +42,11 @@ void MyBoard::InitDisplay() {
      * 注意！！！
      * 请在TFT_eSPI库包内的User_Setup.h中配置引脚
      */
-    TFT_eSPI *tft_espi = new TFT_eSPI(DISPLAY_WIDTH, DISPLAY_HEIGHT);
+    TFT_eSPI *tft_espi = new TFT_eSPI(DISPLAY_HEIGHT, DISPLAY_WIDTH);
     //tft_espi_->invertDisplay(DISPLAY_INVERT_COLOR);
     
     //u8g2_font_unifont_t_chinese2
-    display_ = new TftDisplay(tft_espi, DISPLAY_WIDTH, DISPLAY_HEIGHT);
+    display_ = new TftDisplay(tft_espi, DISPLAY_HEIGHT, DISPLAY_WIDTH);
 }
 
 #endif 

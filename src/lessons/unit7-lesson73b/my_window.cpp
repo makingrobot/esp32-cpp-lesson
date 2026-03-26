@@ -16,11 +16,11 @@
 #define TAG "MyWindow"
 
 MyWindow::MyWindow() {
-    Log::Info(TAG, "TestWindow constructor.");
+    Log::Info(TAG, "MyWindow constructor.");
 }
 
-void MyWindow::OnLoop() {
-    Log::Info(TAG, "TestTask Schedule");
+void MyWindow::Update() {
+    Log::Info(TAG, "Update");
 
     // Fill screen with grey so we can see the effect of printing with and without 
     // a background colour defined
@@ -73,15 +73,6 @@ void MyWindow::OnLoop() {
     driver_->print("Hexadecimal = "); 
     driver_->println((int)fnumber, HEX); // Print as integer number in Hexadecimal
 
-    delay(10000);
-}
-
-void MyWindow::Start() {
-    task_ = new FrtTask("Task1");
-    task_->OnLoop([this](){
-        OnLoop();
-    });
-    task_->Start(4096, tskIDLE_PRIORITY+1);
 }
 
 #endif
