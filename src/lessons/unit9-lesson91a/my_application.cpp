@@ -15,6 +15,7 @@
 #include "my_application.h"
 #include "src/framework/sys/log.h"
 #include "src/framework/board/board.h"
+#include "src/framework/display/display.h"
 #include "src/framework/file/file_system.h"
 #include "my_board.h"
 
@@ -29,9 +30,13 @@ MyApplication::MyApplication() : Application() {
 }
 
 void MyApplication::OnInit() {
+    Display *display = Board::GetInstance().GetDisplay();
+    display->Rotate(1);
+
     FileSystem *fsys = Board::GetInstance().GetFileSystem();
     if (fsys==nullptr) {
         Log::Warn(TAG, "FileSystem init failed.");
+        display->GetWindow()->SetText(1, "FileSystem init failed.");
         return;
     }
 
@@ -41,18 +46,22 @@ void MyApplication::OnInit() {
         File f = fsys->OpenFile(path);
         if (f) {
             String content = f.readString();
-            Serial.println(content);
+            
+            display->GetWindow()->SetText(1, "File read success.");
+            display->GetWindow()->SetText(2, std::string(content.c_str()));
         } else {
             Log::Warn(TAG, "File %s read failed.", path);
+            display->GetWindow()->SetText(1, "File read failed.");
         }
     } else {
         Log::Info(TAG, "create file.");
         fsys->WriteFile(path, "Hello world!");
+        display->GetWindow()->SetText(1, "File create success.");
     }
 }
 
 void MyApplication::OnLoop() {
-    
+    delay(1);
 }
 
 #endif 

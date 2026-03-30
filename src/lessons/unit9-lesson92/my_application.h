@@ -20,7 +20,6 @@
 #include <string>
 #include <Arduino.h>
 #include <WebServer.h>
-#include <FS.h>
 #include "src/framework/app/application.h"
 #include "src/framework/sys/frt_task.h"
 
@@ -39,12 +38,10 @@ private:
     void StartWebServer();
 
     void OutputFile(String path);
-    void HandleFileUpload();
-    void HandleNotFound();
+    void HandleDefault();
 
     WebServer *webserver_;
     FrtTask *webtask_;
-    FrtFile uploadfile_;
 };
 
 #endif //_MY_APPLICATION_H

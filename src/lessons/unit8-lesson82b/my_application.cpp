@@ -68,8 +68,11 @@ void MyApplication::StartWebServer() {
 
     // GET / 
     webserver_->on("/", [this](){ 
-        int state = webserver_->arg("state").toInt();
-
+        int state = 0;
+        if (webserver_->hasArg("state")) {
+            state = webserver_->arg("state").toInt();
+        }
+        
         Led* led = Board::GetInstance().GetLed();
         if (state==1) {
             led->TurnOn();

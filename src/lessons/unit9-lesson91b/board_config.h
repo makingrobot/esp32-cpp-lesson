@@ -12,6 +12,9 @@
 
 #define BUILTIN_LED_PIN                     GPIO_NUM_4
 
+#define DISPLAY_WIDTH                       240
+#define DISPLAY_HEIGHT                      320
+
 #define SD_MOSI_PIN                         GPIO_NUM_17
 #define SD_MISO_PIN                         GPIO_NUM_16
 #define SD_CLK_PIN                          GPIO_NUM_15

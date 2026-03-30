@@ -15,6 +15,7 @@
 #include "my_application.h"
 #include "src/framework/sys/log.h"
 #include "src/framework/board/board.h"
+#include "src/framework/display/display.h"
 #include "src/framework/file/file_system.h"
 #include "my_board.h"
 
@@ -29,31 +30,40 @@ MyApplication::MyApplication() : Application() {
 }
 
 void MyApplication::OnInit() {
+    Display *display = Board::GetInstance().GetDisplay();
+    display->Rotate(1);
+
     FileSystem *fsys = Board::GetInstance().GetFileSystem();
     if (fsys==nullptr) {
         Log::Warn(TAG, "FileSystem init failed.");
+        display->GetWindow()->SetText(1, "FileSystem init failed.");
         return;
     }
 
-    char *path = "/001.mp3";
+    display->GetWindow()->SetText(1, "filesystem type: "+ fsys->type());
+
+    char *path = "/hello.txt";
     if (fsys->ExistsFile(path)) {
         Log::Info(TAG, "read file.");
         File f = fsys->OpenFile(path);
         if (f) {
-            Log::Info(TAG, "File %s size: %d ", path, f.size());
-            uint8_t buf[1025] = { 0 };
-            size_t bytes_read = f.read(buf, 1024);
-            Log::Info(TAG, "read %d bytes ok", bytes_read);
+            String content = f.readString();
+            
+            display->GetWindow()->SetText(2, "File read success.");
+            display->GetWindow()->SetText(3, std::string(content.c_str()));
         } else {
-            Log::Warn(TAG, "File %s op failed.", path);
+            Log::Warn(TAG, "File %s read failed.", path);
+            display->GetWindow()->SetText(2, "File read failed.");
         }
     } else {
-        Log::Info(TAG, "file not exists.");
+        Log::Info(TAG, "create file.");
+        fsys->WriteFile(path, "Hello world!");
+        display->GetWindow()->SetText(2, "File create success.");
     }
 }
 
 void MyApplication::OnLoop() {
-    
+    delay(1);
 }
 
 #endif 

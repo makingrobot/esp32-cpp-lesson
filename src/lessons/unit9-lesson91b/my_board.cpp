@@ -20,6 +20,7 @@
 #include "my_board.h"
 #include "src/framework/led/gpio_led.h"
 #include "src/framework/app/application.h"
+#include "src/framework/display/tft_display.h"
 
 #define TAG "MY_BOARD"
 
@@ -33,12 +34,27 @@ MyBoard::MyBoard() : Board() {
     Log::Info(TAG, "initial led.");
     led_ = new GpioLed(BUILTIN_LED_PIN, false); // no pwm
 
+    InitDisplay();
     InitFileSystem();
     
     Log::Info( TAG, "===== Board config completed. =====");
 }
 
+void MyBoard::InitDisplay() {
+    Log::Info( TAG, "Init tft display ......" );
+    /**
+     * 注意！！！
+     * 请在TFT_eSPI库包内的User_Setup.h中配置引脚
+     */
+    TFT_eSPI *tft_espi = new TFT_eSPI(DISPLAY_WIDTH, DISPLAY_HEIGHT);
+    //tft_espi_->invertDisplay(DISPLAY_INVERT_COLOR);
+    
+    //u8g2_font_unifont_t_chinese2
+    display_ = new TftDisplay(tft_espi, DISPLAY_WIDTH, DISPLAY_HEIGHT);
+}
+
 void MyBoard::InitFileSystem() {
+    Log::Info( TAG, "Init file system ......" );
     SPI.begin(SD_CLK_PIN, SD_MISO_PIN, SD_MOSI_PIN, SD_CS_PIN);
     if (!SD.begin(SD_CS_PIN)) {
         Log::Info(TAG, "SD Mount Failed");
@@ -51,7 +67,7 @@ void MyBoard::InitFileSystem() {
     filesystem_->setType("SD");
 
     Log::Info(TAG, "init filesystem, type: %s, totalbytes: %ld, freebytes: %ld", 
-            filesystem_->type(), filesystem_->totalBytes(), filesystem_->freeBytes());
+            filesystem_->type().c_str(), filesystem_->totalBytes(), filesystem_->freeBytes());
 }
 
 #endif 

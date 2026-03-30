@@ -19,18 +19,22 @@
 
 #include "src/framework/board/wifi_board.h"
 #include "src/framework/led/led.h"
+#include "src/framework/display/display.h"
 #include "src/framework/file/file_system.h"
 
 class MyBoard : public WifiBoard {
 private:
     Led* led_ = nullptr;
+    Display* display_ = nullptr;
     FileSystem* filesystem_ = nullptr;
 
+    void InitDisplay();
     void InitFileSystem();
     
 public:
     MyBoard();
     Led* GetLed() override { return led_; }
+    Display* GetDisplay() override { return display_; }
     FileSystem* GetFileSystem() override { return filesystem_; }
 
 };

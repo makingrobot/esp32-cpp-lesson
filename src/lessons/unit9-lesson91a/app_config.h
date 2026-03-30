@@ -20,6 +20,10 @@
 #define CONFIG_USE_LED_GPIO                 1
 #define CONFIG_USE_LED_WS2812               0
 
+// 显示相关
+#define CONFIG_USE_DISPLAY                  1
+#define CONFIG_USE_TFT_ESPI                 1
+
 // 使用ESP_LOG
 #define CONFIG_USE_ESP_LOG                  0
 

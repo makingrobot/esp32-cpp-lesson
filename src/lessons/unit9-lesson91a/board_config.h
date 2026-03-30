@@ -12,6 +12,9 @@
 
 #define BUILTIN_LED_PIN                     GPIO_NUM_4
 
+#define DISPLAY_WIDTH                       240
+#define DISPLAY_HEIGHT                      320
+
 
 #endif //_BOARD_CONFIG_H
 

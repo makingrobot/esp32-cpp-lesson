@@ -33,21 +33,26 @@ MyApplication::MyApplication() : Application() {
 
 void MyApplication::OnInit() {
     WifiBoard *board = (WifiBoard*)(&Board::GetInstance());
+    Display *display = board->GetDisplay();
+    display->Rotate(1);
 
     //一、使用热点
-    //char *ssid = "esp32_ap";
-    //bool success = board->StartAP(ssid, ap_ip, ap_gateway, ap_subnet);
-    //std::string message = "AP:" + std::string(ssid) + ", IP:" + std::string(ap_ip.toString().c_str());
+    char *ssid = "esp32_ap";
+    bool success = board->StartAP(ssid, ap_ip, ap_gateway, ap_subnet);
+    std::string message = "AP:" + std::string(ssid) + ", IP:" + std::string(ap_ip.toString().c_str());
     
-    //二、连接已有WiFi网络
-    bool success = board->StartNetwork("ssid", "password", 10000);
-    std::string message = "IP:" + board->GetIpAddress();
+    // //二、连接已有WiFi网络
+    // bool success = board->StartNetwork("ssid", "password", 10000);
+    // std::string message = "IP:" + board->GetIpAddress();
     
     if (success) {
         Log::Info(TAG, message.c_str());
+        display->GetWindow()->SetText(1, message);
+
         StartWebServer();
     } else {
         Log::Warn(TAG, "连接失败。");
+        display->GetWindow()->SetText(1, "连接失败。");
     }
 }
 
@@ -58,11 +63,7 @@ void MyApplication::OnLoop() {
 void MyApplication::StartWebServer() {
     webserver_ = new WebServer(80);
 
-    webserver_->on("/upload", HTTP_POST,
-        [this]() { webserver_->send(200, "text/plain", ""); },
-        [this]() { HandleFileUpload(); }
-    );
-    webserver_->onNotFound([this]() { HandleNotFound(); });
+    webserver_->onNotFound([this]() { HandleDefault(); });
 
     webserver_->begin();
 
@@ -74,40 +75,20 @@ void MyApplication::StartWebServer() {
     webtask_->Start(8192, tskIDLE_PRIORITY+1);
 }
 
-void MyApplication::HandleFileUpload() {
-    FileSystem *fsys = Board::GetInstance().GetFileSystem();
-    HTTPUpload &upload = webserver_->upload();
-    if (upload.status == UPLOAD_FILE_START) {
-        if (fsys->ExistsFile(upload.filename.c_str())) {
-            fsys->DeleteFile(upload.filename.c_str());
-        }
-        uploadfile_ = fsys->OpenFile(upload.filename.c_str(), FILE_WRITE);
-        Log::Info(TAG, "Upload: START, filename: %s", upload.filename);
+void MyApplication::HandleDefault() {
+    Display *display = Board::GetInstance().GetDisplay();
 
-    } else if (upload.status == UPLOAD_FILE_WRITE) {
-        if (uploadfile_) {
-            uploadfile_.write(upload.buf, upload.currentSize);
-        }
-        Log::Info(TAG, "Upload: WRITE, Bytes: %ld", upload.currentSize);
-
-    } else if (upload.status == UPLOAD_FILE_END) {
-        if (uploadfile_) {
-            uploadfile_.close();
-        }
-        Log::Info(TAG, "Upload: END, Size: %ld", upload.totalSize);
-    }
-}
-
-void MyApplication::HandleNotFound() {
     FileSystem *fsys = Board::GetInstance().GetFileSystem(); 
     if (fsys == nullptr) {
         webserver_->send(500, "text/plain", "文件系统求初始化。");
+        display->GetWindow()->SetText(2, "FileSystem init failed.");
         return;
     }
 
-    String path = webserver_->uri();
+    String path = "/html" + webserver_->uri();
     if (fsys->ExistsFile(path.c_str())) {
         OutputFile(path);
+        display->GetWindow()->SetText(3, "输出文件：" + std::string(path.c_str()));
         return;
     }
 
@@ -139,10 +120,6 @@ void MyApplication::OutputFile(String path) {
         dataType = "image/gif";
     } else if (path.endsWith(".jpg")) {
         dataType = "image/jpeg";
-    } else if (path.endsWith(".pdf")) {
-        dataType = "application/pdf";
-    } else if (path.endsWith(".zip")) {
-        dataType = "application/zip";
     }
 
     FileSystem *fsys = Board::GetInstance().GetFileSystem(); 
