@@ -1,4 +1,4 @@
-#include "config.h"
+#include "board_def.h"
 #if BOARD_LESSON102_A == 1
 
 #ifndef _BOARD_CONFIG_H
@@ -6,8 +6,9 @@
 
 #include <driver/gpio.h>
 
-//*******************************************************************
-// 引脚定义
+/*****
+ * 本文件主要用于配置硬件相关的设置，如引脚
+ */
 
 #define BUILTIN_LED_PIN                     GPIO_NUM_4
 
@@ -19,16 +20,6 @@
 #define MIC_BCLK_PIN                        GPIO_NUM_17
 #define MIC_WS_PIN                          GPIO_NUM_18
 #define MIC_DIN_PIN                         GPIO_NUM_48
-
-//**********************************************************************
-// 配置定义
-
-// LED驱动
-#define CONFIG_USE_LED_GPIO                 1
-#define CONFIG_USE_LED_WS2812               0
-
-// 使用ESP_LOG
-#define CONFIG_USE_ESP_LOG                  0
 
 
 #endif //_BOARD_CONFIG_H

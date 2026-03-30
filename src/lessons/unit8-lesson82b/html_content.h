@@ -5,10 +5,10 @@
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
  * 
- * Unit8-Lesson83：在网页上控制设备
+ * Unit8-Lesson82：在网页上控制设备
  */
 #include "config.h"
-#if APP_LESSON83==1
+#if APP_LESSON82_B==1
 
 #ifndef _HTML_CONTENT_H
 #define _HTML_CONTENT_H
@@ -24,14 +24,19 @@ static const char *index_html PROGMEM = R"(
 <body>
     <div class='container'>
             LED灯
-        <form id="form" action="submit">
-            <select name="state" onchange="this.form.submit();">
+        <form id="form" action="/">
+            <select id="state" name="state" onchange="this.form.submit();">
                 <option value="0">关</option>
                 <option value="1">开</option>
             </select>
         </form>
     </div>
-    
+    <script type="text/javascript">
+        var params = new URLSearchParams(window.location.search);
+        if (params.has('state')) {
+            document.getElementById("state").value = params.get('state');
+        }
+    </script>
 </body>
 </html>
 )";

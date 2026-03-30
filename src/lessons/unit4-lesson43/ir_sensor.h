@@ -2,6 +2,9 @@
  * ESP32-Cpp-Lesson
  * ESP32 C++ 教程，基于ESP32-Arduino-Framework应用开发框架。
  * 
+ * 本程序可不受限制的用于学习和教学，商业用途请联系作者。
+ * 本程序不对用户因使用程序而造成任何形式的损失负责。
+ * 
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
  * 
@@ -25,16 +28,16 @@ public:
         ir_recv_->enableIRIn();
     }
 
-    bool ReadValue(SensorValue *value) override {
+    bool ReadValue() override {
         
         if (ir_recv_->decode()) {
             struct IRData *pIrData = &ir_recv_->decodedIRData;
-            value->setUlongValue(pIrData->decodedRawData);
+            sensor_val_->setUlongValue(pIrData->decodedRawData);
 
             ir_recv_->resume();
 
             // 不等于0的码为有效码，返回true。
-            if (value->ulongValue() != 0) {
+            if (sensor_val_->ulongValue() != 0) {
                 return true;
             }
         }

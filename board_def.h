@@ -117,20 +117,20 @@
 #define BOARD_NAME "lesson81-board"
 #include "src/lessons/unit8-lesson81/my_board.h"
 
-#elif BOARD_LESSON82 == 1
-#define BOARD_NAME "lesson82-board"
-#include "src/lessons/unit8-lesson82/my_board.h"
+#elif BOARD_LESSON82_A == 1
+#define BOARD_NAME "lesson82a-board"
+#include "src/lessons/unit8-lesson82a/my_board.h"
 
-#elif BOARD_LESSON83 == 1
-#define BOARD_NAME "lesson83-board"
-#include "src/lessons/unit8-lesson83/my_board.h"
+#elif BOARD_LESSON82_B == 1
+#define BOARD_NAME "lesson82b-board"
+#include "src/lessons/unit8-lesson82b/my_board.h"
 
 #elif BOARD_LESSON91_A == 1
-#define BOARD_NAME "lesson91-board"
+#define BOARD_NAME "lesson91a-board"
 #include "src/lessons/unit9-lesson91a/my_board.h"
 
 #elif BOARD_LESSON91_B == 1
-#define BOARD_NAME "lesson91-board"
+#define BOARD_NAME "lesson91b-board"
 #include "src/lessons/unit9-lesson91b/my_board.h"
 
 #elif BOARD_LESSON92 == 1
@@ -138,15 +138,15 @@
 #include "src/lessons/unit9-lesson92/my_board.h"
 
 #elif BOARD_LESSON101_A == 1
-#define BOARD_NAME "lesson101-board"
+#define BOARD_NAME "lesson101a-board"
 #include "src/lessons/unit10-lesson101a/my_board.h"
 
 #elif BOARD_LESSON101_B == 1
-#define BOARD_NAME "lesson101-board"
+#define BOARD_NAME "lesson101b-board"
 #include "src/lessons/unit10-lesson101b/my_board.h"
 
 #elif BOARD_LESSON102_A == 1
-#define BOARD_NAME "lesson102-board"
+#define BOARD_NAME "lesson102a-board"
 #include "src/lessons/unit10-lesson102a/my_board.h"
 
 #endif

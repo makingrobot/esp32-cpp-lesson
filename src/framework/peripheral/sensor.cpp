@@ -45,10 +45,9 @@ void Sensor::Stop() {
 /**
  * 读取传感器数据
  */
-void Sensor::ReadData() {
-    sensor_val_ = new SensorValue();
+bool Sensor::ReadData() {
 
-    bool success = ReadValue(sensor_val_);
+    bool success = ReadValue();
     if (success) {
         if (on_newdata_callback_) {
             on_newdata_callback_(*sensor_val_);
@@ -58,7 +57,7 @@ void Sensor::ReadData() {
         }
     }
 
-    delete sensor_val_;
+    return success;
 }
 
 /*********** AnalogSensor **************/
@@ -66,8 +65,8 @@ AnalogSensor::AnalogSensor(const std::string& name, gpio_num_t pin) : Sensor(nam
     pinMode(sensor_pin_, INPUT);
 }
 
-bool AnalogSensor::ReadValue(SensorValue *value) {
-    value->setIntValue(analogRead(sensor_pin_));
+bool AnalogSensor::ReadValue() {
+    sensor_val_->setIntValue(analogRead(sensor_pin_));
     return true;
 }
 
@@ -76,7 +75,7 @@ DigitalSensor::DigitalSensor(const std::string& name, gpio_num_t pin) : Sensor(n
     pinMode(sensor_pin_, INPUT);
 }
 
-bool DigitalSensor::ReadValue(SensorValue *value) {
-    value->setIntValue(digitalRead(sensor_pin_));
+bool DigitalSensor::ReadValue() {
+    sensor_val_->setIntValue(digitalRead(sensor_pin_));
     return false;
 }

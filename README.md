@@ -89,17 +89,13 @@ ESP32 C++ 教程，基于ESP32-Arduino-Framework应用开发框架。
 ```
 
 ### Unit8 网络
-* 8-1 WiFi连接和HTTP请求
+* [8-1 WiFi连接和HTTP请求](https://www.xpstem.com/article/2000528)
 ```
-  知识点：WiFi连接、HttpClient库
+  知识点：WiFi连接、HttpClient库、JSON处理
 ```
-* 8-2 Wifi热点与Web服务
+* [8-2 Wifi热点和网页上控制设备](https://www.xpstem.com/article/2000529)
 ```
-  知识点：WiFi热点、WebServer库
-```
-* 8-3 在网页上控制设备
-```
-  知识点：JavaScript
+  知识点：WiFi热点、WebServer库、网页上控制设备
 ```
 
 ### Unit9 存储
@@ -115,17 +111,12 @@ ESP32 C++ 教程，基于ESP32-Arduino-Framework应用开发框架。
 ### Unit10 音频
 * 10-1 音频播放
 ```
-  知识点：I2sOutput类、I2S协议、DAC数模转换、音频解码
+  知识点：音频处理、I2S协议、DAC数模转换、音频解码
 ```
 
 * 10-2 音频录制
 ```
-  知识点：I2sInput类、ADC模数转换、音频编码
-```
-
-* 10-3 音频高级处理
-```
-  知识点：音频流、音效处理
+  知识点：ADC模数转换、音频编码
 ```
 
 -------

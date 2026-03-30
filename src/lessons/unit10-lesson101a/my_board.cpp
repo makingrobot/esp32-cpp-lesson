@@ -2,6 +2,8 @@
  * ESP32-Cpp-Lesson
  * ESP32 C++ 教程，基于ESP32-Arduino-Framework应用开发框架。
  * 
+ * 本程序可不受限制的用于学习，商业用途请联系作者。
+ * 
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
  * 
@@ -38,6 +40,7 @@ MyBoard::MyBoard() : Board() {
 }
 
 void MyBoard::InitFileSystem() {
+    Log::Info(TAG, "initial file system.");
     SPI.begin(SD_CLK_PIN, SD_MISO_PIN, SD_MOSI_PIN, SD_CS_PIN);
     if (!SD.begin(SD_CS_PIN)) {
         Log::Info(TAG, "SD Mount Failed");

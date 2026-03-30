@@ -39,9 +39,21 @@ public:
     }
 
     /**
+     * 覆盖写入队列，适用于队列长度为1的情况
+     */
+    bool Overwrite(const void *item) 
+    {
+        if (xQueueOverwrite(queue_, item) != pdPASS) {
+            Log::Warn(TAG, "发送数据到队列 %s 失败。", name_.c_str());
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * 从队列接收
      */
-    bool OnReceive(void *item, int timeout_ms = 0) {
+    bool Receive(void *item, int timeout_ms = 0) {
         TickType_t ticksToWait = timeout_ms >= 0 ? pdMS_TO_TICKS(timeout_ms) : portMAX_DELAY;
         if (xQueueReceive(queue_, item, ticksToWait) != pdPASS) {
             Log::Warn(TAG, "从队列 %s 接收数据失败。", name_.c_str());

@@ -1,7 +1,10 @@
 /**
- * ESP32-Arduino-Framework
- * Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架。
+ * ESP32-Cpp-Lesson
+ * ESP32 C++ 教程，基于ESP32-Arduino-Framework应用开发框架。
  * 
+ * 本程序可不受限制的用于学习，商业用途请联系作者。
+ * 
+ * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
  */
 #include "config.h"

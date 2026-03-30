@@ -6,24 +6,14 @@
 
 #include <driver/gpio.h>
 
-//*******************************************************************
-// 引脚定义
+/*****
+ * 本文件主要用于配置硬件相关的设置，如引脚
+ */
 
 #define BUILTIN_LED_PIN                     GPIO_NUM_4
 #define RGB_LED_R_PIN                       GPIO_NUM_32
 #define RGB_LED_G_PIN                       GPIO_NUM_23
 #define RGB_LED_B_PIN                       GPIO_NUM_33
-
-//**********************************************************************
-// 配置定义
-
-// LED驱动
-#define CONFIG_USE_LED_GPIO                 1  // 启用GpioLed类
-#define CONFIG_USE_LED_RGB                  1  // 启用RgbLed类
-#define CONFIG_USE_LED_WS2812               0  // 启用Ws2812Led类
-
-// 使用ESP_LOG
-#define CONFIG_USE_ESP_LOG                  0
 
 
 #endif //_BOARD_CONFIG_H

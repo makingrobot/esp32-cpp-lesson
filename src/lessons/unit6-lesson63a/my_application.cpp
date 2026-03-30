@@ -2,6 +2,8 @@
  * ESP32-Cpp-Lesson
  * ESP32 C++ 教程，基于ESP32-Arduino-Framework应用开发框架。
  * 
+ * 本程序可不受限制的用于学习，商业用途请联系作者。
+ * 
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
  * 
@@ -55,7 +57,7 @@ void MyApplication::Task1Loop() {
 
 void MyApplication::Task2Loop() {
     int receive = 0;
-    if (!queue_->OnReceive(&receive, -1)) {
+    if (!queue_->Receive(&receive, -1)) {
         return;
     }
     

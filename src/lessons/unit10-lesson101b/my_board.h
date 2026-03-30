@@ -2,6 +2,8 @@
  * ESP32-Cpp-Lesson
  * ESP32 C++ 教程，基于ESP32-Arduino-Framework应用开发框架。
  * 
+ * 本程序可不受限制的用于学习，商业用途请联系作者。
+ * 
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
  * 
@@ -17,22 +19,18 @@
 
 #include "src/framework/board/wifi_board.h"
 #include "src/framework/led/led.h"
-#include "src/framework/file/file_system.h"
 #include "src/framework/audio/audio_codec.h"
 
 class MyBoard : public WifiBoard {
 private:
     Led *led_ = nullptr;
-    FileSystem *filesystem_ = nullptr;
     AudioCodec *audio_codec_ = nullptr;
 
-    void InitFileSystem();
     void InitAudioCodec();
     
 public:
     MyBoard();
     Led* GetLed() override { return led_; }
-    FileSystem* GetFileSystem() override { return filesystem_; }
     AudioCodec* GetAudioCodec() override { return audio_codec_; }
 
 };

@@ -2,13 +2,15 @@
  * ESP32-Cpp-Lesson
  * ESP32 C++ 教程，基于ESP32-Arduino-Framework应用开发框架。
  * 
+ * 本程序可不受限制的用于学习，商业用途请联系作者。
+ * 
  * 学习套件：https://www.xpstem.com/product/esp32-study-suit
  * Author: Billy Zhang（billy_zh@126.com）
  * 
- * Unit8-Lesson83：在网页上控制设备
+ * Unit8-Lesson82：Wifi热点与Web服务
  */
 #include "config.h"
-#if BOARD_LESSON83 == 1
+#if BOARD_LESSON82_A == 1
 
 #include <Arduino.h>
 #include <SPI.h>
@@ -31,11 +33,13 @@ MyBoard::MyBoard() : WifiBoard() {
     Log::Info(TAG, "initial led.");
     led_ = new GpioLed(BUILTIN_LED_PIN, false); // no pwm
 
+    InitDisplay();
+    
     Log::Info( TAG, "===== Board config completed. =====");
 }
 
 void MyBoard::InitDisplay() {
-    Log::Info( TAG, "Init ili9341 display ......" );
+    Log::Info( TAG, "Init tft display ......" );
     /**
      * 注意！！！
      * 请在TFT_eSPI库包内的User_Setup.h中配置引脚
