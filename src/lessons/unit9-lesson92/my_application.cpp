@@ -92,20 +92,14 @@ void MyApplication::HandleDefault() {
         return;
     }
 
-    String message = "URI: ";
-    message += webserver_->uri();
-    message += "\nMethod: ";
-    message += (webserver_->method() == HTTP_GET) ? "GET" : "POST";
-    message += "\n";
-    
-    webserver_->send(404, "text/plain", message.c_str());
-    Log::Warn(TAG, message.c_str());
+    webserver_->send(404, "text/plain", "File not found.");
+    Log::Warn(TAG, "%s not found", path.c_str());
 }
 
 void MyApplication::OutputFile(String path) {
     String dataType = "text/plain";
     if (path.endsWith("/")) {
-        path += "index.htm";
+        path += "index.html";
     }
 
     if (path.endsWith(".htm") || path.endsWith(".html")) {
