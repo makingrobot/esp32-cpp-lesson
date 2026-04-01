@@ -17,7 +17,7 @@ public:
     virtual uint32_t Read(int16_t* dest, uint32_t samples) = 0;
     virtual uint32_t Write(const int16_t* data, uint32_t samples) = 0;
     
-    virtual void SetOutputVolume(int volume) = 0;
+    virtual void SetOutputVolume(int volume) { output_volume_ = volume; }
     virtual void EnableInput(bool enable) { input_enabled_ = enable; }
     virtual void EnableOutput(bool enable) { output_enabled_ = enable; }
 

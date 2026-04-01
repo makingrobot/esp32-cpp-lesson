@@ -15,7 +15,8 @@
 #include <FS.h>
 #include "my_application.h"
 #include "src/framework/sys/log.h"
-#include "src/framework/board/wifi_board.h"
+#include "src/framework/board/board.h"
+#include "src/framework/display/display.h"
 #include "src/framework/audio/audio_pipe.h"
 #include "src/framework/audio/input/audio_i2s_input.h"
 #include "src/framework/audio/output/audio_file_output.h"
@@ -23,13 +24,7 @@
 #include "src/framework/audio/output/audio_encoder_output.h"
 #include "src/framework/audio/audio_codec.h"
 
-#include "my_board.h"
-
 #define TAG "MyApplication"
-
-static const IPAddress ap_ip(192,168,5,1);
-static const IPAddress ap_gateway(192,168,5,1);
-static const IPAddress ap_subnet(255,255,255,0);
 
 void* create_application() {
     return new MyApplication();
@@ -40,28 +35,48 @@ MyApplication::MyApplication() : Application() {
 }
 
 void MyApplication::OnInit() {
+    Display *display = Board::GetInstance().GetDisplay();
+    display->Rotate(1);
+
+    FileSystem *fsys = Board::GetInstance().GetFileSystem();
+    std::string filepath = "/1001.wav";
+
     // 音频处理流
     // I2sInput（麦克风输入） -> Encoder（编码） -> Buffer（缓存写入） -> FileOutput（输出到文件）
 
     // I2S输入
     AudioCodec *audio_codec = Board::GetInstance().GetAudioCodec();
     AudioI2sInput *input = new AudioI2sInput(audio_codec);
-    input->setSampleRate(44100);
-    input->setBitPerSample(16);
 
     // 文件输出
-    FS::File file;
-    AudioFileOutput *file_output = new AudioFileOutput(file);
-    AudioBufferOutput *buf_output = new AudioBufferOutput(file_output, 2048);
+    AudioFileOutput *file_output = new AudioFileOutput(fsys, filepath);
+    //AudioBufferOutput *buf_output = new AudioBufferOutput(file_output, 2048);
     // 编码输出
-    AudioEncoderOutput *output = new AudioEncoderOutput(buf_output, "wav");
+    AudioEncoderOutput *output = new AudioEncoderOutput(file_output, "wav");
 
     // 音频管道
-    AudioPipe *pipe = new AudioPipe();
+    pipe_ = new AudioPipe();
+
+    // 事件监听
+    pipe_->SetPipeListener([this](PipeAction action){
+        AudioCodec *codec = Board::GetInstance().GetAudioCodec();
+        if (action==PipeAction::Begin)
+        {
+            codec->EnableInput(true); // 使能输入
+        }
+        else if (action==PipeAction::Ended)
+        {
+            codec->EnableInput(false);
+        }
+        else if (action==PipeAction::Error)
+        {
+            Display *display = Board::GetInstance().GetDisplay();
+            display->GetWindow()->SetText(3, pipe_->last_error());
+        }
+    });
 
     // 启动管道
-    pipe->Start(input, output);
-    audio_codec->EnableInput(true); // 使能输入
+    pipe_->Start(input, output);
 }
 
 void MyApplication::OnLoop() {

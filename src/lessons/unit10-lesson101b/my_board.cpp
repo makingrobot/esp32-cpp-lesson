@@ -20,6 +20,7 @@
 #include "my_board.h"
 #include "src/framework/led/gpio_led.h"
 #include "src/framework/app/application.h"
+#include "src/framework/display/tft_display.h"
 #include "src/framework/audio/codec/audio_i2s_simplex.h"
 
 #define TAG "MY_BOARD"
@@ -34,9 +35,23 @@ MyBoard::MyBoard() : WifiBoard() {
     Log::Info(TAG, "initial led.");
     led_ = new GpioLed(BUILTIN_LED_PIN, false); // no pwm
 
+    InitDisplay();
     InitAudioCodec();
-    
+
     Log::Info( TAG, "===== Board config completed. =====");
+}
+
+void MyBoard::InitDisplay() {
+    Log::Info( TAG, "Init tft display ......" );
+    /**
+     * 注意！！！
+     * 请在TFT_eSPI库包内的User_Setup.h中配置引脚
+     */
+    TFT_eSPI *tft_espi = new TFT_eSPI(DISPLAY_WIDTH, DISPLAY_HEIGHT);
+    //tft_espi_->invertDisplay(DISPLAY_INVERT_COLOR);
+    
+    //u8g2_font_unifont_t_chinese2
+    display_ = new TftDisplay(tft_espi, DISPLAY_WIDTH, DISPLAY_HEIGHT);
 }
 
 void MyBoard::InitAudioCodec() {

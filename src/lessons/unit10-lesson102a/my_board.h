@@ -17,26 +17,29 @@
 
 #include <Arduino.h>
 
-#include "src/framework/board/wifi_board.h"
+#include "src/framework/board/board.h"
 #include "src/framework/led/led.h"
+#include "src/framework/display/display.h"
 #include "src/framework/file/file_system.h"
 #include "src/framework/audio/audio_codec.h"
 
-class MyBoard : public WifiBoard {
+class MyBoard : public Board {
 private:
     Led *led_ = nullptr;
+    Display *display_ = nullptr;
     FileSystem *filesystem_ = nullptr;
     AudioCodec *audio_codec_ = nullptr;
 
+    void InitDisplay();
     void InitFileSystem();
     void InitAudioCodec();
     
 public:
     MyBoard();
     Led* GetLed() override { return led_; }
+    Display* GetDisplay() override { return display_; }
     FileSystem* GetFileSystem() override { return filesystem_; }
     AudioCodec* GetAudioCodec() override { return audio_codec_; }
-
 };
 
 #endif //_MY_BOARD_H

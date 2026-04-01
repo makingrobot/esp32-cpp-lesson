@@ -126,11 +126,11 @@ ESP32 C++ 教程，基于ESP32-Arduino-Framework应用开发框架。
 ```
 
 ### Unit9 存储
-* 9-1 文件系统
+* [9-1 文件系统](https://www.xpstem.com/article/2000532)
 ```
   知识点：FileSystem类、Flash存储、SD卡、SPI协议
 ```
-* 9-2 文件系统应用
+* [9-2 文件系统应用](https://www.xpstem.com/article/2000533)
 ```
   知识点：Web服务与文件系统
 ```

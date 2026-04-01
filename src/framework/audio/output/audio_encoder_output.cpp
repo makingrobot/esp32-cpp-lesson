@@ -25,7 +25,7 @@ AudioEncoderOutput::~AudioEncoderOutput() {
 bool AudioEncoderOutput::Init() {
     bool ret = output_->Init();
     if (!ret) {
-        Log::Error(TAG, "output source init fail.");
+        Log::Error(TAG, "output init fail.");
         return false;
     }
 
@@ -54,7 +54,16 @@ bool AudioEncoderOutput::Init() {
 
 uint32_t AudioEncoderOutput::WriteSamples(const sample_data_t data) {
     // 编码处理
-    return 0;
+    
+    uint32_t len = output_->WriteSamples(data);
+    bytes_written += len;
+
+    return len;
+}
+
+bool AudioEncoderOutput::Stop()
+{
+    return output_->Stop();
 }
 
 #endif

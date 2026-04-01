@@ -16,17 +16,34 @@
 
 bool AudioFileOutput::Init() 
 {
-    return false;
+    Log::Info(TAG, "init...");
+    file_ = fsys_->OpenFile(filename_.c_str(), "w");
+    if (!file_)
+    {
+        Log::Warn(TAG, "file %s open failed.", filename_);
+        return false;
+    }
+
+    return true;
+}
+
+void AudioFileOutput::WriteHeader(const uint8_t data)
+{
+    //
 }
 
 uint32_t AudioFileOutput::WriteSamples(const sample_data_t data)
 {
-    return 0;
+    return file_.write((uint8_t*)(data.data), data.length*2);
 }
 
 bool AudioFileOutput::Stop() 
 {
-    return false;
+    if (!file_)
+        return false;
+
+    file_.close();
+    return true;
 }
 
 #endif //CONFIG_USE_AUDIO

@@ -20,6 +20,7 @@
 #include <string>
 #include <Arduino.h>
 #include "src/framework/app/application.h"
+#include "src/framework/audio/audio_pipe.h"
 
 class MyApplication : public Application {
 public:
@@ -33,7 +34,7 @@ protected:
     void OnLoop() override;
 
 private:
-    
+    AudioPipe *pipe_;
 };
 
 #endif //_MY_APPLICATION_H

@@ -18,8 +18,8 @@ class WavEncoder : public AudioEncoder
 public:
     WavEncoder();
     virtual ~WavEncoder();
-    bool Init() override;
-    bool Encode(const sample_data_t data) override;
+    virtual bool Init() override;
+    virtual bool Encode(const sample_data_t data) override;
     void SetBufferSize(int sz) { buffSize = sz; }
 
 private:

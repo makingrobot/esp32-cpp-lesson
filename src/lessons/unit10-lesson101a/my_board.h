@@ -19,21 +19,25 @@
 
 #include "src/framework/board/board.h"
 #include "src/framework/led/led.h"
+#include "src/framework/display/display.h"
 #include "src/framework/audio/audio_codec.h"
 #include "src/framework/file/file_system.h"
 
 class MyBoard : public Board {
 private:
     Led *led_ = nullptr;
+    Display *display_ = nullptr;
     AudioCodec *audio_codec_ = nullptr;
     FileSystem *filesystem_ = nullptr;
 
+    void InitDisplay();
     void InitAudioCodec();
     void InitFileSystem();
     
 public:
     MyBoard();
     Led* GetLed() override { return led_; }
+    Display* GetDisplay() override { return display_; }
     AudioCodec* GetAudioCodec() override { return audio_codec_; }
     FileSystem* GetFileSystem() override { return filesystem_; }
 

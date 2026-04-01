@@ -40,35 +40,52 @@ MyApplication::MyApplication() : Application() {
 }
 
 void MyApplication::OnInit() {
+    Display *display = Board::GetInstance().GetDisplay();
+    display->Rotate(1);
 
-    FileSystem *fs = Board::GetInstance().GetFileSystem();
-    //char *path = "/001.mp3";
-    char *path = "/001.wav";
-    if (!fs->ExistsFile(path)) {
-        Log::Warn(TAG, "file %s not found.", path);
+    FileSystem *fsys = Board::GetInstance().GetFileSystem();
+    std::string path = "/test.mp3";
+    //std::string path = "/test.wav";
+    if (!fsys->ExistsFile(path.c_str())) {
+        std::string msg = "file " + path + " not found.";
+        Log::Warn(TAG, msg.c_str());
+        display->GetWindow()->SetText(1, msg);
         return;
     }
+
+    display->GetWindow()->SetText(1, "Play file " + path);
 
     // 音频处理流
     // FileSource（文件源） -> Decoder（解码） -> I2sOutput（输出到喇叭）
 
     // 文件源
-    AudioFileSource *file_source = new AudioFileSource(fs, std::string(path));
+    AudioFileSource *file_source = new AudioFileSource(fsys, path);
 
     // 解码输入
-    //AudioDecoderInput *input = new AudioDecoderInput(file_source, "mp3");
-    AudioDecoderInput *input = new AudioDecoderInput(file_source, "wav");
+    AudioDecoderInput *input = new AudioDecoderInput(file_source, "mp3");
+    //AudioDecoderInput *input = new AudioDecoderInput(file_source, "wav");
 
     // I2S输出
     AudioCodec *audio_codec = Board::GetInstance().GetAudioCodec();
     AudioI2sOutput *output = new AudioI2sOutput(audio_codec);
 
     // 音频管道
-    AudioPipe *pipe = new AudioPipe();
+    pipe_ = new AudioPipe();
+
+    pipe_->SetPipeListener([](PipeAction action){
+        AudioCodec *codec = Board::GetInstance().GetAudioCodec();
+        if (action==PipeAction::Processing)
+        {
+            codec->EnableOutput(true); // 使能输出
+        }
+        else if (action==PipeAction::Ended)
+        {
+            codec->EnableOutput(false);
+        }
+    });
 
     // 启动管道
-    pipe->Start(input, output);
-    audio_codec->EnableOutput(true); // 使能输出
+    pipe_->Start(input, output);
 }
 
 void MyApplication::OnLoop() {

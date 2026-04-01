@@ -68,14 +68,9 @@ bool AudioDecoderInput::Init()
     return true;
 }
 
-bool AudioDecoderInput::Handle()
+sample_data_t AudioDecoderInput::Handle()
 {
     return decoder_->Decode();
-}
-
-sample_data_t AudioDecoderInput::GetSamples()
-{
-    return decoder_->samples();
 }
 
 bool AudioDecoderInput::isEOF()

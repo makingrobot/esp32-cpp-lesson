@@ -12,9 +12,12 @@
 
 #define BUILTIN_LED_PIN                     GPIO_NUM_4
 
-#define SPK_BCLK_PIN                        GPIO_NUM_17
-#define SPK_WS_PIN                          GPIO_NUM_18
-#define SPK_DOUT_PIN                        GPIO_NUM_48
+#define DISPLAY_WIDTH                       240
+#define DISPLAY_HEIGHT                      320
+
+#define SPK_BCLK_PIN                        GPIO_NUM_27
+#define SPK_WS_PIN                          GPIO_NUM_26
+#define SPK_DOUT_PIN                        GPIO_NUM_25
 
 
 #endif //_BOARD_CONFIG_H

@@ -18,8 +18,9 @@ class HelixMP3Decoder : public AudioDecoder
 public:
     HelixMP3Decoder(AudioSource *source);
     virtual ~HelixMP3Decoder();
-    bool Init() override;
-    bool Decode() override;
+    
+    virtual bool Init() override;
+    virtual sample_data_t Decode() override;
 
 private:
     bool FillBufferWithValidFrame(); // Read until we get a valid syncword and min(feof, 2048) butes in the buffer
@@ -35,7 +36,7 @@ private:
     // Output buffering
     int16_t outSample[1152 * 2]; // Interleaved L/R
     int16_t validSamples;
-    int16_t curSample;
+    //int16_t curSample;
 
     AudioSource *source_;
     

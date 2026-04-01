@@ -20,18 +20,17 @@ public:
     AudioI2sInput(AudioCodec *codec) : codec_(codec) {  }
     virtual ~AudioI2sInput() {  }
 
-    bool Init() override;
-    bool Handle() override;
-    bool Close() override;
-    bool isEOF() override;
-    sample_data_t GetSamples() override;
+    virtual bool Init() override;
+    virtual sample_data_t Handle() override;
+    virtual bool Close() override;
+    virtual bool isEOF() override;
 
-    const char* Tag() override { return "I2sInput"; };
+    virtual const char* Tag() override { return "I2sInput"; };
 
 private:
     AudioCodec *codec_;
-    int16_t samples_[2];
-    
+    int16_t samples_[128];
+    const uint32_t samples_len_ = 128;
 };
 
 #endif // _AUDIO_I2S_INPUT_H

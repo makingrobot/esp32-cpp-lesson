@@ -17,10 +17,13 @@ bool AudioI2sInput::Init()
     return true;
 }
 
-bool AudioI2sInput::Handle()
+sample_data_t AudioI2sInput::Handle()
 {
-    uint32_t bytes_read = codec_->Read(samples_, 2);
-    return true;
+    uint32_t bytes_read = codec_->Read(samples_, samples_len_);
+    sample_data_t temp{
+        .data = samples_,
+        .length = samples_len_};
+    return temp;
 }
 
 bool AudioI2sInput::Close()
@@ -31,14 +34,6 @@ bool AudioI2sInput::Close()
 bool AudioI2sInput::isEOF()
 {
     return false;
-}
-
-sample_data_t AudioI2sInput::GetSamples()
-{
-    sample_data_t temp{
-        .data = samples_,
-        .length = 2};
-    return temp;
 }
 
 #endif // CONFIG_USE_AUDIO

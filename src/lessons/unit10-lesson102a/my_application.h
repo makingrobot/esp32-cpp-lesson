@@ -20,20 +20,21 @@
 #include <string>
 #include <Arduino.h>
 #include "src/framework/app/application.h"
+#include "src/framework/audio/audio_pipe.h"
 
 class MyApplication : public Application {
 public:
     MyApplication();
     
-    const std::string& GetAppName() const override { return "Unit10-Lesson101"; }
-    const std::string& GetAppVersion() const override { return "1.0.0"; }
+    const std::string& GetAppName() const override { return PSTR("Unit10-Lesson101"); }
+    const std::string& GetAppVersion() const override { return PSTR("1.0.0"); }
 
 protected:
     void OnInit() override;
     void OnLoop() override;
 
 private:
-    
+    AudioPipe *pipe_;
 };
 
 #endif //_MY_APPLICATION_H

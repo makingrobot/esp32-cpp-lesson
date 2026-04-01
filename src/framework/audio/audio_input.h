@@ -19,9 +19,8 @@ class AudioInput {
 public:
     virtual bool Init() { return false; }
 
-    virtual bool Handle() = 0;
+    virtual sample_data_t Handle() = 0;
     virtual bool Close() = 0;
-    virtual sample_data_t GetSamples() = 0;
     virtual bool isEOF() = 0;
     virtual const char* Tag() = 0;
     

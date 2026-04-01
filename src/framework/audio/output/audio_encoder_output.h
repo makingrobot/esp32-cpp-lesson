@@ -22,15 +22,17 @@ public:
     AudioEncoderOutput(AudioOutput *output, const std::string& out_format);
     virtual ~AudioEncoderOutput();
 
-    bool Init() override;
-    uint32_t WriteSamples(const sample_data_t data) override;
-    const char* Tag() override { return "EncoderOutput"; };
+    virtual bool Init() override;
+    virtual uint32_t WriteSamples(const sample_data_t data) override;
+    virtual bool Stop() override;
+    virtual const char* Tag() override { return PSTR("EncoderOutput"); };
 
 private:
     AudioOutput *output_;
     AudioEncoder *encoder_;
     const std::string out_format_;
 
+    uint32_t bytes_written;
 };
 
 #endif // _AUDIO_I2S_OUTPUT_H

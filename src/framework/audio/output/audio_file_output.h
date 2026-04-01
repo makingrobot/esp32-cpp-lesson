@@ -9,24 +9,29 @@
 #ifndef _AUDIO_FILE_OUTPUT_H
 #define _AUDIO_FILE_OUTPUT_H
 
-#include <FS.h>
 #include "../audio_output.h"
+#include "src/framework/file/file_system.h"
 
 /**
  * 文件输出
  */
 class AudioFileOutput : public AudioOutput {
 public:
-    AudioFileOutput(fs::File &file) : file_(&file) {  }
-    virtual ~AudioFileOutput() { if (file_) file_->close(); }
+    AudioFileOutput(FileSystem *fsys, const std::string &filename) 
+        : fsys_(fsys), filename_(filename) {  }
+    virtual ~AudioFileOutput() { Stop(); }
 
-    bool Init() override;
-    uint32_t WriteSamples(const sample_data_t data) override;
-    bool Stop() override;
-    const char* Tag() override { return "FileOutput"; };
+    virtual bool Init() override;
+    virtual uint32_t WriteSamples(const sample_data_t data) override;
+    virtual bool Stop() override;
+    virtual const char* Tag() override { return PSTR("FileOutput"); };
+
+    void WriteHeader(const uint8_t data);
 
 private:
-    fs::File *file_;
+    FileSystem *fsys_;
+    const std::string filename_;
+    fs::File file_;
 
 };
 

@@ -26,6 +26,10 @@
 #define CONFIG_USE_LED_GPIO                 1
 #define CONFIG_USE_LED_WS2812               0
 
+// 显示相关
+#define CONFIG_USE_DISPLAY                  1
+#define CONFIG_USE_TFT_ESPI                 1
+
 // 音频设备驱动
 #define CONFIG_AUDIO_CODEC_ES8311           0
 #define CONFIG_AUDIO_CODEC_ES8388           0
