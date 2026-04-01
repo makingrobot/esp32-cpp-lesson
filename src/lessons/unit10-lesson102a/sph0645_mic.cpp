@@ -12,6 +12,8 @@
 
 bool Sph0645Mic::Init(const audio_config_t &config)
 {
+    AudioCodec::Init(config);
+    
     i2s_config_t i2s_config = {
         .mode = (i2s_mode_t)(I2S_MODE_MASTER | I2S_MODE_RX),
         .sample_rate = 48000,
@@ -42,6 +44,16 @@ bool Sph0645Mic::Init(const audio_config_t &config)
     Log::Info(TAG, "i2s channel initialize success.");
 
     return true;
+}
+
+audio_config_t Sph0645Mic::input_config() 
+{ 
+    audio_config_t temp{
+        rate = SAMPLE_RATE_48K,
+        bits = SAMPLE_BITS_16,
+        channels = CHANNELS_1
+    };
+    return temp; 
 }
 
 Sph0645Mic::~Sph0645Mic() 

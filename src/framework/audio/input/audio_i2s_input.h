@@ -26,6 +26,10 @@ public:
     virtual bool isEOF() override;
 
     virtual const char* Tag() override { return "I2sInput"; };
+    virtual audio_config_t audio_config() override 
+    {
+        return codec_->input_config();
+    }
 
 private:
     AudioCodec *codec_;

@@ -13,7 +13,10 @@
 
 class AudioCodec {
 public:
-    virtual bool Init(const audio_config_t &config) = 0;
+    virtual bool Init(const audio_config_t &config) 
+    {
+        audio_config_ = config;
+    }
     virtual uint32_t Read(int16_t* dest, uint32_t samples) = 0;
     virtual uint32_t Write(const int16_t* data, uint32_t samples) = 0;
     
@@ -21,9 +24,11 @@ public:
     virtual void EnableInput(bool enable) { input_enabled_ = enable; }
     virtual void EnableOutput(bool enable) { output_enabled_ = enable; }
 
+    virtual audio_config_t input_config() { return audio_config_; };
     const int output_volume() const { return output_volume_; }
 
 protected:
+    audio_config_t audio_config_;
     int output_volume_ = 30;  // 1-100;
     bool input_enabled_ = false;
     bool output_enabled_ = false;

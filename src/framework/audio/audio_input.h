@@ -24,8 +24,9 @@ public:
     virtual bool isEOF() = 0;
     virtual const char* Tag() = 0;
     
-    virtual void SetAudioConfig(const audio_config_t &config) { config_ = config; }
-
+    virtual void SetAudioConfig(const audio_config_t &config) { audio_config_ = config; }
+    virtual audio_config_t audio_config() { return audio_config_; }
+    
     virtual void SetMetadataCallback(AudioStatus::MetadataCallbackFn fn, void *data) {
         status.RegisterMetadataCallback(fn, Tag(), data);
     }
@@ -35,7 +36,7 @@ public:
     }
 
 protected:
-    audio_config_t config_ = {
+    audio_config_t audio_config_ = {
         .rate = SAMPLE_RATE_44K,
         .bits = SAMPLE_BITS_16,
         .channels = CHANNELS_2,

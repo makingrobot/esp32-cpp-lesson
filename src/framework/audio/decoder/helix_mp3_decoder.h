@@ -36,10 +36,11 @@ private:
     // Output buffering
     int16_t outSample[1152 * 2]; // Interleaved L/R
     int16_t validSamples;
-    //int16_t curSample;
+    int16_t curSample;
 
     AudioSource *source_;
     
+    int16_t samples_[2];
 };
 
 #endif //_MP3_HELIX_DECODER_H

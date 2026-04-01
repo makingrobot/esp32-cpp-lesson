@@ -13,7 +13,7 @@
 
 bool AudioI2sInput::Init()
 {
-    codec_->Init(config_);
+    codec_->Init(audio_config_);
     return true;
 }
 

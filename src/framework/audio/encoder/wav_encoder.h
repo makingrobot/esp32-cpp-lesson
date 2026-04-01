@@ -19,18 +19,10 @@ public:
     WavEncoder();
     virtual ~WavEncoder();
     virtual bool Init() override;
-    virtual bool Encode(const sample_data_t data) override;
-    void SetBufferSize(int sz) { buffSize = sz; }
+    virtual sample_data_t Encode(const sample_data_t data) override;
 
 private:
     
-    uint32_t availBytes;
-
-    // We need to buffer some data in-RAM to avoid doing 1000s of small reads
-    uint32_t buffSize;
-    uint8_t *buff;
-    uint16_t buffPtr;
-    uint16_t buffLen;
 };
 
 #endif //_WAV_ENCODER_H

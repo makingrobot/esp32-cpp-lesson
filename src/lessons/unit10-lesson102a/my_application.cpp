@@ -48,11 +48,8 @@ void MyApplication::OnInit() {
     AudioCodec *audio_codec = Board::GetInstance().GetAudioCodec();
     AudioI2sInput *input = new AudioI2sInput(audio_codec);
 
-    // 文件输出
-    AudioFileOutput *file_output = new AudioFileOutput(fsys, filepath);
-    //AudioBufferOutput *buf_output = new AudioBufferOutput(file_output, 2048);
     // 编码输出
-    AudioEncoderOutput *output = new AudioEncoderOutput(file_output, "wav");
+    AudioEncoderOutput *output = new AudioEncoderOutput(fsys, filepath, "wav");
 
     // 音频管道
     pipe_ = new AudioPipe();

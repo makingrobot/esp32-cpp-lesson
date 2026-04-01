@@ -13,19 +13,21 @@
 
 #define TAG "EncoderOutput"
 
-AudioEncoderOutput::AudioEncoderOutput(AudioOutput *output, const std::string& out_format) 
-    : output_(output), out_format_(out_format) {
+AudioEncoderOutput::AudioEncoderOutput(FileSystem *fsys, const std::string &filename, const std::string& out_format) 
+    : fsys_(fsys), filename_(filename), out_format_(out_format) {
 
 }
     
 AudioEncoderOutput::~AudioEncoderOutput() {
-
+    Stop();
 }
 
 bool AudioEncoderOutput::Init() {
-    bool ret = output_->Init();
-    if (!ret) {
-        Log::Error(TAG, "output init fail.");
+    Log::Info(TAG, "init...");
+    file_ = fsys_->OpenFile(filename_.c_str(), "w+");
+    if (!file_)
+    {
+        Log::Warn(TAG, "file %s open failed.", filename_);
         return false;
     }
 
@@ -43,27 +45,40 @@ bool AudioEncoderOutput::Init() {
         return false;
     }
 
-    ret = encoder_->Init();
+    bool ret = encoder_->Init();
     if (!ret) {
         Log::Error(TAG, "encoder init fail.");
         return false;
     }
 
+    //output_->WriteHeader(encoder_->);
+
     return true;
 }
 
 uint32_t AudioEncoderOutput::WriteSamples(const sample_data_t data) {
+
+    // 数据预处理
+    // TODO：是否要等待数据量足够后才能编码？
+
     // 编码处理
-    
-    uint32_t len = output_->WriteSamples(data);
-    bytes_written += len;
+    sample_data_t enc_data = encoder_->Encode(data);
+
+    // 写入文件
+    size_t len = file_.write((uint8_t*)(enc_data.data), enc_data.length*2);
+    data_length_ += len;
 
     return len;
 }
 
 bool AudioEncoderOutput::Stop()
 {
-    return output_->Stop();
+    //encoder_>GetHeaderData(data_length)
+    if (!file_)
+        return false;
+
+    file_.close();
+    return true;
 }
 
 #endif

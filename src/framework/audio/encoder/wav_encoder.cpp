@@ -9,18 +9,25 @@
 #include <Arduino.h>
 #include "wav_encoder.h"
 
+// Hardcoded simple WAV header with 0xffffffff lengths all around
+static const uint8_t HeaderTemplate[] PROGMEM = 
+{ 
+    0x52, 0x49, 0x46, 0x46, 0xff, 0xff, 0xff, 0xff, 
+    0x57, 0x41, 0x56, 0x45, 0x66, 0x6d, 0x74, 0x20, 
+    0x10, 0x00, 0x00, 0x00, 0x01, 0x00, 0x02, 0x00, 
+    0x22, 0x56, 0x00, 0x00, 0x88, 0x58, 0x01, 0x00, 
+    0x04, 0x00, 0x10, 0x00, 0x64, 0x61, 0x74, 0x61, 
+    0xff, 0xff, 0xff, 0xff 
+};
+
 WavEncoder::WavEncoder()
 {
-    buffSize = 128;
-    buff = NULL;
-    buffPtr = 0;
-    buffLen = 0;
+
 }
 
 WavEncoder::~WavEncoder()
 {
-    free(buff);
-    buff = NULL;
+
 }
 
 bool WavEncoder::Init()
@@ -28,9 +35,9 @@ bool WavEncoder::Init()
     return true;
 }
 
-bool WavEncoder::Encode(const sample_data_t data)
+sample_data_t WavEncoder::Encode(const sample_data_t data)
 {
-    return false;
+    return data;
 }
 
 #endif

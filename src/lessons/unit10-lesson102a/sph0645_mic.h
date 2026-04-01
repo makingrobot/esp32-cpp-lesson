@@ -40,6 +40,7 @@ public:
     virtual uint32_t Read(int16_t* dest, uint32_t samples) override;
     virtual uint32_t Write(const int16_t* data, uint32_t samples) override;
     
+    virtual audio_config_t input_config() override;
     virtual void EnableInput(bool enable) override { }
 
 private:
