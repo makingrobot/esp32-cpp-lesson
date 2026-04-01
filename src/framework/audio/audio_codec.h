@@ -16,7 +16,9 @@ public:
     virtual bool Init(const audio_config_t &config) 
     {
         audio_config_ = config;
+        return true;
     }
+    
     virtual uint32_t Read(int16_t* dest, uint32_t samples) = 0;
     virtual uint32_t Write(const int16_t* data, uint32_t samples) = 0;
     
@@ -24,7 +26,7 @@ public:
     virtual void EnableInput(bool enable) { input_enabled_ = enable; }
     virtual void EnableOutput(bool enable) { output_enabled_ = enable; }
 
-    virtual audio_config_t input_config() { return audio_config_; };
+    virtual audio_config_t audio_config() { return audio_config_; };
     const int output_volume() const { return output_volume_; }
 
 protected:

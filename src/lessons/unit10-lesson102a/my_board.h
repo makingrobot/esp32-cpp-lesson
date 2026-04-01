@@ -23,6 +23,8 @@
 #include "src/framework/file/file_system.h"
 #include "src/framework/audio/audio_codec.h"
 
+static const std::string kManualButton = "manual_button";
+
 class MyBoard : public Board {
 private:
     Led *led_ = nullptr;
@@ -40,6 +42,8 @@ public:
     Display* GetDisplay() override { return display_; }
     FileSystem* GetFileSystem() override { return filesystem_; }
     AudioCodec* GetAudioCodec() override { return audio_codec_; }
+
+    void ButtonTick();
 };
 
 #endif //_MY_BOARD_H

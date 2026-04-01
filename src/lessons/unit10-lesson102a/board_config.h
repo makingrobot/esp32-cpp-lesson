@@ -24,6 +24,7 @@
 #define MIC_WS_PIN                          GPIO_NUM_26
 #define MIC_DIN_PIN                         GPIO_NUM_27
 
+#define MANUAL_BUTTON_PIN                   GPIO_NUM_34
 
 #endif //_BOARD_CONFIG_H
 

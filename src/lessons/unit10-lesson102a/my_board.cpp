@@ -19,6 +19,7 @@
 #include "board_config.h"
 #include "my_board.h"
 #include "src/framework/led/gpio_led.h"
+#include "src/framework/board/onebutton_impl.h"
 #include "src/framework/app/application.h"
 #include "src/framework/display/tft_display.h"
 #include "sph0645_mic.h"
@@ -34,6 +35,10 @@ MyBoard::MyBoard() : Board() {
 
     Log::Info(TAG, "initial led.");
     led_ = new GpioLed(BUILTIN_LED_PIN, false); // no pwm
+
+    std::shared_ptr<Button> button1 = std::make_shared<OneButtonImpl>(kManualButton, MANUAL_BUTTON_PIN, false);
+    button1->BindAction(ButtonAction::DoubleClick);
+    AddButton(button1);
 
     InitDisplay();
     InitFileSystem();
@@ -75,6 +80,12 @@ void MyBoard::InitFileSystem() {
 void MyBoard::InitAudioCodec() {
     Log::Info(TAG, "initial audio codec.");
     audio_codec_ = new Sph0645Mic(MIC_BCLK_PIN, MIC_WS_PIN, MIC_DIN_PIN);
+}
+
+void MyBoard::ButtonTick() {
+    for (const auto& pair : button_map()) {
+        pair.second->Tick();
+    }
 }
 
 #endif 

@@ -21,6 +21,9 @@ public:
     virtual bool Init() override;
     virtual sample_data_t Encode(const sample_data_t data) override;
 
+    virtual uint16_t GetHeaderSize() const override { return 44; }
+    virtual void GetHeaderData(uint8_t *data, uint32_t data_len, audio_config_t config) const override;
+
 private:
     
 };

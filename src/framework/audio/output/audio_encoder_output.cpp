@@ -24,9 +24,13 @@ AudioEncoderOutput::~AudioEncoderOutput() {
 
 bool AudioEncoderOutput::Init() {
     Log::Info(TAG, "init...");
+    if (fsys_->ExistsFile(filename_.c_str()))
+    { // 存在就删除。
+        fsys_->DeleteFile(filename_.c_str());
+    }
     file_ = fsys_->OpenFile(filename_.c_str(), "w+");
     if (!file_)
-    {
+    { // 以写入方式打开文件
         Log::Warn(TAG, "file %s open failed.", filename_);
         return false;
     }
@@ -51,7 +55,9 @@ bool AudioEncoderOutput::Init() {
         return false;
     }
 
-    //output_->WriteHeader(encoder_->);
+    uint8_t header[encoder_->GetHeaderSize()];
+    memset(header, 0, sizeof(header));
+    file_.write(header, sizeof(header));
 
     return true;
 }
@@ -66,16 +72,32 @@ uint32_t AudioEncoderOutput::WriteSamples(const sample_data_t data) {
 
     // 写入文件
     size_t len = file_.write((uint8_t*)(enc_data.data), enc_data.length*2);
-    data_length_ += len;
+    // for (int i=0; i<(uint8_t)config_.channels; i++) {
+    //     if ((uint8_t)config_.bits == 8) {
+    //         uint8_t l = data.data[i] & 0xff;
+    //         file_->write(&l, sizeof(l));
+    //     } else {
+    //         uint8_t l = data.data[i] & 0xff;
+    //         uint8_t h = (data.data[i] >> 8) & 0xff;
+    //         file_->write(&l, sizeof(l));
+    //         file_->write(&h, sizeof(h));
+    //     }
+    // }
 
     return len;
 }
 
 bool AudioEncoderOutput::Stop()
 {
-    //encoder_>GetHeaderData(data_length)
     if (!file_)
         return false;
+
+    uint8_t header[encoder_->GetHeaderSize()];
+    encoder_->GetHeaderData(header, file_.size(), config_);
+
+    // Write real header out
+    file_.seek(0, SeekSet);
+    file_.write(header, sizeof(header));
 
     file_.close();
     return true;

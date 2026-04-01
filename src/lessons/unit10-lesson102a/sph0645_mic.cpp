@@ -46,16 +46,6 @@ bool Sph0645Mic::Init(const audio_config_t &config)
     return true;
 }
 
-audio_config_t Sph0645Mic::input_config() 
-{ 
-    audio_config_t temp{
-        rate = SAMPLE_RATE_48K,
-        bits = SAMPLE_BITS_16,
-        channels = CHANNELS_1
-    };
-    return temp; 
-}
-
 Sph0645Mic::~Sph0645Mic() 
 {
 

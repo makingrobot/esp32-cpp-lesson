@@ -26,6 +26,8 @@ class MyApplication : public Application {
 public:
     MyApplication();
     
+    bool OnPhysicalButtonEvent(const std::string& button_name, const ButtonAction action) override;
+    
     const std::string& GetAppName() const override { return PSTR("Unit10-Lesson101"); }
     const std::string& GetAppVersion() const override { return PSTR("1.0.0"); }
 
@@ -35,6 +37,9 @@ protected:
 
 private:
     AudioPipe *pipe_;
+
+    int info_count_ = 0;
+    std::string info_text_[2] = { "......", "      " };
 };
 
 #endif //_MY_APPLICATION_H
