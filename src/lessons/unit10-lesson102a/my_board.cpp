@@ -22,7 +22,7 @@
 #include "src/framework/board/onebutton_impl.h"
 #include "src/framework/app/application.h"
 #include "src/framework/display/tft_display.h"
-#include "sph0645_mic.h"
+#include "audio_i2s_sph0645.h"
 
 #define TAG "MY_BOARD"
 
@@ -74,12 +74,12 @@ void MyBoard::InitFileSystem() {
     filesystem_->setType("SD");
 
     Log::Info(TAG, "init filesystem, type: %s, totalbytes: %ld, freebytes: %ld", 
-            filesystem_->type(), filesystem_->totalBytes(), filesystem_->freeBytes());
+            filesystem_->type().c_str(), filesystem_->totalBytes(), filesystem_->freeBytes());
 }
 
 void MyBoard::InitAudioCodec() {
     Log::Info(TAG, "initial audio codec.");
-    audio_codec_ = new Sph0645Mic(MIC_BCLK_PIN, MIC_WS_PIN, MIC_DIN_PIN);
+    audio_codec_ = new AudioI2sSph0645(MIC_BCLK_PIN, MIC_WS_PIN, MIC_DIN_PIN);
 }
 
 void MyBoard::ButtonTick() {

@@ -23,7 +23,10 @@ WavDecoder::WavDecoder(AudioSource *source, uint16_t buf_size)
 
 WavDecoder::~WavDecoder()
 {
-  free(buff);
+  if (buff != NULL)
+  {
+    free(buff);
+  }
   buff = NULL;
 }
 

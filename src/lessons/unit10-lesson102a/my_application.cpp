@@ -39,32 +39,33 @@ void MyApplication::OnInit() {
     display->Rotate(1);
 
     FileSystem *fsys = Board::GetInstance().GetFileSystem();
-    std::string filepath = "/1001.wav";
+    std::string filepath = "/test001.wav";
 
-    display->GetWindow()->SetText(1, "Recording to file " + filepath);
+    display->GetWindow()->SetText(1, "Recording to file: " + filepath);
 
     // 音频处理流
     // I2sInput（麦克风输入） -> Encoder（编码） -> Buffer（缓存写入） -> FileOutput（输出到文件）
 
+    uint16_t samples_msec = 500; // 0.5s
+
     // I2S输入
     AudioCodec *audio_codec = Board::GetInstance().GetAudioCodec();
-    AudioI2sInput *input = new AudioI2sInput(audio_codec);
-    audio_config_t mic_config = {
-        .rate = SAMPLE_RATE_48K,
-        .bits = SAMPLE_BITS_16,
-        .channels = CHANNELS_1
-    };
-    input->SetAudioConfig(mic_config);
+    AudioI2sInput *input = new AudioI2sInput(audio_codec, samples_msec);
 
     // 编码输出
     AudioEncoderOutput *output = new AudioEncoderOutput(fsys, filepath, "wav");
-    output->SetAudioConfig(mic_config);
+    audio_config_t output_config = {
+        .rate = SAMPLE_RATE_16K,
+        .bits = SAMPLE_BITS_16,   // 32bit -> 16bit
+        .channels = CHANNELS_1
+    };
+    output->SetAudioConfig(output_config);
 
     // 音频管道
     pipe_ = new AudioPipe();
 
     // 事件监听
-    pipe_->SetPipeListener([this](PipeAction action){
+    pipe_->SetPipeListener([this,input](PipeAction action){
         AudioCodec *codec = Board::GetInstance().GetAudioCodec();
         if (action==PipeAction::Begin)
         {
@@ -73,26 +74,32 @@ void MyApplication::OnInit() {
         else if (action==PipeAction::Ended)
         {
             codec->EnableInput(false);
+            Display *display = Board::GetInstance().GetDisplay();
+            display->GetWindow()->SetText(3, "Record msec: " + std::to_string(input->duration_ms()));
+            display->GetWindow()->SetText(4, "Audio pipe ended.");
         }
         else if (action==PipeAction::Processing) 
         {
+            Log::Info(TAG, "audio processing...");
+
             info_count_++;
-            if (info_count_ % 1000 == 0) 
+            if (info_count_ % 10 == 0) 
             {  // 取整
-                int n = (info_count_ / 1000) % 2;
+                int n = (info_count_ / 10) % 2;
                 Display *display = Board::GetInstance().GetDisplay();
-                display->GetWindow()->SetText(2, info_text_[n]);
+                display->GetWindow()->SetText(3, info_text_[n]);
             }
         }
         else if (action==PipeAction::Error)
         {
             Display *display = Board::GetInstance().GetDisplay();
-            display->GetWindow()->SetText(3, pipe_->last_error());
+            display->GetWindow()->SetText(4, pipe_->last_error());
         }
     });
 
     // 启动管道
     pipe_->Start(input, output);
+    Log::Info(TAG, "Audio pipe started.");
 }
 
 void MyApplication::OnLoop() {

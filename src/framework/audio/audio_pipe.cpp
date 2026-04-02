@@ -146,8 +146,11 @@ void AudioPipe::Execute()
 
 void AudioPipe::Stop()
 {
-    output_->Stop();
     running_ = false;
+    delay(1000); // 等待1s
+
+    output_->Close();
+    input_->Close();
 }
 
 void AudioPipe::MetadataCallback(const char *tag, const char *type, const char *text)

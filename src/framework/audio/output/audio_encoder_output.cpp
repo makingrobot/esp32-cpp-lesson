@@ -19,7 +19,7 @@ AudioEncoderOutput::AudioEncoderOutput(FileSystem *fsys, const std::string &file
 }
     
 AudioEncoderOutput::~AudioEncoderOutput() {
-    Stop();
+    Close();
 }
 
 bool AudioEncoderOutput::Init() {
@@ -27,6 +27,7 @@ bool AudioEncoderOutput::Init() {
     if (fsys_->ExistsFile(filename_.c_str()))
     { // 存在就删除。
         fsys_->DeleteFile(filename_.c_str());
+        Log::Info(TAG, "File %s deleted.", filename_.c_str());
     }
     file_ = fsys_->OpenFile(filename_.c_str(), "w+");
     if (!file_)
@@ -55,9 +56,10 @@ bool AudioEncoderOutput::Init() {
         return false;
     }
 
-    uint8_t header[encoder_->GetHeaderSize()];
-    memset(header, 0, sizeof(header));
-    file_.write(header, sizeof(header));
+    uint16_t head_size = encoder_->GetHeaderSize();
+    uint8_t header[head_size];
+    memset(header, 0, head_size);
+    file_.write(header, head_size);
 
     return true;
 }
@@ -72,34 +74,28 @@ uint32_t AudioEncoderOutput::WriteSamples(const sample_data_t data) {
 
     // 写入文件
     size_t len = file_.write((uint8_t*)(enc_data.data), enc_data.length*2);
-    // for (int i=0; i<(uint8_t)config_.channels; i++) {
-    //     if ((uint8_t)config_.bits == 8) {
-    //         uint8_t l = data.data[i] & 0xff;
-    //         file_->write(&l, sizeof(l));
-    //     } else {
-    //         uint8_t l = data.data[i] & 0xff;
-    //         uint8_t h = (data.data[i] >> 8) & 0xff;
-    //         file_->write(&l, sizeof(l));
-    //         file_->write(&h, sizeof(h));
-    //     }
-    // }
 
     return len;
 }
 
-bool AudioEncoderOutput::Stop()
+bool AudioEncoderOutput::Close()
 {
     if (!file_)
         return false;
 
-    uint8_t header[encoder_->GetHeaderSize()];
-    encoder_->GetHeaderData(header, file_.size(), config_);
+    Log::Info(TAG, "encode config: format:%s, rate:%lu, bits:%lu, channels:%lu", 
+                    out_format_.c_str(), (uint32_t)config_.rate, (uint8_t)config_.bits, (uint8_t)config_.channels);
+
+    uint16_t head_size = encoder_->GetHeaderSize();
+    uint8_t header[head_size];
+    encoder_->GetHeaderData(header, file_.size()-head_size, config_);
 
     // Write real header out
     file_.seek(0, SeekSet);
-    file_.write(header, sizeof(header));
-
+    file_.write(header, head_size);
     file_.close();
+
+    Log::Info(TAG, "Output %s size: %d", filename_.c_str(), file_.size());
     return true;
 }
 

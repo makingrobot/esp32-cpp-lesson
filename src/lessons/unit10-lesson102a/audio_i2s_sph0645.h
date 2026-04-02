@@ -12,14 +12,14 @@
 #include "config.h"
 #if BOARD_LESSON102_A == 1
 
-#ifndef _SPH0645_MIC_H
-#define _SPH0645_MIC_H
+#ifndef _AUDIO_I2S_SPH0645_H
+#define _AUDIO_I2S_SPH0645_H
 
 #include <driver/gpio.h>
-#include "src/framework/audio/audio_codec.h"
+#include "src/framework/audio/codec/audio_i2s_simplex.h"
 
 /**
- * SPH0645 MEMS麦克风
+ * SPH0645 I2S MEMS麦克风
  * 
  * SPH0645LM4H 工作在 Slave 模式
  * 典型的配置参数如下：
@@ -28,28 +28,22 @@
  * 声道：单声道（Mono）
  * 数据格式：左对齐 或 标准 I2S 
  */
-class Sph0645Mic : public AudioCodec {
+class AudioI2sSph0645 : public AudioI2sSimplex {
 public:
-    Sph0645Mic(gpio_num_t mic_sck, gpio_num_t mic_ws, gpio_num_t mic_din, gpio_num_t mclk=GPIO_NUM_NC) 
-        :bclk_pin_(mic_sck), ws_pin_(mic_ws), data_pin_(mic_din), mclk_pin_(mclk)
-    { 
+    AudioI2sSph0645(gpio_num_t mic_sck, gpio_num_t mic_ws, gpio_num_t mic_din, gpio_num_t mclk=GPIO_NUM_NC) 
+    {  
+        i2s_driver_ = new I2sDriver();
+        i2s_driver_->setPins(mic_sck, mic_ws, -1, mic_din, mclk);
     }
-    virtual ~Sph0645Mic();
 
     virtual bool Init(const audio_config_t &config) override;
-    virtual uint32_t Read(int16_t* dest, uint32_t samples) override;
-    virtual uint32_t Write(const int16_t* data, uint32_t samples) override;
-    
-    virtual void EnableInput(bool enable) override { }
+    virtual audio_config_t audio_config() override;
+    virtual void EnableOutput(bool enable) override {  }
 
 private:
-    gpio_num_t bclk_pin_; 
-    gpio_num_t ws_pin_; 
-    gpio_num_t data_pin_; 
-    gpio_num_t mclk_pin_;
 
 };
 
-#endif // _SPH0645_MIC_H
+#endif // _AUDIO_I2S_SPH0645_H
 
 #endif

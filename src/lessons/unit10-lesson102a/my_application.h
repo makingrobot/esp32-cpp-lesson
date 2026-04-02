@@ -39,7 +39,7 @@ private:
     AudioPipe *pipe_;
 
     int info_count_ = 0;
-    std::string info_text_[2] = { "......", "      " };
+    std::string info_text_[2] = { "Recording......", "Recording.       " };
 };
 
 #endif //_MY_APPLICATION_H

@@ -25,13 +25,8 @@ public:
 
     virtual bool Init() override;
     virtual uint32_t WriteSamples(const sample_data_t data) override;
-    virtual bool Stop() override;
+    virtual bool Close() override;
     virtual const char* Tag() override { return PSTR("EncoderOutput"); };
-
-    void SetAudioConfig(audio_config_t config) 
-    {
-        audio_config_ = config;
-    }
 
 private:
     AudioEncoder *encoder_;
@@ -41,7 +36,6 @@ private:
     fs::File file_;
     const std::string out_format_;
 
-    audio_config_t audio_config_;
 };
 
 #endif // _AUDIO_I2S_OUTPUT_H
