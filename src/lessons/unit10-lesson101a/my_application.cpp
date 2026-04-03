@@ -19,7 +19,7 @@
 #include "src/framework/audio/audio_pipe.h"
 #include "src/framework/audio/source/audio_file_source.h"
 #include "src/framework/audio/source/audio_buffer_source.h"
-#include "src/framework/audio/input/audio_decoder_input.h"
+#include "src/framework/audio/input/audio_decode_input.h"
 #include "src/framework/audio/output/audio_i2s_output.h"
 #include "src/framework/audio/audio_codec.h"
 
@@ -58,8 +58,8 @@ void MyApplication::OnInit() {
     AudioFileSource *file_source = new AudioFileSource(fsys, path);
 
     // 解码输入
-    AudioDecoderInput *input = new AudioDecoderInput(file_source, "mp3");
-    //AudioDecoderInput *input = new AudioDecoderInput(file_source, "wav");
+    AudioDecodeInput *input = new AudioDecodeInput(file_source, "mp3");
+    //AudioDecodeInput *input = new AudioDecodeInput(file_source, "wav");
 
     // I2S输出
     AudioCodec *audio_codec = Board::GetInstance().GetAudioCodec();

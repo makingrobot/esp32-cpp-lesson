@@ -20,7 +20,7 @@
 #include "src/framework/audio/audio_pipe.h"
 #include "src/framework/audio/input/audio_i2s_input.h"
 #include "src/framework/audio/output/audio_buffer_output.h"
-#include "src/framework/audio/output/audio_encoder_output.h"
+#include "src/framework/audio/output/audio_encode_output.h"
 #include "src/framework/audio/audio_codec.h"
 #include "my_board.h"
 
@@ -53,7 +53,7 @@ void MyApplication::OnInit() {
     AudioI2sInput *input = new AudioI2sInput(audio_codec, samples_msec);
 
     // 编码输出
-    AudioEncoderOutput *output = new AudioEncoderOutput(fsys, filepath, "wav");
+    AudioEncodeOutput *output = new AudioEncodeOutput(fsys, filepath, "wav");
     audio_config_t output_config = {
         .rate = SAMPLE_RATE_16K,
         .bits = SAMPLE_BITS_16,   // 32bit -> 16bit
