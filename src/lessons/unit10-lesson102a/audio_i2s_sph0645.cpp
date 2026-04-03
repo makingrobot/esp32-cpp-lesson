@@ -35,9 +35,12 @@ bool AudioI2sSph0645::Init(const audio_config_t &config)
 audio_config_t AudioI2sSph0645::audio_config() 
 {
     audio_config_t cfg = {
-        .rate = (sample_rate_t)i2s_driver_->rxSampleRate(),
-        .bits = (sample_bits_t)i2s_driver_->rxDataWidth(),
-        .channels = (channels_t)i2s_driver_->rxSlotMode()
+        .input_rate = (sample_rate_t)16000,
+        .input_bits = (sample_bits_t)32,
+        .input_channels = (channels_t)1,
+        .output_rate = (sample_rate_t)i2s_driver_->rxSampleRate(),
+        .output_bits = (sample_bits_t)i2s_driver_->rxDataWidth(),
+        .output_channels = (channels_t)i2s_driver_->rxSlotMode()
     };
     return cfg;
 }

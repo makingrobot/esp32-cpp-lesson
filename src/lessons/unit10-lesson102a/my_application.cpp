@@ -55,9 +55,9 @@ void MyApplication::OnInit() {
     // 编码输出
     AudioEncodeOutput *output = new AudioEncodeOutput(fsys, filepath, "wav");
     audio_config_t output_config = {
-        .rate = SAMPLE_RATE_16K,
-        .bits = SAMPLE_BITS_16,   // 32bit -> 16bit
-        .channels = CHANNELS_1
+        .output_rate = SAMPLE_RATE_16K,
+        .output_bits = SAMPLE_BITS_16,   // 32bit -> 16bit
+        .output_channels = CHANNELS_1
     };
     output->SetAudioConfig(output_config);
 

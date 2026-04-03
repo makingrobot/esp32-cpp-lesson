@@ -84,7 +84,7 @@ bool AudioEncodeOutput::Close()
         return false;
 
     Log::Info(TAG, "encode config: format:%s, rate:%lu, bits:%lu, channels:%lu", 
-                    out_format_.c_str(), (uint32_t)config_.rate, (uint8_t)config_.bits, (uint8_t)config_.channels);
+                    out_format_.c_str(), (uint32_t)config_.output_rate, (uint8_t)config_.output_bits, (uint8_t)config_.output_channels);
 
     uint16_t head_size = encoder_->GetHeaderSize();
     uint8_t header[head_size];
