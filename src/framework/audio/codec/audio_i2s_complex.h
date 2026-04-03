@@ -29,8 +29,8 @@ public:
     bool Init(const audio_config_t &config, const audio_config_t &in_config);
 
 private:
-    AudioI2sSimplexSpeaker *speaker_;
-    AudioI2sSimplexMic *mic_;
+    AudioI2sSimplex *speaker_;
+    AudioI2sSimplex *mic_;
 
 };
 

@@ -27,10 +27,6 @@
 
 #define TAG "MyApplication"
 
-static const IPAddress ap_ip(192,168,5,1);
-static const IPAddress ap_gateway(192,168,5,1);
-static const IPAddress ap_subnet(255,255,255,0);
-
 void* create_application() {
     return new MyApplication();
 }

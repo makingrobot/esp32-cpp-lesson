@@ -7,7 +7,7 @@
 #ifndef _CONFIG_H
 #define _CONFIG_H
 
-#define APP_LESSON92       1
+#define APP_LESSON102_A       1
 
 /********** Unit1 **********/
 #if APP_LESSON11 ==1

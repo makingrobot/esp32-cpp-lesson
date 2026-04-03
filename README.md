@@ -136,12 +136,12 @@ ESP32 C++ 教程，基于ESP32-Arduino-Framework应用开发框架。
 ```
 
 ### Unit10 音频
-* 10-1 音频播放
+* [10-1 音频播放](https://www.xpstem.com/article/2000535)
 ```
   知识点：音频处理、I2S协议、DAC数模转换、音频解码
 ```
 
-* 10-2 音频录制
+* [10-2 音频录制](https://www.xpstem.com/article/2000537)
 ```
   知识点：ADC模数转换、音频编码
 ```

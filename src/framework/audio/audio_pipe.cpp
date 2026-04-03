@@ -141,7 +141,6 @@ void AudioPipe::Execute()
     }
 
     Log::Info(TAG, "handle end.");
-    
 }
 
 void AudioPipe::Stop()

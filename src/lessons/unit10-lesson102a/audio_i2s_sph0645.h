@@ -23,18 +23,14 @@
  * 
  * SPH0645LM4H 工作在 Slave 模式
  * 典型的配置参数如下：
- * 采样率：48 kHz（覆盖人声主要频段）
+ * 采样率：16 kHz（覆盖人声主要频段）
  * 位深：24-bit（有效数据），传输用 32-bit 对齐
  * 声道：单声道（Mono）
  * 数据格式：左对齐 或 标准 I2S 
  */
 class AudioI2sSph0645 : public AudioI2sSimplex {
 public:
-    AudioI2sSph0645(gpio_num_t mic_sck, gpio_num_t mic_ws, gpio_num_t mic_din, gpio_num_t mclk=GPIO_NUM_NC) 
-    {  
-        i2s_driver_ = new I2sDriver();
-        i2s_driver_->setPins(mic_sck, mic_ws, -1, mic_din, mclk);
-    }
+    AudioI2sSph0645(gpio_num_t mic_sck, gpio_num_t mic_ws, gpio_num_t mic_din, gpio_num_t mclk=GPIO_NUM_NC);
 
     virtual bool Init(const audio_config_t &config) override;
     virtual audio_config_t audio_config() override;

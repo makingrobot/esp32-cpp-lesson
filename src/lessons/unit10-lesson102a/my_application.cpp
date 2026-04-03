@@ -44,7 +44,7 @@ void MyApplication::OnInit() {
     display->GetWindow()->SetText(1, "Recording to file: " + filepath);
 
     // 音频处理流
-    // I2sInput（麦克风输入） -> Encoder（编码） -> Buffer（缓存写入） -> FileOutput（输出到文件）
+    // I2sInput（麦克风输入） -> Encoder（编码） -> FileOutput（输出到文件）
 
     uint16_t samples_msec = 500; // 0.5s
 
