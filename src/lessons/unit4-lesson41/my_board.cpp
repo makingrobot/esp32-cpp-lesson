@@ -10,7 +10,7 @@
  * Unit4-Lesson41：触摸传感器
  */
 #include "config.h"
-#if BOARD_LESSON41 == 1
+#if APP_LESSON41 == 1
 
 #include "board_config.h"
 #include "my_board.h"

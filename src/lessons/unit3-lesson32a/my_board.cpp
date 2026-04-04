@@ -10,7 +10,7 @@
  * Unit3-Lesson32：触摸输入
  */
 #include "config.h"
-#if BOARD_LESSON32_A == 1
+#if APP_LESSON32_A == 1
 
 #include "board_config.h"
 #include "my_board.h"

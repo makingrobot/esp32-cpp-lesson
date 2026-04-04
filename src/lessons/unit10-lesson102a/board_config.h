@@ -1,5 +1,5 @@
 #include "board_def.h"
-#if BOARD_LESSON102_A == 1
+#if APP_LESSON102_A == 1
 
 #ifndef _BOARD_CONFIG_H
 #define _BOARD_CONFIG_H

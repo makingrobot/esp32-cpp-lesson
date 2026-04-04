@@ -10,7 +10,7 @@
  * Unit8-Lesson82：Wifi热点与Web服务
  */
 #include "config.h"
-#if BOARD_LESSON82_A == 1
+#if APP_LESSON82_A == 1
 
 #ifndef _MY_BOARD_H
 #define _MY_BOARD_H

@@ -10,7 +10,7 @@
  * Unit9-Lesson92：文件系统应用
  */
 #include "config.h"
-#if BOARD_LESSON92 == 1
+#if APP_LESSON92 == 1
 
 #include <Arduino.h>
 #include <Wire.h>

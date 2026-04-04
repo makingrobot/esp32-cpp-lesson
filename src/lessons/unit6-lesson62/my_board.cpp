@@ -10,7 +10,7 @@
  * Unit6-Lesson62：FreeRTOS多任务
  */
 #include "config.h"
-#if BOARD_LESSON62 == 1
+#if APP_LESSON62 == 1
 
 #include "board_config.h"
 #include "my_board.h"

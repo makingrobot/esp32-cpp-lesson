@@ -10,7 +10,7 @@
  * Unit4-Lesson42b：温湿度传感器
  */
 #include "config.h"
-#if BOARD_LESSON42_B == 1
+#if APP_LESSON42_B == 1
 
 #ifndef _MY_BOARD_H
 #define _MY_BOARD_H

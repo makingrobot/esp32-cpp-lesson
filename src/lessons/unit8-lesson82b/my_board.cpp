@@ -10,7 +10,7 @@
  * Unit8-Lesson82：在网页上控制设备
  */
 #include "config.h"
-#if BOARD_LESSON82_B == 1
+#if APP_LESSON82_B == 1
 
 #include <Arduino.h>
 #include <SPI.h>

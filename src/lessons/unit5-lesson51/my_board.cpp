@@ -10,7 +10,7 @@
  * Unit5-Lesson51：继电器
  */
 #include "config.h"
-#if BOARD_LESSON51 == 1
+#if APP_LESSON51 == 1
 
 #include "board_config.h"
 #include "my_board.h"

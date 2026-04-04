@@ -66,7 +66,7 @@ AnalogSensor::AnalogSensor(const std::string& name, gpio_num_t pin) : Sensor(nam
 }
 
 bool AnalogSensor::ReadValue() {
-    sensor_val_->setIntValue(analogRead(sensor_pin_));
+    sensor_val_->SetIntValue(analogRead(sensor_pin_));
     return true;
 }
 
@@ -76,6 +76,6 @@ DigitalSensor::DigitalSensor(const std::string& name, gpio_num_t pin) : Sensor(n
 }
 
 bool DigitalSensor::ReadValue() {
-    sensor_val_->setIntValue(digitalRead(sensor_pin_));
+    sensor_val_->SetIntValue(digitalRead(sensor_pin_));
     return false;
 }

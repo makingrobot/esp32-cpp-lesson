@@ -10,7 +10,7 @@
  * Unit10-Lesson102：音频录制
  */
 #include "config.h"
-#if BOARD_LESSON102_A == 1
+#if APP_LESSON102_A == 1
 
 #include <Arduino.h>
 #include <Wire.h>

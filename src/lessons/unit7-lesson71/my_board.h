@@ -10,7 +10,7 @@
  * Unit7-Lesson71：四段7位数码管
  */
 #include "config.h"
-#if BOARD_LESSON71 == 1
+#if APP_LESSON71 == 1
 
 #ifndef _MY_BOARD_H
 #define _MY_BOARD_H

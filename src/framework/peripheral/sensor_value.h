@@ -13,13 +13,13 @@
 class SensorValue {
 public:
     const int intValue() const { return int_val_; }
-    void setIntValue(int int_val) { int_val_ = int_val; }
+    void SetIntValue(int int_val) { int_val_ = int_val; }
     
     const int floatValue() const { return float_val_; }
-    void setFloatValue(int float_val) { float_val_ = float_val; }
+    void SetFloatValue(int float_val) { float_val_ = float_val; }
     
-    const uint32_t ulongValue() const { return ulong_val_; }
-    void setUlongValue(uint32_t ulong_val) { ulong_val_ = ulong_val; }
+    const uint32 ulongValue() const { return ulong_val_; }
+    void SetUlongValue(uint32_t ulong_val) { ulong_val_ = ulong_val; }
 
 private:
     int int_val_;

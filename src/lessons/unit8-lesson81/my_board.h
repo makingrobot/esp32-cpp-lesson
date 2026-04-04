@@ -10,7 +10,7 @@
  * Unit8-Lesson81：WiFi连接和HTTP请求
  */
 #include "config.h"
-#if BOARD_LESSON81 == 1
+#if APP_LESSON81 == 1
 
 #ifndef _MY_BOARD_H
 #define _MY_BOARD_H

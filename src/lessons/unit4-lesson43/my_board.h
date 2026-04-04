@@ -10,7 +10,7 @@
  * Unit4-Lesson43：红外遥控
  */
 #include "config.h"
-#if BOARD_LESSON43 == 1
+#if APP_LESSON43 == 1
 
 #ifndef _MY_BOARD_H
 #define _MY_BOARD_H

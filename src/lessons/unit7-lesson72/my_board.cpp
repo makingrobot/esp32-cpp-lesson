@@ -10,7 +10,7 @@
  * Unit7-Lesson72：OLED显示屏
  */
 #include "config.h"
-#if BOARD_LESSON72 == 1
+#if APP_LESSON72 == 1
 
 #include <Arduino.h>
 #include <U8g2lib.h>

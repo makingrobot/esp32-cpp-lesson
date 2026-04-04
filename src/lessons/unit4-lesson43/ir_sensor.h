@@ -11,7 +11,7 @@
  * Unit4-Lesson43：红外遥控
  */
 #include "config.h"
-#if BOARD_LESSON43==1
+#if APP_LESSON43==1
 
 #ifndef _IR_SENSOR_H
 #define _IR_SENSOR_H
@@ -32,7 +32,7 @@ public:
         
         if (ir_recv_->decode()) {
             struct IRData *pIrData = &ir_recv_->decodedIRData;
-            sensor_val_->setUlongValue(pIrData->decodedRawData);
+            sensor_val_->SetUlongValue(pIrData->decodedRawData);
 
             ir_recv_->resume();
 

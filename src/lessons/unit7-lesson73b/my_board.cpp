@@ -10,7 +10,7 @@
  * Unit7-Lesson73：TFT-LCD显示屏
  */
 #include "config.h"
-#if BOARD_LESSON73_B == 1
+#if APP_LESSON73_B == 1
 
 #include <Arduino.h>
 #include <SPI.h>

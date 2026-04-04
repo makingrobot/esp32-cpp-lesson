@@ -10,7 +10,7 @@
  * Unit6-Lesson64：资源互斥访问
  */
 #include "config.h"
-#if BOARD_LESSON64_A == 1
+#if APP_LESSON64_A == 1
 
 #ifndef _MY_BOARD_H
 #define _MY_BOARD_H

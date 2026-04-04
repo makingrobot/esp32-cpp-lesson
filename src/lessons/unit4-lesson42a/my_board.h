@@ -10,7 +10,7 @@
  * Unit4-Lesson42a：旋转电位器
  */
 #include "config.h"
-#if BOARD_LESSON42_A == 1
+#if APP_LESSON42_A == 1
 
 #ifndef _MY_BOARD_H
 #define _MY_BOARD_H

@@ -10,7 +10,7 @@
  * Unit9-Lesson91：文件系统
  */
 #include "config.h"
-#if BOARD_LESSON91_B == 1
+#if APP_LESSON91_B == 1
 
 #include <Wire.h>
 #include <SD.h>

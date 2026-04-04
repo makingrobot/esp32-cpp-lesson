@@ -10,7 +10,7 @@
  * Unit2-Lesson21：三色LED
  */
 #include "config.h"
-#if BOARD_LESSON21_A == 1
+#if APP_LESSON21_A == 1
 
 #include "board_config.h"
 #include "my_board.h"

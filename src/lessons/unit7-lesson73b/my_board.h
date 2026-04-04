@@ -10,7 +10,7 @@
  * Unit7-Lesson73_A：TFT-LCD显示屏
  */
 #include "config.h"
-#if BOARD_LESSON73_B == 1
+#if APP_LESSON73_B == 1
 
 #ifndef _MY_BOARD_H
 #define _MY_BOARD_H

@@ -10,7 +10,7 @@
  * Unit2-Lesson22：Ws2812灯条
  */
 #include "config.h"
-#if BOARD_LESSON22_B == 1
+#if APP_LESSON22_B == 1
 
 #ifndef _MY_BOARD_H
 #define _MY_BOARD_H

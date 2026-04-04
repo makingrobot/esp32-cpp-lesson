@@ -10,7 +10,7 @@
  * Unit10-Lesson101：音频输出
  */
 #include "config.h"
-#if BOARD_LESSON101_B == 1
+#if APP_LESSON101_B == 1
 
 #include <Arduino.h>
 #include <Wire.h>

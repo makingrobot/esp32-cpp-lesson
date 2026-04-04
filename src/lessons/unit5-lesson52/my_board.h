@@ -10,7 +10,7 @@
  * Unit5-Lesson51：舵机控制
  */
 #include "config.h"
-#if BOARD_LESSON52 == 1
+#if APP_LESSON52 == 1
 
 #ifndef _MY_BOARD_H
 #define _MY_BOARD_H

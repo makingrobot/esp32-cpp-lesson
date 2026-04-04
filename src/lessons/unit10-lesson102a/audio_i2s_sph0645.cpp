@@ -1,5 +1,5 @@
 #include "config.h"
-#if BOARD_LESSON102_A == 1
+#if APP_LESSON102_A == 1
 
 #include "audio_i2s_sph0645.h"
 

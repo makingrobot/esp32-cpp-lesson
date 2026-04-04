@@ -10,7 +10,7 @@
  * Unit3-Lesson31：按键
  */
 #include "config.h"
-#if BOARD_LESSON31 == 1
+#if APP_LESSON31 == 1
 
 #include "board_config.h"
 #include "my_board.h"

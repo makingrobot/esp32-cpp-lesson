@@ -53,8 +53,8 @@ bool MyApplication::OnSensorDataEvent(const std::string& sensor_name, const Sens
     // 处理传感器数据
     if (sensor_name == kIrSensor) {
         
-        Log::Info(TAG, "ir code: %02X", value.ulongValue());
-        ir_code_ = value.ulongValue();
+        Log::Info(TAG, "ir code: %02X", value.uint64Value());
+        ir_code_ = value.uint64Value();
         return true;
     }
 

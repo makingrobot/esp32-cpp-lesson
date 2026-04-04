@@ -8,7 +8,7 @@
  * Author: Billy Zhang（billy_zh@126.com）
  */
 #include "config.h"
-#if BOARD_LESSON13 == 1
+#if APP_LESSON13 == 1
 
 #include "board_config.h"
 #include "my_board.h"

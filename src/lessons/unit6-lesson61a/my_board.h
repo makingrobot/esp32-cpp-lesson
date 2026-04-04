@@ -10,7 +10,7 @@
  * Unit6-Lesson61a：定时器
  */
 #include "config.h"
-#if BOARD_LESSON61_A == 1
+#if APP_LESSON61_A == 1
 
 #ifndef _MY_BOARD_H
 #define _MY_BOARD_H
