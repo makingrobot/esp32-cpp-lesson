@@ -9,23 +9,7 @@
 #ifndef _AUDIO_FILTER_H
 #define _AUDIO_FILTER_H
 
-#include "audio_status.h"
 #include "audio_common.h"
-
-class FilterResponse {
-public:
-    FilterResponse(bool success, const sample_data_t data)
-        : success_(success), data_(data)
-    {
-    }
-
-    bool IsSuccess() { return success_; }
-    sample_data_t data() { return data_; }
-
-private:
-    bool success_;
-    sample_data_t data_;
-};
 
 /**
  * 音频过滤基类
@@ -37,7 +21,7 @@ private:
  */
 class AudioFilter {
 public:
-    virtual FilterResponse* DoFilter(const sample_data_t data) = 0;
+    virtual bool DoFilter(const sample_data_t &in_data, sample_data_t &out_data) = 0;
     
 };
 

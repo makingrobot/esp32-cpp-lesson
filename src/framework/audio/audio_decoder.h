@@ -18,7 +18,7 @@ class AudioDecoder
 {
 public:
     virtual bool Init() { return false; }
-    virtual sample_data_t Decode() = 0;
+    virtual bool Decode(sample_data_t &data) = 0;
 
     bool isEOF() { return eof_; }
     uint16_t channels() const { return channels_; }

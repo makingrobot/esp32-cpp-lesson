@@ -23,20 +23,15 @@ public:
     virtual ~AudioDecodeInput();
 
     virtual bool Init() override;
-    virtual sample_data_t Handle() override;
+    virtual bool Handle(sample_data_t& data) override;
     virtual bool Close() override;
     virtual bool isEOF() override;
 
     virtual const char* Tag() override { return "DecoderInput"; };
     
-    virtual void SetMetadataCallback(AudioStatus::MetadataCallbackFn fn, void *data) override {
-        status.RegisterMetadataCallback(fn, Tag(), data);
-        source_->SetMetadataCallback(fn, data);
-    }
-
-    virtual void SetStatusCallback(AudioStatus::StatusCallbackFn fn, void *data) override { 
-        status.RegisterStatusCallback(fn, Tag(), data);
-        source_->SetStatusCallback(fn, data);
+    virtual void SetAudioListener(std::shared_ptr<AudioListener> listener) override {
+        audio_listener_ = listener;
+        source_->SetAudioListener(listener);
     }
 
 private:

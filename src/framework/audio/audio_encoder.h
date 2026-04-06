@@ -18,7 +18,7 @@
 class AudioEncoder {
 public:
     virtual bool Init() { return false; }
-    virtual sample_data_t Encode(const sample_data_t data) = 0;
+    virtual bool Encode(const sample_data_t &data, sample_data_t &out_data) = 0;
     
     virtual uint16_t GetHeaderSize() const = 0;
     virtual void GetHeaderData(uint8_t *data, uint32_t data_len, audio_config_t config) const = 0;

@@ -6,14 +6,18 @@
 #include "config.h"
 #if CONFIG_USE_AUDIO==1
 
-#ifndef _AUDIO_PIPE_H
-#define _AUDIO_PIPE_H
+#ifndef _AUDIO_ASYNC_PIPE_H
+#define _AUDIO_ASYNC_PIPE_H
 
 #include <functional>
 #include <string>
+#include <deque>
 #include <vector>
 #include <memory>
 #include <freertos/FreeRTOS.h>
+
+#include "../sys/mutex.h"
+#include "../sys/semaphore.h"
 
 #include "audio_common.h"
 #include "audio_input.h"
@@ -22,14 +26,11 @@
 #include "audio_listener.h"
 
 /**
- * 音频管道
+ * 音频异步管道
  */
-class AudioPipe {
+class AudioAsyncPipe {
 public:
-    AudioPipe() 
-    { 
-        audio_listener_ = std::make_shared<AudioListener>();
-    }
+    AudioAsyncPipe();
 
     virtual void Start(AudioInput *input,  AudioOutput *output);
     virtual void Stop();
@@ -46,13 +47,14 @@ public:
         pipe_listener_ = listener;
     }
 
-    void SetAudioListener(std::shared_ptr<AudioListener> audio_listener)
+    void SetAudioListener(std::shared_ptr<AudioListener> listener)
     {
-        audio_listener_ = audio_listener;
+        audio_listener_ = listener;
     }
 
 protected:
-    void Execute();
+    void InputTask();
+    void OutputTask();
     
 private:
     volatile bool running_;
@@ -60,13 +62,17 @@ private:
     AudioInput *input_ = nullptr;
     AudioOutput *output_ = nullptr;
 
-    TaskHandle_t task_handle_;
+    TaskHandle_t audio_in_handle_;
+    TaskHandle_t audio_out_handle_;
     
+    std::deque<sample_data_t> audio_data_queue_; //音频数据队列
+    Mutex *audio_data_mutex_; //操作音频数据队列时的锁
+    Semaphore *audio_data_semaphore_; //音频数据信号量
+
     std::string last_error_ = "";
 
     std::vector<AudioFilter*> filter_list_;
     std::function<void(PipeAction)> pipe_listener_;
-
     std::shared_ptr<AudioListener> audio_listener_;
 };
 

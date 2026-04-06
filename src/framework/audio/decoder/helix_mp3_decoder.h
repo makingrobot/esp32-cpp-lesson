@@ -6,8 +6,8 @@
 #include "config.h"
 #if CONFIG_AUDIO_CODER_MP3==1
 
-#ifndef _MP3_HELIX_DECODER_H
-#define _MP3_HELIX_DECODER_H
+#ifndef _HELIX_MP3_DECODER_H
+#define _HELIX_MP3_DECODER_H
 
 #include "../audio_decoder.h"
 #include "../audio_source.h"
@@ -20,7 +20,7 @@ public:
     virtual ~HelixMP3Decoder();
     
     virtual bool Init() override;
-    virtual sample_data_t Decode() override;
+    virtual bool Decode(sample_data_t &data) override;
 
 private:
     bool FillBufferWithValidFrame(); // Read until we get a valid syncword and min(feof, 2048) butes in the buffer
@@ -43,6 +43,6 @@ private:
     int16_t samples_[2];
 };
 
-#endif //_MP3_HELIX_DECODER_H
+#endif //_HELIX_MP3_DECODER_H
 
 #endif

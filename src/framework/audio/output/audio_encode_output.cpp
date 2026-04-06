@@ -64,17 +64,20 @@ bool AudioEncodeOutput::Init() {
     return true;
 }
 
-uint32_t AudioEncodeOutput::WriteSamples(const sample_data_t data) {
+uint32_t AudioEncodeOutput::WriteSamples(const sample_data_t &data) {
 
     // 数据预处理
     // TODO：是否要等待数据量足够后才能编码？
 
     // 编码处理
-    sample_data_t enc_data = encoder_->Encode(data);
-
+    sample_data_t enc_data;
+    if (!encoder_->Encode(data, enc_data))
+    {
+        return 0;
+    }
+    
     // 写入文件
-    size_t len = file_.write((uint8_t*)(enc_data.data), enc_data.length*2);
-
+    size_t len = file_.write((uint8_t*)(enc_data.samples.data()), enc_data.length*2);
     return len;
 }
 

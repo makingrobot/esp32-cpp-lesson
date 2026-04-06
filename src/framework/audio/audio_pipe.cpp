@@ -13,7 +13,6 @@
 
 void AudioPipe::Start(AudioInput *input, AudioOutput *output)
 {
-
     input_ = input;
     output_ = output;
 
@@ -35,18 +34,6 @@ void AudioPipe::Start(AudioInput *input, AudioOutput *output)
         tskIDLE_PRIORITY + 1, /* 任务优先级 UBaseType_t */
         &task_handle_         /* 任务句柄指针 TaskHandle_t* */
     );
-}
-
-void _MetadataCallback(const char *tag, const char *type, const char *text, void *data)
-{
-    AudioPipe *pipe = (AudioPipe *)data;
-    pipe->MetadataCallback(tag, type, text);
-}
-
-void _StatusCallback(const char *tag, int code, const char *text, void *data)
-{
-    AudioPipe *pipe = (AudioPipe *)data;
-    pipe->StatusCallback(tag, code, text);
 }
 
 void AudioPipe::Execute()
@@ -76,10 +63,8 @@ void AudioPipe::Execute()
         return;
     }
 
-    input_->SetMetadataCallback(_MetadataCallback, this);
-    input_->SetStatusCallback(_StatusCallback, this);
-
-    output_->SetStatusCallback(_StatusCallback, this);
+    input_->SetAudioListener(audio_listener_);
+    output_->SetAudioListener(audio_listener_);
 
     if (pipe_listener_) 
     {
@@ -98,29 +83,36 @@ void AudioPipe::Execute()
             pipe_listener_(PipeAction::Processing);
         }
     
-        sample_data_t samples = input_->Handle();
-        if (samples.length==0) 
+        sample_data_t input_data;
+        if (!input_->Handle(input_data)) 
         { // 无数据
             continue;
         }
 
-        if (input_data_listener_) {
-            input_data_listener_(samples);
-        }
+        audio_listener_->OnDataInput(input_data);
 
+        // move data
+        sample_data_t filter_data = {
+            .samples = std::move(input_data.samples),
+            .length = input_data.length
+        };
         // 数据过滤
-        sample_data_t filter_data = samples;
         if (filter_list_.size() > 0)
         {
             bool success = true;
             for (AudioFilter *item : filter_list_)
             {
-                FilterResponse *response = item->DoFilter(filter_data);
-                if (!response->IsSuccess()) 
+                sample_data_t out_data;
+                if (!item->DoFilter(filter_data, out_data)) 
                 {
                     success = false;
                     break;
                 }
+                // move data.
+                filter_data = {
+                    .samples = std::move(out_data.samples),
+                    .length = out_data.length
+                };
             }
             if (!success) 
             {
@@ -128,9 +120,8 @@ void AudioPipe::Execute()
             }
         }
 
-        if (output_data_listener_) {
-            output_data_listener_(filter_data);
-        }
+        audio_listener_->OnDataOutput(filter_data);
+
         // 输出
         output_->WriteSamples(filter_data);
     }
@@ -150,16 +141,6 @@ void AudioPipe::Stop()
 
     output_->Close();
     input_->Close();
-}
-
-void AudioPipe::MetadataCallback(const char *tag, const char *type, const char *text)
-{
-    Log::Info(tag, "Metadata: %s = %s", type, text);
-}
-
-void AudioPipe::StatusCallback(const char *tag, int code, const char *text)
-{
-    Log::Info(tag, "Status(%d): %s", code, text);
 }
 
 #endif

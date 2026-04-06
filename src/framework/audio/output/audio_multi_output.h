@@ -22,7 +22,7 @@ public:
     virtual ~AudioMultiOutput() {  }
 
     bool Init() override;
-    uint32_t WriteSamples(const sample_data_t data) override;
+    uint32_t WriteSamples(const sample_data_t &data) override;
     bool Close() override;
     const char* Tag() override { return "MultiOutput"; };
 

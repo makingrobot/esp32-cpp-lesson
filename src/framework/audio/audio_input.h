@@ -9,8 +9,9 @@
 #ifndef _AUDIO_INPUT_H
 #define _AUDIO_INPUT_H
 
-#include "audio_status.h"
+#include <memory>
 #include "audio_common.h"
+#include "audio_listener.h"
 
 /**
  * 音频输入基类
@@ -19,7 +20,7 @@ class AudioInput {
 public:
     virtual bool Init() { return false; }
 
-    virtual sample_data_t Handle() = 0;
+    virtual bool Handle(sample_data_t &data) = 0;
     virtual bool Close() = 0;
     virtual bool isEOF() = 0;
     virtual const char* Tag() = 0;
@@ -27,12 +28,8 @@ public:
     virtual void SetAudioConfig(const audio_config_t &config) { audio_config_ = config; }
     virtual audio_config_t audio_config() { return audio_config_; }
     
-    virtual void SetMetadataCallback(AudioStatus::MetadataCallbackFn fn, void *data) {
-        status.RegisterMetadataCallback(fn, Tag(), data);
-    }
-
-    virtual void SetStatusCallback(AudioStatus::StatusCallbackFn fn, void *data) { 
-        status.RegisterStatusCallback(fn, Tag(), data);
+    virtual void SetAudioListener(std::shared_ptr<AudioListener> listener) {
+        audio_listener_ = listener;
     }
 
 protected:
@@ -42,8 +39,8 @@ protected:
         .input_channels = CHANNELS_2,
     };
 
-    AudioStatus status;
-    
+    std::shared_ptr<AudioListener> audio_listener_;
+
 };
 
 #endif // _AUDIO_INPUT_H

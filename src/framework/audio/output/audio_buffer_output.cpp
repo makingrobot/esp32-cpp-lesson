@@ -34,7 +34,7 @@ bool AudioBufferOutput::Close()
     return output->Close();
 }
 
-uint32_t AudioBufferOutput::WriteSamples(const sample_data_t data)
+uint32_t AudioBufferOutput::WriteSamples(const sample_data_t &data)
 {
     // First, try and fill I2S...
     // if (filled) {

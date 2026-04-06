@@ -18,7 +18,7 @@ public:
     const int floatValue() const { return float_val_; }
     void SetFloatValue(int float_val) { float_val_ = float_val; }
     
-    const uint32 ulongValue() const { return ulong_val_; }
+    const uint32_t ulongValue() const { return ulong_val_; }
     void SetUlongValue(uint32_t ulong_val) { ulong_val_ = ulong_val; }
 
 private:

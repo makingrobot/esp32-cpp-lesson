@@ -11,7 +11,6 @@
 
 #include "../audio_encoder.h"
 #include "../audio_source.h"
-#include "../audio_status.h"
 
 class WavEncoder : public AudioEncoder
 {
@@ -19,7 +18,7 @@ public:
     WavEncoder();
     virtual ~WavEncoder();
     virtual bool Init() override;
-    virtual sample_data_t Encode(const sample_data_t data) override;
+    virtual bool Encode(const sample_data_t &data, sample_data_t &out_data) override;
 
     virtual uint16_t GetHeaderSize() const override { return 44; }
     virtual void GetHeaderData(uint8_t *data, uint32_t data_len, audio_config_t config) const override;

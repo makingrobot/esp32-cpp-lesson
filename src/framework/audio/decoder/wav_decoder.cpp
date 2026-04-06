@@ -49,10 +49,10 @@ bool WavDecoder::Init()
   return true;
 }
 
-sample_data_t WavDecoder::Decode()
+bool WavDecoder::Decode(sample_data_t &data)
 {
   if (eof_)
-    return EMPTY_SAMPLE_DATA;
+    return false;
 
   // Try and stuff the buffer one sample at a time
   if (bitsPerSample_ == 8)
@@ -72,8 +72,10 @@ sample_data_t WavDecoder::Decode()
     samples_[0] = l;
     samples_[1] = r;
 
-    sample_data_t data{samples_, samples_len_};
-    return data;
+    data.length = 2;
+    data.samples.push_back(samples_[0]);
+    data.samples.push_back(samples_[1]);
+    return true;
   }
   else if (bitsPerSample_ == 16)
   {
@@ -88,11 +90,13 @@ sample_data_t WavDecoder::Decode()
     {
       samples_[1] = 0;
     }
-    sample_data_t data{samples_, samples_len_};
-    return data;
+    data.length = 2;
+    data.samples.push_back(samples_[0]);
+    data.samples.push_back(samples_[1]);
+    return true;
   }
 
-  return EMPTY_SAMPLE_DATA;
+  return false;
 }
 
 // Handle buffered reading, reload each time we run out of data

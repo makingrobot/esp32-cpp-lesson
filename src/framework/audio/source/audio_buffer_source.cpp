@@ -17,7 +17,9 @@ AudioBufferSource::AudioBufferSource(AudioSource *source, uint32_t buff_size)
 {
     buffer = (uint8_t *)malloc(sizeof(uint8_t) * buffSize);
     if (!buffer)
-        Serial.printf_P(PSTR("Unable to allocate AudioBufferSource::buffer[]\n"));
+    {
+        Log::Warn(TAG, PSTR("Unable to allocate AudioBufferSource::buffer[]"));
+    }
     deallocateBuffer = true;
     writePtr = 0;
     readPtr = 0;
@@ -58,7 +60,7 @@ uint32_t AudioBufferSource::Read(uint8_t *data, uint32_t len)
     if (!filled)
     {
         // Fill up completely before returning any data at all
-        status.StatusCB(STATUS_FILLING, PSTR("Refilling buffer"));
+        audio_listener_->OnStatus(TAG, STATUS_FILLING, PSTR("Refilling buffer"));
         length = source_->Read(buffer, buffSize);
         writePtr = length % buffSize;
         filled = true;
@@ -98,7 +100,7 @@ uint32_t AudioBufferSource::Read(uint8_t *data, uint32_t len)
         writePtr = 0;
         length = 0;
         filled = false;
-        status.StatusCB(STATUS_UNDERFLOW, PSTR("Buffer underflow"));
+        audio_listener_->OnStatus(TAG, STATUS_UNDERFLOW, PSTR("Buffer underflow"));
     }
 
     Fill();

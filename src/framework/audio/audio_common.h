@@ -10,6 +10,7 @@
 #define _AUDIO_COMMON_H
 
 #include <cstdint>
+#include <vector>
 
 #define AUDIO_CODEC_DMA_DESC_NUM 6
 #define AUDIO_CODEC_DMA_FRAME_NUM 240
@@ -82,11 +83,17 @@ typedef struct
 
 typedef struct
 {
-    int16_t *data;
+    std::vector<int16_t> samples;
     uint32_t length;
 } sample_data_t;
 
-const sample_data_t EMPTY_SAMPLE_DATA{nullptr, 0};
+
+enum PipeAction {
+    Begin,
+    Processing,
+    Ended,
+    Error = 9,
+};
 
 #endif
 

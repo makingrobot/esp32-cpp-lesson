@@ -36,7 +36,7 @@ bool AudioHttpStreamSource::Open()
     int code = http_.GET();
     if (code != HTTP_CODE_OK) {
         http_.end();
-        status.StatusCB(STATUS_HTTPFAIL, PSTR("Can't open HTTP request"));
+        audio_listener_->OnStatus(TAG, STATUS_HTTPFAIL, PSTR("Can't open HTTP request"));
         Log::Warn(TAG, "Can't open url %s, status code: %d", audio_url_.c_str(), code);
         return false;
     }
@@ -48,21 +48,21 @@ uint32_t AudioHttpStreamSource::Read(uint8_t *data, uint32_t len)
 {
 retry_label:
     if (!http_.connected()) {
-        status.StatusCB(STATUS_DISCONNECTED, PSTR("Stream disconnected"));
+        audio_listener_->OnStatus(TAG, STATUS_DISCONNECTED, PSTR("Stream disconnected"));
         http_.end();
 
         for (int i = 0; i < retry_times_; i++) {
             char buff[64];
             sprintf_P(buff, PSTR("Attempting to reconnect, try %d"), i);
-            status.StatusCB(STATUS_RECONNECTING, buff);
+            audio_listener_->OnStatus(TAG, STATUS_RECONNECTING, buff);
             delay(retry_delayms_);
             if (Open()) {
-                status.StatusCB(STATUS_RECONNECTED, PSTR("Stream reconnected"));
+                audio_listener_->OnStatus(TAG, STATUS_RECONNECTED, PSTR("Stream reconnected"));
                 break;
             }
         }
         if (!http_.connected()) {
-            status.StatusCB(STATUS_DISCONNECTED, PSTR("Unable to reconnect"));
+            audio_listener_->OnStatus(TAG, STATUS_DISCONNECTED, PSTR("Unable to reconnect"));
             return 0;
         }
     }
@@ -87,7 +87,7 @@ retry_label:
 
     size_t avail = stream->available();
     if (!avail) {
-        status.StatusCB(STATUS_NODATA, PSTR("No stream data available"));
+        audio_listener_->OnStatus(TAG, STATUS_NODATA, PSTR("No stream data available"));
         http_.end();
         goto retry_label;
     }

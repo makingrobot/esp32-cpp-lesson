@@ -36,15 +36,23 @@ bool AudioI2sInput::Init()
     return true;
 }
 
-sample_data_t AudioI2sInput::Handle()
+bool AudioI2sInput::Handle(sample_data_t& data)
 {
     uint32_t bytes_read = codec_->Read(samples_buf_, buff_len_ / 2);
     duration_msec_ += samples_msec_;
 
-    sample_data_t temp{
-        .data = samples_buf_,
-        .length = buff_len_ / 2};
-    return temp;
+    if (bytes_read == 0)
+    {
+        return false;
+    }
+    
+    data.length = buff_len_ / 2;
+    for (int i=0; i<data.length; i++)
+    {
+        data.samples.push_back(samples_buf_[i]);
+    }
+
+    return true;
 }
 
 bool AudioI2sInput::Close()

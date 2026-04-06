@@ -21,7 +21,7 @@ public:
     virtual ~AudioI2sInput() {  Close(); }
 
     virtual bool Init() override;
-    virtual sample_data_t Handle() override;
+    virtual bool Handle(sample_data_t& data) override;
     virtual bool Close() override;
     virtual bool isEOF() override;
 

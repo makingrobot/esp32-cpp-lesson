@@ -25,9 +25,11 @@ bool WavEncoder::Init()
     return true;
 }
 
-sample_data_t WavEncoder::Encode(const sample_data_t data)
+bool WavEncoder::Encode(const sample_data_t &data, sample_data_t &out_data)
 {
-    return data;
+    out_data.length = data.length;
+    out_data.samples = data.samples;
+    return true;
 }
 
 void WavEncoder::GetHeaderData(uint8_t *header, uint32_t data_len, audio_config_t config) const

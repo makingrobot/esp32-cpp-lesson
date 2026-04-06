@@ -9,7 +9,8 @@
 #ifndef _AUDIO_SOURCE_H
 #define _AUDIO_SOURCE_H
 
-#include "audio_status.h"
+#include <memory>
+#include "audio_listener.h"
 
 /**
  * 音频源基类
@@ -25,21 +26,15 @@ public:
     virtual size_t GetPosition() { return 0; }
     virtual size_t GetSize() { return 0; }
 
-    AudioStatus* Status() { return &status; }
-
-    virtual void SetMetadataCallback(AudioStatus::MetadataCallbackFn fn, void *data) {
-        status.RegisterMetadataCallback(fn, Tag(), data);
-    }
-
-    virtual void SetStatusCallback(AudioStatus::StatusCallbackFn fn, void *data) { 
-        status.RegisterStatusCallback(fn, Tag(), data);
+    virtual void SetAudioListener(std::shared_ptr<AudioListener> listener) {
+        audio_listener_ = listener;
     }
 
 protected:
-    AudioStatus status;
+    std::shared_ptr<AudioListener> audio_listener_;
 
 };
 
 #endif // _AUDIO_SOURCE_H
 
-#endif //CONFIG_USE_AUDIO
+#endif

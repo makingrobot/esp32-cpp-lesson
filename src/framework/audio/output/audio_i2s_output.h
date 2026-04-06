@@ -22,7 +22,7 @@ public:
     virtual ~AudioI2sOutput() { };
 
     virtual bool Init() override;
-    virtual uint32_t WriteSamples(const sample_data_t data) override;
+    virtual uint32_t WriteSamples(const sample_data_t &data) override;
     virtual const char* Tag() override { return "I2sOutput"; };
 
 private:

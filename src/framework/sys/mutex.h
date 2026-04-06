@@ -13,7 +13,6 @@ class Mutex {
 public:
     virtual bool Lock(int timeout_ms) = 0;
     virtual void Unlock() = 0;
-
 };
 
 class MutexGuard {
@@ -24,6 +23,17 @@ public:
         {
             Log::Error("Mutex", "Failed to lock mutex");
         }
+    }
+    
+    bool UnLock() 
+    {
+        if (is_locked_) 
+        {
+            mutex_->Unlock();
+            is_locked_ = false;
+            return true;
+        }
+        return false;
     }
 
     ~MutexGuard() {

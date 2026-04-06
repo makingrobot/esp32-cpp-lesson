@@ -24,7 +24,7 @@ public:
     virtual ~AudioEncodeOutput();
 
     virtual bool Init() override;
-    virtual uint32_t WriteSamples(const sample_data_t data) override;
+    virtual uint32_t WriteSamples(const sample_data_t &data) override;
     virtual bool Close() override;
     virtual const char* Tag() override { return PSTR("EncoderOutput"); };
 

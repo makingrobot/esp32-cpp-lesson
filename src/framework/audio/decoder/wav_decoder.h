@@ -11,7 +11,6 @@
 
 #include "../audio_decoder.h"
 #include "../audio_source.h"
-#include "../audio_status.h"
 
 class WavDecoder : public AudioDecoder
 {
@@ -19,7 +18,7 @@ public:
     WavDecoder(AudioSource *source, uint16_t buf_size);
     virtual ~WavDecoder();
     virtual bool Init() override;
-    virtual sample_data_t Decode() override;
+    virtual bool Decode(sample_data_t &data) override;
     void SetBufferSize(int sz) { buffSize = sz; }
 
 private:

@@ -9,8 +9,9 @@
 #ifndef _AUDIO_OUTPUT_H
 #define _AUDIO_OUTPUT_H
 
+#include <memory>
 #include "audio_common.h"
-#include "audio_status.h"
+#include "audio_listener.h"
 
 /**
  * 音频输出基类
@@ -18,18 +19,14 @@
 class AudioOutput {
 public:
     virtual bool Init() { return false; }
-    virtual uint32_t WriteSamples(const sample_data_t data) = 0;
+    virtual uint32_t WriteSamples(const sample_data_t &data) = 0;
     virtual bool Close() { return false; }
     virtual const char* Tag() = 0;
 
     virtual void SetAudioConfig(const audio_config_t &config) { config_ = config; }
 
-    void SetMetadataCallback(AudioStatus::MetadataCallbackFn fn, void *data) {
-        status.RegisterMetadataCallback(fn, Tag(), data);
-    }
-
-    void SetStatusCallback(AudioStatus::StatusCallbackFn fn, void *data) { 
-        status.RegisterStatusCallback(fn, Tag(), data);
+    virtual void SetAudioListener(std::shared_ptr<AudioListener> listener) {
+        audio_listener_ = listener;
     }
 
 protected:
@@ -39,7 +36,7 @@ protected:
         .output_channels = CHANNELS_2,
     };
 
-    AudioStatus status;
+    std::shared_ptr<AudioListener> audio_listener_;
 };
 
 #endif // _AUDIO_OUTPUT_H
