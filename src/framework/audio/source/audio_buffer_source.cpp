@@ -2,6 +2,7 @@
  * ESP32-Arduino-Framework
  * Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架。
  *
+ * Author: Billy Zhang（billy_zh@126.com）
  */
 #include "config.h"
 #if CONFIG_USE_AUDIO == 1
@@ -10,7 +11,7 @@
 #include "audio_buffer_source.h"
 #include "../../sys/log.h"
 
-#define TAG "BufferSource"
+#define TAG "AudioBufferSource"
 
 AudioBufferSource::AudioBufferSource(AudioSource *source, uint32_t buff_size)
     : source_(source), buffSize(buff_size)

@@ -2,6 +2,7 @@
  * ESP32-Arduino-Framework
  * Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架。
  * 
+ * Author: Billy Zhang（billy_zh@126.com）
  */
 #include "config.h"
 #if CONFIG_USE_AUDIO==1
@@ -37,8 +38,8 @@ bool AudioI2sDuplex::Init(const audio_config_t &config)
 uint32_t AudioI2sDuplex::Write(const int16_t* data, uint32_t samples) {
     if (!output_enabled_) return 0;
     
-    // 根据音量调整值
-    // TODO: 
+    
+    volume_control_->ApplyVolume(data, samples);
     size_t bytes_write = i2s_driver_->write((const uint8_t*)data, samples*2);
     return bytes_write;
 }

@@ -2,6 +2,7 @@
  * ESP32-Arduino-Framework
  * Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架。
  * 
+ * Author: Billy Zhang（billy_zh@126.com）
  */
 #include "config.h"
 #if CONFIG_USE_AUDIO==1
@@ -12,6 +13,7 @@
 #include <functional>
 #include <string>
 #include <vector>
+#include <set>
 #include <memory>
 #include <freertos/FreeRTOS.h>
 
@@ -36,9 +38,10 @@ public:
 
     const std::string& last_error() const { return last_error_; }
 
-    void SetFilterList(std::vector<AudioFilter*> filter_list)
+    void AddFilter(int order, std::shared_ptr<AudioFilter> filter)
     {
-        filter_list_ = filter_list;
+        filter->SetOrder(order);
+        filter_set_.insert(filter);
     }
 
     void SetPipeListener(std::function<void(PipeAction)> listener)
@@ -64,7 +67,7 @@ private:
     
     std::string last_error_ = "";
 
-    std::vector<AudioFilter*> filter_list_;
+    std::set<std::shared_ptr<AudioFilter>> filter_set_;
     std::function<void(PipeAction)> pipe_listener_;
 
     std::shared_ptr<AudioListener> audio_listener_;

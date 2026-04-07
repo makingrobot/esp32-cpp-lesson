@@ -2,6 +2,7 @@
  * ESP32-Arduino-Framework
  * Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架。
  * 
+ * Author: Billy Zhang（billy_zh@126.com）
  */
 #include "config.h"
 #if CONFIG_USE_AUDIO==1
@@ -33,8 +34,7 @@ uint32_t AudioI2sSimplex::Write(const int16_t* data, uint32_t samples)
 {    
     if (!output_enabled_) return 0;
     
-    // 根据音量调整值
-    // TODO: 
+    volume_control_->ApplyVolume(data, samples);
     size_t bytes_write = i2s_driver_->write((const uint8_t*)data, samples*2);
     return bytes_write;
 }
@@ -52,6 +52,9 @@ bool AudioI2sSimplexSpeaker::Init(const audio_config_t &config)
 {
     Log::Info(PSTR("AudioI2sSimplexSpeaker"), "init...");
     AudioI2sCodec::Init(config);
+
+    Log::Info(PSTR("AudioI2sSimplexSpeaker"), "I2S output config: rate: %d, bits: %d, channels: %d",
+            config.input_rate, config.input_bits, config.input_channels);
 
     i2s_data_bit_width_t bps = GetDataBitWidth(config.output_bits);
     i2s_slot_mode_t ch = GetChannel(config.output_channels);
@@ -72,6 +75,9 @@ bool AudioI2sSimplexMic::Init(const audio_config_t &config)
 {
     Log::Info(PSTR("AudioI2sSimplexMix"), "init...");
     AudioI2sCodec::Init(config);
+
+    Log::Info(PSTR("AudioI2sSimplexMix"), "I2S input config: rate: %d, bits: %d, channels: %d",
+            config.input_rate, config.input_bits, config.input_channels);
 
     i2s_data_bit_width_t bps = GetDataBitWidth(config.input_bits);
     i2s_slot_mode_t ch = GetChannel(config.input_channels);

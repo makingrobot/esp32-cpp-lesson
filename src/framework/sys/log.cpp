@@ -10,58 +10,72 @@
 #include <string>
 #include <Arduino.h>
 
+Log::Level Log::level = Log::WARN;
+
 void Log::Info(const char* tag, const char* format, ...) {
-    va_list args;
-    va_start(args, format);
-    char buffer[128] = { 0 };
-    vsnprintf(buffer, 127, format, args);
-    va_end(args);
+    if (Log::level >= Log::INFO)
+    {
+        va_list args;
+        va_start(args, format);
+        char buffer[128] = { 0 };
+        vsnprintf(buffer, 127, format, args);
+        va_end(args);
 
 #if CONFIG_USE_ESP_LOG==1
-    log_i("%s %s", tag, buffer);
+        log_i("[I]%s %s", tag, buffer);
 #else
-    Serial.printf("%d [%s] %s\n", millis(), tag, buffer);
+        Serial.printf("%d [I][%s] %s\n", millis(), tag, buffer);
 #endif
+    }
 }
 
 void Log::Warn(const char* tag, const char* format, ...) {
-    va_list args;
-    va_start(args, format);
-    char buffer[128] = { 0 };
-    vsnprintf(buffer, 127, format, args);
-    va_end(args);
+    if (Log::level >= Log::WARN)
+    {
+        va_list args;
+        va_start(args, format);
+        char buffer[128] = { 0 };
+        vsnprintf(buffer, 127, format, args);
+        va_end(args);
 
 #if CONFIG_USE_ESP_LOG==1
-    log_w("%s %s", tag, buffer);
+        log_w("[W]%s %s", tag, buffer);
 #else
-    Serial.printf("%d [%s] %s\n", millis(), tag, buffer);
+        Serial.printf("%d [W][%s] %s\n", millis(), tag, buffer);
 #endif
+    }
 }
 
 void Log::Debug(const char* tag, const char* format, ...) {
-    va_list args;
-    va_start(args, format);
-    char buffer[128] = { 0 };
-    vsnprintf(buffer, 127, format, args);
-    va_end(args);
+    if (Log::level >= Log::DEBUG)
+    {
+        va_list args;
+        va_start(args, format);
+        char buffer[128] = { 0 };
+        vsnprintf(buffer, 127, format, args);
+        va_end(args);
 
 #if CONFIG_USE_ESP_LOG==1
-    log_d("%s %s", tag, buffer);
+        log_d("[D]%s %s", tag, buffer);
 #else
-    Serial.printf("%d [%s] %s\n", millis(), tag, buffer);
+        Serial.printf("%d [D][%s] %s\n", millis(), tag, buffer);
 #endif
+    }
 }
 
 void Log::Error(const char* tag, const char* format, ...) {
-    va_list args;
-    va_start(args, format);
-    char buffer[128] = { 0 };
-    vsnprintf(buffer, 127, format, args);
-    va_end(args);
+    if (Log::level >= Log::ERROR)
+    {
+        va_list args;
+        va_start(args, format);
+        char buffer[128] = { 0 };
+        vsnprintf(buffer, 127, format, args);
+        va_end(args);
 
 #if CONFIG_USE_ESP_LOG==1
-    log_e("%s %s", tag, buffer);
+        log_e("[E]%s %s", tag, buffer);
 #else
-    Serial.printf("%d [%s] %s\n", millis(), tag, buffer);
+        Serial.printf("%d [E][%s] %s\n", millis(), tag, buffer);
 #endif
+    }
 }

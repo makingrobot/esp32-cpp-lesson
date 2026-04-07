@@ -2,6 +2,7 @@
  * ESP32-Arduino-Framework
  * Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架。
  *
+ * Author: Billy Zhang（billy_zh@126.com）
  */
 #include "config.h"
 #if CONFIG_USE_AUDIO == 1
@@ -9,7 +10,7 @@
 #include "audio_i2s_input.h"
 #include "../../sys/log.h"
 
-#define TAG "I2sInput"
+#define TAG "AudioI2sInput"
 
 bool AudioI2sInput::Init()
 {
@@ -31,6 +32,7 @@ bool AudioI2sInput::Init()
         Log::Error(TAG, "Failed to allocate I2S buffer with size %u", buff_len_);
         return false;
     }
+    samples_len_ = buff_len_ / 2;
 
     Log::Info(TAG, "Allocate I2S buffer with size %u", buff_len_);
     return true;
@@ -38,7 +40,7 @@ bool AudioI2sInput::Init()
 
 bool AudioI2sInput::Handle(sample_data_t& data)
 {
-    uint32_t bytes_read = codec_->Read(samples_buf_, buff_len_ / 2);
+    uint32_t bytes_read = codec_->Read(samples_buf_, samples_len_);
     duration_msec_ += samples_msec_;
 
     if (bytes_read == 0)
@@ -46,11 +48,8 @@ bool AudioI2sInput::Handle(sample_data_t& data)
         return false;
     }
     
-    data.length = buff_len_ / 2;
-    for (int i=0; i<data.length; i++)
-    {
-        data.samples.push_back(samples_buf_[i]);
-    }
+    data.length = samples_len_;
+    data.samples = samples_buf_;
 
     return true;
 }

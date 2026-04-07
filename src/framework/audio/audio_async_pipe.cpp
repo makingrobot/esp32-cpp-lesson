@@ -2,6 +2,7 @@
  * ESP32-Arduino-Framework
  * Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架。
  *
+ * Author: Billy Zhang（billy_zh@126.com）
  */
 #include "config.h"
 #if CONFIG_USE_AUDIO == 1
@@ -82,7 +83,7 @@ void AudioAsyncPipe::InputTask()
 
     if (pipe_listener_) 
     {
-        pipe_listener_(PipeAction::Begin);
+        pipe_listener_(PipeAction::Inited);
     }
 
     // 处理数据
@@ -103,12 +104,7 @@ void AudioAsyncPipe::InputTask()
 
         audio_listener_->OnDataInput(input_data);
 
-        MutexGuard lock_guard(audio_data_mutex_, -1);
-        if (lock_guard.IsLocked()) {
-            // 送入队列
-            audio_data_queue_.push_back(input_data);
-            audio_data_semaphore_->Notify(); //有数据了
-        }
+        AddToDataQueue(input_data);
     }
 
     Log::Info(TAG, "audio input task end.");
@@ -144,50 +140,91 @@ void AudioAsyncPipe::OutputTask()
         }
         
         // 加锁后操作
-        MutexGuard lock_guard(audio_data_mutex_, -1);
-        if (!lock_guard.IsLocked()) 
-        { //未拿到锁
+        sample_data_t audio_data;
+        if (!ReadFromDataQueue(audio_data))
+        { //未读取到数据
             continue;
         }
-        sample_data_t audio_data = std::move(audio_data_queue_.front());
-        audio_data_queue_.pop_front();
-        lock_guard.UnLock(); // 显式释放锁，默认为超出生命周期释放锁。
 
-        // 数据过滤
-        sample_data_t filter_data = {
-            .samples = std::move(audio_data.samples),
-            .length = audio_data.length
-        };
-        if (filter_list_.size() > 0)
+        sample_data_t output_data = audio_data;
+
+        // --- STEP2：数据加工，对数据进行处理，如变声，混音等
+        if (!filter_set_.empty())
         {
-            bool success = true;
-            for (AudioFilter *item : filter_list_)
+            filter_data_t filter_data;
+            filter_data.length = audio_data.length;
+            for (int i=0; i<audio_data.length; i++)
             {
-                sample_data_t out_data;
+                filter_data.samples.push_back(audio_data.samples[i]);
+            }
+
+            bool success = true;
+            for (const std::shared_ptr<AudioFilter>& item : filter_set_)
+            {
+                filter_data_t out_data;
                 if (!item->DoFilter(filter_data, out_data)) 
                 {
                     success = false;
                     break;
                 }
-
+                // move data.
                 filter_data = {
                     .samples = std::move(out_data.samples),
                     .length = out_data.length
                 };
             }
-            if (!success) 
+
+            if (success) 
+            { // 所有过滤器执行成功
+                output_data.samples = filter_data.samples.data();
+                output_data.length = filter_data.length;
+            }
+            else
             {
                 continue;
             }
         }
 
-        audio_listener_->OnDataOutput(filter_data);
+        audio_listener_->OnDataOutput(output_data);
 
         // 输出
-        output_->WriteSamples(filter_data);
+        output_->WriteSamples(output_data);
     }
 
     Log::Info(TAG, "audio output task end.");
+}
+
+bool AudioAsyncPipe::AddToDataQueue(const sample_data_t &data)
+{
+    MutexGuard lock_guard(audio_data_mutex_, -1);
+    if (lock_guard.IsLocked()) {
+        // 送入队列
+        audio_data_queue_.push_back(data); //数据复制
+        audio_data_semaphore_->Notify(); //有数据了
+        return true;
+    }
+    return false;
+}
+
+bool AudioAsyncPipe::ReadFromDataQueue(sample_data_t &data)
+{
+    MutexGuard lock_guard(audio_data_mutex_, -1);
+    if (lock_guard.IsLocked()) 
+    { //拿到锁
+        if (audio_data_queue_.empty())
+        { //空队列
+            return false;
+        }
+
+        sample_data_t audio_data = std::move(audio_data_queue_.front());
+        audio_data_queue_.pop_front();
+
+        data.samples[0] = audio_data.samples[0];
+        data.samples[1] = audio_data.samples[1];
+        data.length = audio_data.length;
+        return true;
+    }
+    return false;
 }
 
 void AudioAsyncPipe::Stop()

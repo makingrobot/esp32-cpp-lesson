@@ -2,6 +2,7 @@
  * ESP32-Arduino-Framework
  * Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架。
  *
+ * Author: Billy Zhang（billy_zh@126.com）
  */
 #include "config.h"
 #if CONFIG_AUDIO_CODER_MP3 == 1
@@ -39,7 +40,7 @@ bool HelixMP3Decoder::Init()
     return true;
 }
 
-bool HelixMP3Decoder::Decode(sample_data_t &data)
+bool HelixMP3Decoder::Decode()
 {
     if (eof_)
         return false;
@@ -52,9 +53,6 @@ bool HelixMP3Decoder::Decode(sample_data_t &data)
         validSamples--;
         curSample++;
         
-        data.length = 2;
-        data.samples.push_back(samples_[0]);
-        data.samples.push_back(samples_[1]);
         return true;
     }
 
@@ -90,9 +88,6 @@ bool HelixMP3Decoder::Decode(sample_data_t &data)
         validSamples--;
         curSample++;
         
-        data.length = 2;
-        data.samples.push_back(samples_[0]);
-        data.samples.push_back(samples_[1]);
         return true;
     }
 

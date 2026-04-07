@@ -2,6 +2,7 @@
  * ESP32-Arduino-Framework
  * Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架。
  * 
+ * Author: Billy Zhang（billy_zh@126.com）
  */
 #include "config.h"
 #if CONFIG_USE_AUDIO==1
@@ -11,9 +12,12 @@
 
 #include <driver/i2s_std.h>
 #include "../audio_codec.h"
+#include "volume_control.h"
 
 class AudioI2sCodec : public AudioCodec {
 public:
+    AudioI2sCodec();
+    
     virtual bool Init(const audio_config_t &config) override;
     virtual void Start() override;
     virtual uint32_t Read(int16_t* dest, uint32_t samples) = 0;
@@ -36,6 +40,7 @@ public:
 
 protected:
     audio_config_t config_;
+    VolumeControl *volume_control_;
     
 };
 

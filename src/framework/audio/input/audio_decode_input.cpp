@@ -2,6 +2,7 @@
  * ESP32-Arduino-Framework
  * Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架。
  *
+ * Author: Billy Zhang（billy_zh@126.com）
  */
 #include "config.h"
 #if CONFIG_USE_AUDIO == 1
@@ -12,7 +13,7 @@
 #include "../decoder/wav_decoder.h"
 #include "../../sys/log.h"
 
-#define TAG "DecodeInput"
+#define TAG "AudioDecodeInput"
 
 AudioDecodeInput::AudioDecodeInput(AudioSource *source, const std::string &in_format)
     : source_(source), in_format_(in_format)
@@ -65,12 +66,24 @@ bool AudioDecodeInput::Init()
         return false;
     }
 
+    audio_config_ = {
+        .input_rate = (sample_rate_t)decoder_->sampleRate(),
+        .input_bits = (sample_bits_t)decoder_->bitsPerSample(),
+        .input_channels = (channels_t)decoder_->channels(),
+        .output_rate = (sample_rate_t)decoder_->sampleRate(),
+        .output_bits = (sample_bits_t)decoder_->bitsPerSample(),
+        .output_channels = (channels_t)decoder_->channels()
+    };
     return true;
 }
 
 bool AudioDecodeInput::Handle(sample_data_t &data)
 {
-    return decoder_->Decode(data);
+    if (!decoder_->Decode())
+        return false;
+
+    decoder_->GetSamples(data);
+    return true;
 }
 
 bool AudioDecodeInput::isEOF()

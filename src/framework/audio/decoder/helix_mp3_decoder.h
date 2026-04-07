@@ -2,6 +2,7 @@
  * ESP32-Arduino-Framework
  * Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架。
  * 
+ * Author: Billy Zhang（billy_zh@126.com）
  */
 #include "config.h"
 #if CONFIG_AUDIO_CODER_MP3==1
@@ -20,7 +21,7 @@ public:
     virtual ~HelixMP3Decoder();
     
     virtual bool Init() override;
-    virtual bool Decode(sample_data_t &data) override;
+    virtual bool Decode() override;
 
 private:
     bool FillBufferWithValidFrame(); // Read until we get a valid syncword and min(feof, 2048) butes in the buffer
@@ -39,8 +40,6 @@ private:
     int16_t curSample;
 
     AudioSource *source_;
-    
-    int16_t samples_[2];
 };
 
 #endif //_HELIX_MP3_DECODER_H

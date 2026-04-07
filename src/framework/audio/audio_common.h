@@ -2,6 +2,7 @@
  * ESP32-Arduino-Framework
  * Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架。
  *
+ * Author: Billy Zhang（billy_zh@126.com）
  */
 #include "config.h"
 #if CONFIG_USE_AUDIO == 1
@@ -83,13 +84,18 @@ typedef struct
 
 typedef struct
 {
-    std::vector<int16_t> samples;
+    int16_t *samples;
     uint32_t length;
 } sample_data_t;
 
+typedef struct
+{
+    std::vector<int16_t> samples;
+    uint32_t length;
+} filter_data_t;
 
 enum PipeAction {
-    Begin,
+    Inited,
     Processing,
     Ended,
     Error = 9,

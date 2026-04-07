@@ -9,11 +9,17 @@
 
 class Log {
 public:
+
+    enum Level { ERROR, INFO, WARN, DEBUG };
+
     static void Info(const char* tag, const char* format, ...);
     static void Warn(const char* tag, const char* format, ...);
     static void Debug(const char* tag, const char* format, ...);
     static void Error(const char* tag, const char* format, ...);
     
+    static Level level;
+
+protected:
 };
 
 #endif //_LOG_H

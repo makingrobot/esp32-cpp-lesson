@@ -2,6 +2,7 @@
  * ESP32-Arduino-Framework
  * Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架。
  *
+ * Author: Billy Zhang（billy_zh@126.com）
  */
 #include "config.h"
 #if CONFIG_AUDIO_CODER_WAV == 1
@@ -49,7 +50,7 @@ bool WavDecoder::Init()
   return true;
 }
 
-bool WavDecoder::Decode(sample_data_t &data)
+bool WavDecoder::Decode()
 {
   if (eof_)
     return false;
@@ -72,9 +73,6 @@ bool WavDecoder::Decode(sample_data_t &data)
     samples_[0] = l;
     samples_[1] = r;
 
-    data.length = 2;
-    data.samples.push_back(samples_[0]);
-    data.samples.push_back(samples_[1]);
     return true;
   }
   else if (bitsPerSample_ == 16)
@@ -90,9 +88,6 @@ bool WavDecoder::Decode(sample_data_t &data)
     {
       samples_[1] = 0;
     }
-    data.length = 2;
-    data.samples.push_back(samples_[0]);
-    data.samples.push_back(samples_[1]);
     return true;
   }
 

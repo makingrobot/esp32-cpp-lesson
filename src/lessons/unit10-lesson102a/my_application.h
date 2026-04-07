@@ -15,7 +15,7 @@
 #ifndef _MY_APPLICATION_H
 #define _MY_APPLICATION_H
 
-#pragma message("Compile unit10 lesson101 application.")
+#pragma message("Compile unit10 lesson102 application.")
 
 #include <string>
 #include <Arduino.h>

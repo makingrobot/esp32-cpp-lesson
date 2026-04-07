@@ -75,7 +75,12 @@ void MyApplication::OnInit() {
     // 事件监听
     pipe_->SetPipeListener([this](PipeAction action){
         AudioCodec *codec = Board::GetInstance().GetAudioCodec();
-        if (action==PipeAction::Ended)
+        if (action==PipeAction::Inited)
+        {
+            codec->SetOutputVolume(20);
+            codec->Start();
+        }
+        else if (action==PipeAction::Ended)
         {
             codec->EnableOutput(false);
         }
@@ -88,7 +93,6 @@ void MyApplication::OnInit() {
 
     // 启动管道
     pipe_->Start(input, output);
-    audio_codec->Start();
 }
 
 void MyApplication::OnLoop() {

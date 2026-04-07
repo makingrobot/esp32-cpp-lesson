@@ -2,6 +2,7 @@
  * ESP32-Arduino-Framework
  * Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架。
  *
+ * Author: Billy Zhang（billy_zh@126.com）
  */
 #include "config.h"
 #if CONFIG_USE_AUDIO == 1 && CONFIG_USE_FS == 1
@@ -9,7 +10,7 @@
 #include "audio_file_source.h"
 #include "../../sys/log.h"
 
-#define TAG "FileSource"
+#define TAG "AudioFileSource"
 
 bool AudioFileSource::Init()
 {
@@ -28,7 +29,7 @@ bool AudioFileSource::Init()
 uint32_t AudioFileSource::Read(uint8_t *data, uint32_t len)
 {
     size_t bytes_read = file_.read(data, len);
-    Log::Info(TAG, "read at pos: %d,  readed %d bytes.", file_.position(), bytes_read);
+    Log::Debug(TAG, "read at pos: %d,  readed %d bytes.", file_.position(), bytes_read);
     return bytes_read;
 }
 

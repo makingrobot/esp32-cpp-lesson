@@ -64,13 +64,18 @@ void MyApplication::OnInit() {
     // I2S输出
     AudioCodec *audio_codec = Board::GetInstance().GetAudioCodec();
     AudioI2sOutput *output = new AudioI2sOutput(audio_codec);
-
+    
     // 音频管道
     pipe_ = new AudioPipe();
 
     pipe_->SetPipeListener([](PipeAction action){
         AudioCodec *codec = Board::GetInstance().GetAudioCodec();
-        if (action==PipeAction::Ended)
+        if (action==PipeAction::Inited)
+        {
+            codec->SetOutputVolume(20);
+            codec->Start();
+        }
+        else if (action==PipeAction::Ended)
         {
             codec->EnableOutput(false);
         }
@@ -78,7 +83,6 @@ void MyApplication::OnInit() {
 
     // 启动管道
     pipe_->Start(input, output);
-    audio_codec->Start();
 }
 
 void MyApplication::OnLoop() {

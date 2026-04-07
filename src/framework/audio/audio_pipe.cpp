@@ -2,6 +2,7 @@
  * ESP32-Arduino-Framework
  * Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架。
  *
+ * Author: Billy Zhang（billy_zh@126.com）
  */
 #include "config.h"
 #if CONFIG_USE_AUDIO == 1
@@ -51,6 +52,11 @@ void AudioPipe::Execute()
         return;
     }
 
+    audio_config_t audio_cfg = input_->audio_config();
+    Log::Info(TAG, "Audio input config: rate: %d, bits: %d, channels: %d",
+        audio_cfg.input_rate, audio_cfg.input_bits, audio_cfg.input_channels);
+    output_->SetAudioConfig(audio_cfg);
+    
     ret = output_->Init();
     if (!ret)
     {
@@ -68,7 +74,8 @@ void AudioPipe::Execute()
 
     if (pipe_listener_) 
     {
-        pipe_listener_(PipeAction::Begin);
+        Log::Info(TAG, "Pipe inited.");
+        pipe_listener_(PipeAction::Inited);
     }
 
     // 处理数据
@@ -76,33 +83,43 @@ void AudioPipe::Execute()
     // AudioOutput使用WriteXxx方法推送数据；
     while (running_)
     {
-        if (input_->isEOF()) break;
+        if (input_->isEOF()) 
+        {
+            Log::Info(TAG, "Input EOF.");
+            break;
+        }
 
         if (pipe_listener_) 
         {
             pipe_listener_(PipeAction::Processing);
         }
     
+        //--- STEP1：数据输入，从输入端取到原始数据
         sample_data_t input_data;
-        if (!input_->Handle(input_data)) 
+        if (!input_->Handle(input_data))
         { // 无数据
+            Log::Info(TAG, "no data read.");
             continue;
         }
 
         audio_listener_->OnDataInput(input_data);
 
-        // move data
-        sample_data_t filter_data = {
-            .samples = std::move(input_data.samples),
-            .length = input_data.length
-        };
-        // 数据过滤
-        if (filter_list_.size() > 0)
+        sample_data_t output_data = input_data;
+
+        // --- STEP2：数据加工，对数据进行处理，如变声，混音等
+        if (!filter_set_.empty())
         {
-            bool success = true;
-            for (AudioFilter *item : filter_list_)
+            filter_data_t filter_data;
+            filter_data.length = input_data.length;
+            for (int i=0; i<input_data.length; i++)
             {
-                sample_data_t out_data;
+                filter_data.samples.push_back(input_data.samples[i]);
+            }
+
+            bool success = true;
+            for (const std::shared_ptr<AudioFilter>& item : filter_set_)
+            {
+                filter_data_t out_data;
                 if (!item->DoFilter(filter_data, out_data)) 
                 {
                     success = false;
@@ -114,20 +131,27 @@ void AudioPipe::Execute()
                     .length = out_data.length
                 };
             }
-            if (!success) 
+
+            if (success) 
+            { // 所有过滤器执行成功
+                output_data.samples = filter_data.samples.data();
+                output_data.length = filter_data.length;
+            }
+            else
             {
                 continue;
             }
         }
 
-        audio_listener_->OnDataOutput(filter_data);
+        audio_listener_->OnDataOutput(output_data);
 
-        // 输出
-        output_->WriteSamples(filter_data);
+        //--- STEP3：数据输出
+        output_->WriteSamples(output_data);
     }
 
     if (pipe_listener_) 
     {
+        Log::Info(TAG, "Pipe ended.");
         pipe_listener_(PipeAction::Ended);
     }
 

@@ -2,6 +2,7 @@
  * ESP32-Arduino-Framework
  * Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架。
  * 
+ * Author: Billy Zhang（billy_zh@126.com）
  */
 #include "config.h"
 #if CONFIG_USE_AUDIO==1 && CONFIG_USE_FS==1
@@ -30,8 +31,6 @@ public:
 
     virtual size_t GetPosition() override { return (file_) ? file_.position() : -1; }
     virtual size_t GetSize() override { return (file_) ? file_.size() : -1; }
-
-    virtual const char* Tag() override { return PSTR("FileSource"); };
 
 private:
     FileSystem *fs_;

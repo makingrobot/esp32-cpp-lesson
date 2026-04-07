@@ -2,6 +2,7 @@
  * ESP32-Arduino-Framework
  * Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架。
  * 
+ * Author: Billy Zhang（billy_zh@126.com）
  */
 #include "config.h"
 #if CONFIG_USE_AUDIO==1 && CONFIG_USE_FS==1
@@ -11,7 +12,7 @@
 #include "../encoder/wav_encoder.h"
 #include "../../sys/log.h"
 
-#define TAG "EncodeOutput"
+#define TAG "AudioEncodeOutput"
 
 AudioEncodeOutput::AudioEncodeOutput(FileSystem *fsys, const std::string &filename, const std::string& out_format) 
     : fsys_(fsys), filename_(filename), out_format_(out_format) {
@@ -77,7 +78,7 @@ uint32_t AudioEncodeOutput::WriteSamples(const sample_data_t &data) {
     }
     
     // 写入文件
-    size_t len = file_.write((uint8_t*)(enc_data.samples.data()), enc_data.length*2);
+    size_t len = file_.write((uint8_t*)(enc_data.samples), enc_data.length*2);
     return len;
 }
 

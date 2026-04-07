@@ -2,6 +2,7 @@
  * ESP32-Arduino-Framework
  * Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架。
  * 
+ * Author: Billy Zhang（billy_zh@126.com）
  */
 #include "config.h"
 #if CONFIG_USE_AUDIO==1
@@ -21,8 +22,18 @@
  */
 class AudioFilter {
 public:
-    virtual bool DoFilter(const sample_data_t &in_data, sample_data_t &out_data) = 0;
+    virtual bool DoFilter(const filter_data_t &in_data, filter_data_t &out_data) = 0;
     
+    inline int order() const { return order_; }
+    void SetOrder(int order) { order_ = order; }
+
+    bool operator<(const AudioFilter& other) const 
+    {
+        return order_ < other.order();
+    }
+
+private:
+    int order_;
 };
 
 #endif // _AUDIO_FILTER_H

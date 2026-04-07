@@ -2,6 +2,7 @@
  * ESP32-Arduino-Framework
  * Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架。
  * 
+ * Author: Billy Zhang（billy_zh@126.com）
  */
 #include "config.h"
 #if CONFIG_USE_AUDIO==1
@@ -23,7 +24,6 @@ public:
 
     virtual bool Init() override;
     virtual uint32_t WriteSamples(const sample_data_t &data) override;
-    virtual const char* Tag() override { return "I2sOutput"; };
 
 private:
     AudioCodec *codec_;

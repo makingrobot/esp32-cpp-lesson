@@ -2,6 +2,7 @@
  * ESP32-Arduino-Framework
  * Arduino开发环境下适用于ESP32芯片系列开发板的应用开发框架。
  * 
+ * Author: Billy Zhang（billy_zh@126.com）
  */
 #include "config.h"
 #if CONFIG_USE_AUDIO==1
@@ -23,7 +24,6 @@ public:
     virtual bool Handle(sample_data_t &data) = 0;
     virtual bool Close() = 0;
     virtual bool isEOF() = 0;
-    virtual const char* Tag() = 0;
     
     virtual void SetAudioConfig(const audio_config_t &config) { audio_config_ = config; }
     virtual audio_config_t audio_config() { return audio_config_; }
